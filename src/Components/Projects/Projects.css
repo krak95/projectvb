@@ -1,0 +1,8 @@
+
+.projContentDiv{
+    width: 100%;
+    background-color:var(--secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }

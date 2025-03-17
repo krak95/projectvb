@@ -1,0 +1,11 @@
+.itemNav{
+    margin-left: 100px;
+    width: 100px;
+    background-color:var(--secondary);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itemContentDiv{
+    width: 100%;
+  }

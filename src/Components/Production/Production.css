@@ -1,0 +1,76 @@
+.prodMainDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.prodMainDiv a {
+    width: 100%;
+    color: var(--light);
+    text-align: center;
+    background-color: var(--secondary);
+    padding: 20px;
+}
+
+.prodMainDiv a:hover {
+    background-color: var(--vbBlue);
+}
+
+.prodNav {
+    display: flex;
+    width: 100%;
+}
+
+.prodNav a {
+    width: 100%;
+}
+
+.prodContentDiv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchDiv {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.searchDiv input:focus {
+    outline: none;
+    border: 2px solid var(--vbBlue);
+}
+
+.searchDiv input {
+    padding: 4px;
+    border-radius: 20px;
+    text-align: center;
+    border: 2px solid white;
+}
+
+.searchDiv>div {
+    margin: 4px;
+    color: var(--light);
+}
+
+.searchDiv li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    margin-top: 4px;
+    border: 1px solid var(--light);
+    border-radius: 20px;
+}
+
+.searchDiv li:hover {
+    cursor: pointer;
+    background-color: var(--secondary);
+    border-radius: 20px;
+}
+

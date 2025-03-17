@@ -1,0 +1,57 @@
+:root {
+  --header: #0D1B2A;
+  --grey: rgb(231, 246, 255);
+  --dark: #0D1B2A;
+  --primary: #1B263B;
+  --vbBlue: #2798c9;
+  --secondary: #415A77;
+  --grey1: #a3adb9;
+  --light: #c5d3e1;
+}
+
+
+body {
+  background-color: var(--primary);
+}
+
+a {
+  text-decoration: none;
+  text-decoration-color: none;
+
+}
+
+a:hover {
+  background-color: #2798c9;
+}
+
+.mainNav {
+  transition: .3s;
+  display: flex;
+}
+
+.mainNav a {
+  width: 100%;
+  color: var(--light);
+  text-align: center;
+  background-color: var(--secondary);
+  padding: 20px;
+}
+
+.mainNav a:hover {
+  background-color: var(--vbBlue);
+}
+
+.mainNav:hover {
+  transition: .3s;
+}
+
+.mainPage {
+  display: flex;
+  margin: 10px;
+}
+
+.mainpage a {
+  border-radius: 10px;
+  border: 1px solid black;
+  margin: 10px;
+}
