@@ -8,7 +8,9 @@ import { GlobalProvider } from './GLOBAL/Global';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <GlobalProvider>
+    <BrowserRouter>
+        <GlobalProvider>
             <App />
-    </GlobalProvider>
+        </GlobalProvider>
+    </BrowserRouter>
 );

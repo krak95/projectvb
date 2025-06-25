@@ -1,16 +1,32 @@
-import { useState, createContext, useContext } from "react";
-import ReactDOM from "react-dom/client";
+import { useState, createContext, useContext, useEffect } from "react";
+import { getData } from "../CustomHooks/LocalStorage/GetData";
+import { setData } from "../CustomHooks/LocalStorage/StoreData";
+
 
 export const GlobalContent = createContext()
 export const useAuth = () => useContext(GlobalContent)
 
 export const GlobalProvider = ({ children }) => {
-    
-    const [project, setProject] = useState('global')
 
+    const [authorized, setAuthorized] = useState(null)
+
+    console.log(authorized)
+
+    const storedData = getData()
+    if (!storedData) {
+        localStorage.setItem('User', JSON.stringify({
+            'username': '',
+            'token': '',
+            'fullname': ''
+        }))
+    }
+
+    const authorizing = (e) => {
+        setAuthorized(e)
+    }
 
     return (
-        <GlobalContent.Provider value={{ project }}>
+        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing }}>
             {children}
         </GlobalContent.Provider>
     );

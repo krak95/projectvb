@@ -1,4 +1,49 @@
-.mySqlControllerContent{
+.mySqlControllerContent {
     display: flex;
     flex-direction: column;
+}
+
+.mySqlControllerContent div {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.mySqlControllerContent input {
+    border-radius: 6px;
+    border: none;
+    margin: 4px;
+    background-color: var(--light);
+    padding: 4px;
+    text-align: center;
+}
+
+.mySqlControllerContent input:focus {
+    background-color: white;
+}
+
+.mySqlControllerContent button {
+    border: none;
+}
+
+.mySqlControllerContent button:hover {
+    cursor: pointer;
+    background-color: var(--vbBlue);
+}
+
+.openBtn {
+    height: 25px;
+    width: 25px;
+    border-radius: 6px;
+}
+
+.sendBtn {
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.authenticationInputDiv>div:last-child{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
