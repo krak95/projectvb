@@ -26,15 +26,15 @@ export const fetchSOAXIOS = ({projectSearch, soSearch}) => {
     return axiosBase.post('/fetchSO', {projectSearch, soSearch})
 }
 
-export const fetchEquipmentsAXIOS = () => {
-    return axiosBase.post('/fetchEquipments')
+export const fetchEquipmentsAXIOS = ({equipSearch}) => {
+    return axiosBase.post('/fetchEquipments', {equipSearch})
 }
 
 export const fetchProductionAXIOS = ({
     projectSearch,
     soSearch,
     equipSearch,
-    codeaSearcg,
+    codeaSearch,
     codebSearch,
     codeprSearch,
     codepsSearch,
@@ -49,7 +49,7 @@ export const fetchProductionAXIOS = ({
         projectSearch,
         soSearch,
         equipSearch,
-        codeaSearcg,
+        codeaSearch,
         codebSearch,
         codeprSearch,
         codepsSearch,

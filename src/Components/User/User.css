@@ -1,0 +1,73 @@
+.userMainDiv {
+    width: 100%;
+}
+
+.userMainDiv>div {
+    width: 100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchControllerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.itemListHeaders {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.itemListHeaders>div {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.itemListMainDiv {
+    width: 100%;
+}
+
+.itemListMainDiv>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    color: var(--light);
+}
+
+.itemListMainDiv a {
+    width: 100%;
+    color: var(--secondary);
+}
+
+.itemListDiv {
+    background-color: var(--light);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: solid 1px var(--secondary);
+}
+
+.itemListDiv:hover {
+    background-color: white;
+}
+
+.itemList {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.itemList>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}

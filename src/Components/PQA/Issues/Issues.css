@@ -1,0 +1,45 @@
+.itemIssuesContentDiv {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-top: 1px solid var(--secondary);
+    border-left: 1px solid var(--secondary);
+    border-radius: 6px 0 0 0;
+}
+
+.issuesMainDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    flex-direction: column;
+}
+
+.issuesList {
+    padding: 6px;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+
+.issuesList>div {
+    display: grid;
+    background-color: var(--light);
+    grid-template-columns: repeat(3, calc(100%/3));
+    width: 100%;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--primary);
+}
+
+.issuesListHeaders {
+    border-bottom: 1px solid var(--secondary);
+    background-color: var(--secondary) !important;
+    color: var(--light);
+}

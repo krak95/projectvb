@@ -71,7 +71,7 @@ app.post('/newItem', (req, res) => {
 
 app.post('/fetchProjects', (req, res) => {
     const projectSearch = req.body.projectSearch
-    const q = db.query('call fetchProjects (?)',[projectSearch],
+    const q = db.query('call fetchProjects (?)', [projectSearch],
         (err, result) => {
             if (err) {
                 console.log(err)
@@ -98,7 +98,8 @@ app.post('/fetchSO', (req, res) => {
 })
 
 app.post('/fetchEquipments', (req, res) => {
-    const q = db.query('call fetchEquipments',
+    const equipSearch = req.body.equipSearch
+    const q = db.query('call fetchEquipments (?)', [equipSearch],
         (err, result) => {
             if (err) {
                 console.log(err)
@@ -128,7 +129,7 @@ app.post('/fetchProduction', (req, res) => {
     const projectSearch = req.body.projectSearch
     const soSearch = req.body.soSearch
     const equipSearch = req.body.equipSearch
-    const codeaSearcg = req.body.codeaSearcg
+    const codeaSearch = req.body.codeaSearch
     const codebSearch = req.body.codebSearch
     const codeprSearch = req.body.codeprSearch
     const codepsSearch = req.body.codepsSearch
@@ -143,7 +144,7 @@ app.post('/fetchProduction', (req, res) => {
         projectSearch,
         soSearch,
         equipSearch,
-        codeaSearcg,
+        codeaSearch,
         codebSearch,
         codeprSearch,
         codepsSearch,
@@ -178,14 +179,48 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-    socket.on("productionFetch", (data) => {
-        io.emit("productionFetch", data);
+    socket.on("newUserSocket", (data) => {
+        console.log(socket.id, data)
+    })
+    socket.on("socketNewItem", (data) => {
+        io.emit("fetchProduction", data);
+        console.log('fetchProduction', data)
     });
-
     socket.on("issuesFetch", (data) => {
         console.log('issuesFetch')
         socket.broadcast.emit("issuesFetch", data);
     });
+    socket.on("socketCheckLogin", (data) => {
+        console.log('socketCheckLogin', data)
+        socket.broadcast.emit("socketCheckLogin", data);
+    });
+    socket.on("socketAddItemIssue", (data) => {
+        console.log('socketCheckLogin', data)
+        io.emit("socketFetchItemIssue", data);
+    });
+
+    socket.on("socketAddItemIssue", (data) => {
+        console.log('socketCheckLogin', data)
+        io.emit("socketFetchItemIssue", data);
+    });
+
+    socket.on("newProject", () => {
+        console.log('newProject')
+        io.emit("fetchProject")
+    })
+    socket.on("newSO", () => {
+        console.log('newSO')
+        io.emit("fetchSO")
+    })
+    socket.on("newEquip", () => {
+        console.log('newequip')
+        io.emit("fetchEquips")
+    })
+    socket.on("newIssue", () => {
+        io.emit("fetchIssues")
+    })
+
+
 });
 
 server.listen(8000);
