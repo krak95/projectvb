@@ -20,11 +20,11 @@ export default function Issues() {
         const res = await fetchIssuesAXIOS({ ref_issue: '', description_issue: '' })
         setIssuesArray(res.data)
     }
+    socket.on("fetchIssues", () => {
+        fetchIssues()
+    })
     useEffect(() => {
         fetchIssues()
-        socket.on("fetchIssues", () => {
-            fetchIssues()
-        })
     }, [])
 
 

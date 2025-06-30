@@ -1,16 +1,16 @@
 import React, { useEffect } from "react"
 import { useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
-import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS } from "../../API/Axios/axiosCS"
+import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS, fetchCountProductionAXIOS } from "../../API/Axios/axiosCS"
 import { NavLink } from 'react-router-dom';
 import './Production.css'
 import { useAuth } from "../../GLOBAL/Global"
 import $ from 'jquery'
 import socket from "../../API/Socket/socket";
+import { useNavigate } from "react-router-dom";
 
 export default function Production() {
 
-    const { project } = useAuth()
 
     const [projects, setProjects] = useState([])
     const [so, setSo] = useState([])
@@ -55,6 +55,7 @@ export default function Production() {
     }
 
     const [production, setProduction] = useState([])
+    const [countProd, setCountProd] = useState(0)
 
     const fetchProduction = async () => {
         console.log('prod fetch asunc')
@@ -77,7 +78,7 @@ export default function Production() {
         })
         console.log(res.data)
         setProduction(res.data)
-
+        setCountProd((res.data).length)
     }
 
     const [searchState, setSearchState] = useState(false)
@@ -85,19 +86,15 @@ export default function Production() {
         if (searchState === false) {
             // $('.searchDiv').css('display', 'flex')
             $('.searchDiv').animate({
-                height: "0px"
+                height: "200px"
             }, 50, function () {
-                // closedetheka
-                $('.searchController').text('OPEN')
             });
             setSearchState(!searchState)
         } else {
             // $('.searchDiv').css('display', 'none')
             $('.searchDiv').animate({
-                height: "200px"
+                height: "0"
             }, 50, function () {
-                // opendetcheka
-                $('.searchController').text('CLOSE')
 
             });
             setSearchState(!searchState)
@@ -106,14 +103,13 @@ export default function Production() {
 
     const location = useLocation();
 
-    useEffect(() => {
-        console.log('Fetching productions...');
-        fetchProduction();
-    }, [location.key]);
+    // useEffect(() => {
+    //     console.log('Fetching productions...');
+    //     fetchProduction();
+    // }, [location.key]);
 
     useEffect(() => {
         fetchProjects()
-        console.log(project)
     }, [projectSearch])
 
     useEffect(() => {
@@ -143,17 +139,20 @@ export default function Production() {
     ])
 
     useEffect(() => {
+        fetchProduction()
         socket.on('fetchProduction', (data) => {
             console.log('fetchProdcution on socket', data)
             fetchProduction()
         })
     }, [])
-
     return (
         <>
             <div className="prodMainDiv">
                 <div>
-                    <button className="searchController" onClick={searchController}>CLOSE</button>
+                    <a className="searchController" onClick={searchController}>Search</a>
+                </div>
+                <div>
+                    <NavLink to="/MySQLController">New Item</NavLink>
                 </div>
                 <div className="searchDiv" style={{ display: 'flex' }}>
                     <div className="projectSearchDiv">
@@ -272,9 +271,17 @@ export default function Production() {
                     </div>
 
                 </div>
-
+                <div className="productionCountDiv">
+                    <div>
+                        Product quantity: {countProd}
+                    </div>
+                </div>
                 <div className="itemListMainDiv">
                     <div className="itemListHeaders">
+                        <div className="itemStatusHeaderDiv">
+                            <div>
+                            </div>
+                        </div>
                         <div>
                             <div>
                                 Project
@@ -301,6 +308,7 @@ export default function Production() {
                             </div>
                         </div>
                     </div>
+
                     {production === undefined ? null : production.map((e, key) =>
                     (
                         <div key={key} className="itemListLink">
@@ -324,37 +332,41 @@ export default function Production() {
                                 + "&tester=" + e.tester
                                 + "&startDate=" + e.startDate
                                 + "&endDate=" + e.endDate
+                                + "&status=" + e.status
                             }>
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
+                                        <div className="itemStatusDiv">
+                                            <span
+                                                style={e.status === 'ok' ? { backgroundColor: 'var(--green)' } : { backgroundColor: 'var(--red)' }}
+
+                                                className="itemStatusSpan">
+                                                {/* {e.status} */}
+                                            </span>
+                                        </div>
                                         <div>
                                             <div>
                                                 {e.project}
-
                                             </div>
                                         </div>
                                         <div>
                                             <div>
                                                 {e.so}
-
                                             </div>
                                         </div>
                                         <div>
                                             <div>
                                                 {e.equipment}
-
                                             </div>
                                         </div>
                                         <div>
                                             <div>
                                                 {e.codeA}
-
                                             </div>
                                         </div>
                                         <div>
                                             <div>
                                                 {e.codeB}
-
                                             </div>
                                         </div>
                                     </div>
@@ -363,8 +375,8 @@ export default function Production() {
                         </div>
                     )
                     )}
-                </div>
-            </div>
+                </div >
+            </div >
             <Outlet />
         </>
     )

@@ -22,13 +22,8 @@ export default function NewEquip() {
 
     return (
         <>
-            <div>
                 <input placeholder="Equip name" type="text" onChange={e => setEquipName(e.target.value)} />
-            </div>
-
-            <div>
                 <button className="sendBtn" onClick={e => newEquip(e)}>Add Project</button>
-            </div>
         </>
     )
 }

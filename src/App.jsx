@@ -1,28 +1,47 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, NavLink } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, NavLink, Outlet } from 'react-router-dom';
 import Production from './Components/Production/Production';
 import MySQLController from './Components/MySQLController/MySQLController';
 import PQA from './Components/PQA/PQA';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { getCheckLoginAXIOS } from './API/Axios/axiosCS';
 import LiveCamera from './Components/LiveCamera/LiveCamera';
 import CameraStream from './Components/LiveCamera/RTSCcamera';
 import Item from './Components/Item/Item';
 import User from './Components/User/User';
 import Issues from './Components/PQA/Issues/Issues';
+import Projects from './Components/PQA/Projects/Projects';
+import So from './Components/PQA/SO/SO';
+import Equipments from './Components/PQA/Equipments/Equipments';
 import Authentication from './Components/Authentication/Authentication';
+import Home from './Components/Home/Home';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext } from 'react';
 import { getData } from './CustomHooks/LocalStorage/GetData';
 import { setData } from './CustomHooks/LocalStorage/StoreData';
 import socket from './API/Socket/socket';
+import { logout } from './CustomHooks/Logout/logout';
+import { datefunction } from './CustomHooks/Date/Date';
+import amadeuslogo from './Img/amadeus_logo.png'
+import $ from 'jquery'
 
 function App() {
 
-  const { authorized } = useAuth()
-  const { authorizing } = useContext(GlobalContent);
+  const { authorized, path, setPath } = useAuth()
+  const { authorizing, setPathGlobal } = useContext(GlobalContent);
+
+  const logoutBtn = async () => {
+    const res = await logout()
+    console.log(res)
+    if (res === 'logout') {
+      authorizing(0)
+    } else {
+      alert('logout error')
+    }
+  }
+
 
   const checkLogin = async (e) => {
     console.log(e)
@@ -38,50 +57,79 @@ function App() {
     }
   }
 
+
   useEffect(() => {
     socket.on('socketCheckLogin', (data) => {
-      console.log(data)
+      console.log('socketchecklogin')
       checkLogin(data)
     })
   }, [])
+
   useEffect(() => {
+    // setPathGlobal(window.location.href)
+    console.log(path)
     checkLogin()
   }, [])
 
-  console.log()
+  console.log('App Path:', window.location.href)
+
+
+
+
   return (
     <>
       {/* <LiveCamera/> */}
       {/* <CameraStream/> */}
-      <div className='mainNavDiv'>
-        <nav className='mainNav'>
-          {authorized === 0
-            ?
-            <NavLink to="Login">Login</NavLink>
-            :
-            <NavLink to="User">{JSON.parse(localStorage?.getItem('User')).fullname}</NavLink>
-          }
-          <NavLink to="Production">Production</NavLink>
-          <NavLink to="PQA">PQA</NavLink>
-          <NavLink to="MySQLController">New Item</NavLink>
-        </nav>
+      <div className='rootPage'>
+        <div className='rootHeader'>
+          <div>
+            <a className='amadeusLogoMenu'>
+              <img src={amadeuslogo} alt="" />
+            </a>
+          </div>
+          <div>
+            <NavLink to='/' onClick={e => logoutBtn(e)} className='logoutBtn'>EXIT</NavLink>
+          </div>
+
+        </div>
+        <div className='rootBody'>
+
+          <div className='mainNavDiv'>
+            <nav className='mainNav'>
+              {authorized === 0
+                ?
+                null
+                :
+                <>
+                  <NavLink to="Production">Production Team</NavLink>
+                  <NavLink to="PQA">PQA Team</NavLink>
+                </>
+              }
+
+            </nav>
+          </div>
+          <div className='mainPage'>
+            <Routes>
+              {/* <Route path='/' element={<Home />}></Route> */}
+              <Route path='/' element={<Authentication />}></Route>
+              <Route element={<ProtectRoutes />}>
+                {/* <Route path='/User' element={<User />}></Route> */}
+                <Route path='/Production' element={<Production />}>
+                  <Route path="/Production/item" element={<Item />}></Route>
+                </Route>
+                <Route path='/MySQLController' element={<MySQLController />}></Route>
+                <Route path='/PQA' element={<PQA />}>
+                  <Route path='/PQA/Issues' element={<Issues />}></Route>
+                  <Route path='/PQA/Projects' element={<Projects />}></Route>
+                  <Route path='/PQA/So' element={<So />}></Route>
+                  <Route path='/PQA/Equipments' element={<Equipments />}></Route>
+                </Route>
+              </Route>
+            </Routes>
+          </div >
+        </div>
+
       </div>
-      <div className='mainPage'>
-        <Routes>
-          <Route path='/Login' element={<Authentication />}></Route>
-          <Route element={<ProtectRoutes />}>
-            <Route path='/User' element={<User />}></Route>
-            <Route path='/Production' element={<Production />}>
-              <Route path="/Production/item" element={<Item />}></Route>
-            </Route>
-            <Route path='/PQA' element={<PQA />}>
-              <Route path='/PQA/Issues' element={<Issues/>}></Route>
-              <Route path='/PQA/Issues' element={<Issues/>}></Route>
-            </Route>
-            <Route path='/MySQLController' element={<MySQLController />}></Route>
-          </Route>
-        </Routes>
-      </div >
     </>
   );
 }

@@ -34,22 +34,16 @@ export default function NewSO() {
 
     return (
         <>
-            <div>
                 <input placeholder="SO ref" type="text" onChange={e => setSOref(e.target.value)} />
-            </div>
-            <div>
                 <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} />
-                <select name="" id="" onChange={e=>setProject(e.target.value)}>
+                <select name="" id="" onChange={e => setProject(e.target.value)}>
                     {projectArray.map((e, key) =>
                         <option value={e.project}>
                             {e.project}
                         </option>
                     )}
                 </select>
-            </div>
-            <div>
                 <button className="sendBtn" onClick={e => newSO(e)}>Add SO</button>
-            </div>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { newItemAXIOS } from "../../API/Axios/axios"
-import { useEffect, useState, useRef, use } from "react"
+import { useEffect, useState } from "react"
 import socket from '../../API/Socket/socket'
 import "./MySQLController.css"
 import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS } from "../../API/Axios/axiosCS"
@@ -29,6 +29,8 @@ export default function MySQLController() {
     const [showNewSO, setShowNewSO] = useState(false)
     const [showNewEquip, setShowNewEquip] = useState(false)
 
+    const [alert, setAlert] = useState('')
+
 
     const newItem = async () => {
         try {
@@ -54,6 +56,10 @@ export default function MySQLController() {
 
             console.log("Success:", res.data);
             socketNewItem()
+            setAlert('ok')
+            setTimeout(() => {
+                setAlert('')
+            }, 1000);
         } catch (error) {
             console.error("Error:", error.res?.data || error.message);
         }
@@ -65,8 +71,9 @@ export default function MySQLController() {
     }
 
     const [projectArray, setProjectArray] = useState([])
+    const [projectSearch, setProjectSearch] = useState('')
     const fetchProjects = async () => {
-        const res = await fetchProjectsAXIOS({ project: '' })
+        const res = await fetchProjectsAXIOS({ project: projectSearch })
         setProjectArray(res.data)
         console.log(soArray)
     }
@@ -83,8 +90,6 @@ export default function MySQLController() {
         setEquipArray(res.data)
         console.log(res)
     }
-
-
 
     useEffect(() => {
         fetchEquip()
@@ -107,11 +112,12 @@ export default function MySQLController() {
     useEffect(() => {
         setSoArray([])
         setSO('')
+        fetchProjects()
         setTimeout(() => {
             fetchSO()
         }, 250);
         console.log('useeffectso')
-    }, [project])
+    }, [projectSearch])
     console.log('SQLCTRL')
 
     return (
@@ -119,27 +125,22 @@ export default function MySQLController() {
             <div className="mySqlControllerContent">
                 <div>
                     <div>
-                        <input type="text" placeholder="project" onChange={e => setProject(e.target.value)} />
-
+                        <p style={{ fontSize: '12px', color: 'var(--light)' }}>{project === '' || null ? 'Project' : project}</p>
+                        <input type="text" placeholder="project" onChange={e => setProjectSearch(e.target.value)} />
                         <select onChange={e => setProject(e.target.value)} name="" id="">
                             <option value=""></option>
 
                             {projectArray.map((e, key) =>
-
                                 <option key={key} value={e.project}>{e.project}</option>
-
                             )
                             }
                         </select>
-                        <button className="openBtn" onClick={e => setShowNewProj(!showNewProj)}>+</button>
-                        {
-                            showNewProj === false ? null : <NewProject />
-                        }
                     </div>
                 </div>
                 <div>
                     <div>
-                        <input type="text" placeholder="so" value={so} onChange={e => setSO(e.target.value)} />
+                        <p style={{ fontSize: '12px', color: 'var(--light)' }}>{so === '' || null ? 'SO' : so}</p>
+                        <input type="text" placeholder="so" onChange={e => setSO(e.target.value)} />
                         <select onChange={e => setSO(e.target.value)} name="" id="">
                             <option ></option>
                             {soArray.map((e, key) =>
@@ -147,70 +148,84 @@ export default function MySQLController() {
                             )
                             }
                         </select>
-                        <button className="openBtn" onClick={e => setShowNewSO(!showNewSO)}>+</button>
-                        {
-                            showNewSO === false ? null : <NewSO />
-                        }
                     </div>
                 </div>
                 {(project && so) == '' ? null :
                     <>
                         <div>
-                            <input type="text" value={equipment} placeholder="equipment" onChange={e => setEquipment(e.target.value)} />
-                            <select onChange={e => setEquipment(e.target.value)} name="" id="">
-                                <option ></option>
-                                {equipArray.map((e, key) =>
-                                    <option key={key} value={e.equipName}>{e.equipName}</option>
-                                )
-                                }
-                            </select>
-                            <button className="openBtn" onClick={e => setShowNewEquip(!showNewEquip)}>+</button>
-                            {
-                                showNewEquip === false ? null : <NewEquip />
-                            }
+                            <div>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>{equipment === '' || null ? 'Equipment' : equipment}</p>
+                                <input type="text" placeholder="equipment" onChange={e => setEquipment(e.target.value)} />
+                                <select onChange={e => setEquipment(e.target.value)} name="" id="">
+                                    <option ></option>
+                                    {equipArray.map((e, key) =>
+                                        <option key={key} value={e.equipName}>{e.equipName}</option>
+                                    )
+                                    }
+                                </select>
+                            </div>
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeA === '' || null ? 'Code A' : codeA}</p>
                             <input type="text" placeholder="codeA" onChange={e => setCodeA(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeB === '' || null ? 'Code B' : codeB}</p>
                             <input type="text" placeholder="codeB" onChange={e => setCodeB(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codePR === '' || null ? 'Code PR' : codePR}</p>
                             <input type="text" placeholder="codePR" onChange={e => setCodePR(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codePS === '' || null ? 'Code PS' : codePS}</p>
                             <input type="text" placeholder="codePS" onChange={e => setCodePS(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeDR === '' || null ? 'Code DR' : codeDR}</p>
                             <input type="text" placeholder="codeDR" onChange={e => setCodeDR(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type0 === '' || null ? 'Type 0' : type0}</p>
                             <input type="text" placeholder="type0" onChange={e => setType0(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type1 === '' || null ? 'Type 1' : type1}</p>
                             <input type="text" placeholder="type1" onChange={e => setType1(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type2 === '' || null ? 'Type 2' : type2}</p>
                             <input type="text" placeholder="type2" onChange={e => setType2(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type3 === '' || null ? 'Type 3' : type3}</p>
                             <input type="text" placeholder="type3" onChange={e => setType3(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type4 === '' || null ? 'Type 4' : type4}</p>
                             <input type="text" placeholder="type4" onChange={e => setType4(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{startDate === '' || null ? 'Start Date' : startDate}</p>
                             <input type="text" placeholder="start date" onChange={e => setStartDate(e.target.value)} />
                         </div>
                         <div>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{endDate === '' || null ? 'End Date' : endDate}</p>
                             <input type="text" placeholder="end date" onChange={e => setEndDate(e.target.value)} />
+                        </div>
+                        <div>
+                            <button className="sendBtn" onClick={newItem}>SEND</button>
                         </div>
                     </>
                 }
-                <div>
-                    <button className="sendBtn" onClick={newItem}>SEND</button>
-                </div>
-            </div>
+                {
+                    alert === 'ok' ?
+                        <div style={{ color: 'var(--green)' }}>
+                            Added successfully!
+                        </div>
+                        : null
+                }
+            </div >
 
             {/* 
     datet,

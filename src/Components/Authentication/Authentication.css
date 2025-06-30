@@ -1,23 +1,52 @@
 .authMainDiv {
-    display: block;
-}
-.btnDiv{
     display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 30px;
 }
-.btnDiv button:hover{
+
+.authMainDiv>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.btnDiv {
+    display: flex;
+    width: 100%;
+}
+
+.btnDiv button:hover {
     cursor: pointer;
 }
-.swapregBtn{
+
+.swapregBtn {
     width: 100%;
-    border-radius:10px 0 0 0 !important;
+    border-radius: 10px 0 0 0 !important;
 }
-.swaplogBtn{
+
+.swaplogBtn {
     width: 100%;
-    border-radius:0 10px 0 0 !important;
+    border-radius: 0 10px 0 0 !important;
 }
-.focusBtn{
+
+.focusBtn {
     width: 100%;
     width: 100%;
     background-color: var(--light);
     color: var(--secondary);
+}
+
+.logoDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px;
+}
+
+.logoDiv img {
+    width: 600px;
+    height: auto;
 }

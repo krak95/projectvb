@@ -1,6 +1,6 @@
 import './Item.css'
 import axios from 'axios'
-import { delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, fetchItemIssuesAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
+import { delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
 import { Outlet, NavLink, Route, Routes } from "react-router-dom"
 import { useState, useEffect } from 'react'
@@ -11,10 +11,12 @@ export default function Item() {
 
     const [items, setItems] = useState([])
 
+    const [alert, setAlert] = useState('')
+
     const navigate = useNavigate();
 
     const handleRetro = () => {
-        navigate(-1);
+        navigate('../../Production');
     };
 
 
@@ -51,6 +53,8 @@ export default function Item() {
     const [itemIssuesArray, setItemIssuesArray] = useState([])
     const [issueSearch, setIssueSearch] = useState('')
 
+
+
     const fetchItemIssues = async () => {
         const res = await fetchItemIssuesAXIOS({ id_item: id_prod })
         console.log(res)
@@ -64,31 +68,59 @@ export default function Item() {
         setIssueArray(res.data)
     }
 
-    const fetchProduction = async () => {
+    const checkProduction = async () => {
         console.log('prod fetch asunc', project, codeA)
-        const res = await fetchProductionAXIOS({
-            'Project': project,
-            'So': so,
-            'Equipment': equip,
-            'CodeA': codeA,
-            'CodeB': codeB,
-            'CodePR': null,
-            'CodePS': null,
-            'CodeDR': null,
-            'Type0': null,
-            'Type1': null,
-            'Type2': null,
-            'Type3': null,
-            'Type4': null,
-            'ReadyPQA': null,
-            'Tester': null,
-        })
-        console.log(res)
-        setItems(res.data)
+        try {
+            const res = await checkProductionAXIOS({
+                'Project': project,
+                'So': so,
+                'Equipment': equip,
+                'CodeA': codeA,
+                'CodeB': codeB,
+                'CodePR': codePR,
+                'CodePS': codePS,
+                'CodeDR': codeDR,
+                'Type0': type0,
+                'Type1': type1,
+                'Type2': type2,
+                'Type3': type3,
+                'Type4': type4,
+                'ReadyPQA': null,
+            })
+            if (res.data.length === 0) {
+                setAlert('NotExist')
+                return
+            } else {
+                console.log('setItemsCheck')
+                setItems(res.data)
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const updateStatus = async () => {
+        var status = items[0].status
+        if (status === 'nok') {
+            status = 'ok'
+        } else {
+            status = 'nok'
+        }
+        var id_prod = items[0].id_prod
+        console.log({ id_prod, status })
+        try {
+            const res = await updateStatusAXIOS({ id_prod, status })
+            socket.emit('socketNewItem')
+            checkProduction()
+            handleRetro()
+            console.log(res)
+        } catch (e) {
+            console.log(e)
+        }
+        console.log(items[0].status)
     }
 
     const delProd = async () => {
-
         if (window.confirm("Delete item?") === true) {
             console.log(id_prod)
             const res = await delProdAXIOS(id_prod)
@@ -109,7 +141,7 @@ export default function Item() {
 
     useEffect(() => {
         console.log('useeffect itemjsx', codeA)
-        fetchProduction()
+        checkProduction()
         fetchItemIssues()
         socket.on('socketFetchItemIssue', () => {
             fetchItemIssues()
@@ -122,7 +154,7 @@ export default function Item() {
     return (
         <>
             <div className="itemContentDiv">
-                <div className='itemInfo'>
+                {alert !== 'NotExist' ? <div className='itemInfo'>
                     <div className='itemPageHeader'>
                         <button className='backBtn' onClick={handleRetro}>BACK</button>
                         <div>Tested by: <p>{tester}</p></div>
@@ -240,7 +272,7 @@ export default function Item() {
                                 <div>Comment</div>
                             </div>
                             {itemIssuesArray.map((e, key) => (
-                                <div className='itemIssuesList' key={key}>
+                                <div className='itemIssueContent' key={key}>
                                     <div>{e.ref_issue}</div>
                                     <div>{e.description_issue}</div>
                                     <div>{e.level_issue}</div>
@@ -249,7 +281,20 @@ export default function Item() {
                             ))}
                         </div>
                     </div>
-                </div>
+                    <button onClick={e => updateStatus()}>
+                        Finish process
+                    </button>
+                </div> :
+                    <div className='itemNotExist'>
+                        <div>
+                            <button className='backBtn' onClick={handleRetro}>BACK</button>
+                        </div>
+                        <div>
+                            This item does not exist!
+                        </div>
+                    </div>
+                }
+
             </div >
         </>
     )

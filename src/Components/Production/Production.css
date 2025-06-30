@@ -4,14 +4,19 @@
     justify-content: center;
     flex-direction: column;
     width: 100%;
+    font-size: 14px;
 }
-
-.prodMainDiv a {}
 
 .prodMainDiv a:hover {
     background-color: var(--vbBlue);
 }
 
+.prodMainDiv>div:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
 
 .itemListHeaders {
     width: 100%;
@@ -56,8 +61,9 @@
     border-bottom: solid 1px var(--secondary);
 }
 
-.itemListDiv:hover {
+.itemListDiv:hover * {
     background-color: white;
+    opacity: 1;
 }
 
 .itemList {
@@ -105,10 +111,11 @@
 
 .searchDiv {
     display: flex;
-    width: 90%;
+    width: 100%;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     overflow: hidden;
+    height: 0;
 }
 
 .searchDiv input:focus {
@@ -124,34 +131,28 @@
 }
 
 .searchDiv>div {
-    margin: 4px;
     color: var(--light);
 }
 
-.searchDiv li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-    margin-top: 4px;
-    border: 1px solid var(--light);
-    border-radius: 6px;
-}
 
 .searchDiv li:hover {
     cursor: pointer;
     background-color: var(--secondary);
     border-radius: 6px;
+
 }
 
 .searchController {
     border: NONE;
     border-radius: 6px;
     margin-bottom: 10px;
-    height: 40px;
+    height: 30px;
     width: 100px;
     background-color: var(--secondary);
     color: var(--light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .searchController:hover {
@@ -165,4 +166,33 @@
 
 .typeSearchDiv div {
     margin: 4px;
+}
+
+.productionCountDiv {
+    color: var(--light);
+    background-color: var(--secondary);
+    width: 100%;
+}
+
+.productionCountDiv>div {
+    padding: 10px;
+}
+
+.itemStatusDiv {
+    width: 300px !important;
+}
+
+.itemStatusHeaderDiv {
+    width: 300px !important;
+}
+
+
+.itemStatusSpan {
+    /* background-color: var(--red) !important; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 100%;
+    opacity: .5;
 }

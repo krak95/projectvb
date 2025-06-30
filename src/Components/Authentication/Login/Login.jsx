@@ -3,10 +3,11 @@ import { getCheckLoginAXIOS, checkCredsAXIOS, newLoginAXIOS, refreshLogAXIOS } f
 import { useState, useContext, useEffect } from "react"
 import GlobalContent, { useAuth } from "../../../GLOBAL/Global"
 import { storeData } from "../../../CustomHooks/LocalStorage/StoreData"
-import { Navigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import { setData } from "../../../CustomHooks/LocalStorage/StoreData"
 import socket from "../../../API/Socket/socket"
 import { datefunction } from "../../../CustomHooks/Date/Date"
+import { Outlet } from "react-router-dom"
 
 export default function Login() {
 
@@ -14,8 +15,17 @@ export default function Login() {
     const { authorized, fullname } = useAuth()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [alert, setAlert] = useState('')
 
+    let navigate = useNavigate('')
     const checkCreds = async () => {
+        if (username === '') {
+            setAlert('username')
+            setTimeout(() => {
+                setAlert('')
+            }, 1000);
+            return
+        }
         try {
             console.log(username, password)
             const res = await checkCredsAXIOS({ username, password })
@@ -24,14 +34,22 @@ export default function Login() {
                 console.log(res.data)
                 newLogin({ fullname: res.data })
                 socket.emit("newUserSocket", concatDate)
-
+                setTimeout(() => {
+                    navigate('/Production')
+                }, 100);
 
             } else {
-                alert('Wrong credentials!')
+                setAlert('wrong')
+                setTimeout(() => {
+                    setAlert('')
+                }, 1000);
             }
         } catch (e) {
             if ((e.response.data.message).includes('negative')) {
-                alert('Wrong credentials!')
+                setAlert('wrong')
+                setTimeout(() => {
+                    setAlert('')
+                }, 1000);
             }
         }
     }
@@ -54,11 +72,12 @@ export default function Login() {
             setData({ username: username, token: res.data, fullname: e.fullname })
             authorizing(1)
             socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname })
-            // redirect("/User")
+            navigate('/Production')
+
         } catch (error) {
             console.log(error)
             if ((error.response.data.message).includes('Duplicate')) {
-                alert('Already logged in!')
+                setAlert('loggedin')
                 const concatDate = datefunction()
                 refreshLog({ username: username, logDate: concatDate, fullname: e.fullname })
             }
@@ -84,16 +103,17 @@ export default function Login() {
             {authorized === 0
                 ?
                 <div className="loginAuthDiv">
+
                     <div className="loginInputDiv">
                         <div>
                             <div>Username</div>
-                            <div><input
+                            <div><input style={alert === 'username' ? { backgroundColor: 'var(--red)', opacity: '0.5' } : null}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter") {
                                         checkCreds()
                                     }
                                 }}
-                                onChange={e => setUsername(e.target.value)} type="text" />
+                                onChange={e => setUsername((e.target.value).trim())} type="text" />
                             </div>
                         </div>
                         <div>
@@ -107,13 +127,25 @@ export default function Login() {
                                 onChange={e => setPassword(e.target.value)} type="password" />
                             </div>
                         </div>
+                        {alert === '' ? <div style={{ color: 'var(--light)' }}>
+                            default
+                        </div> : null}
+                        {alert === 'username' ? <div className="loginAlertUsername">
+                            Missing username!
+                        </div> : null}
+                        {alert === 'wrong' ? <div className="loginAlertUsername">
+                            Wrong credentials!
+                        </div> : null}
+                        {alert === 'loggedin' ? <div className="loginAlertUsername">
+                            Already logged in ...
+                        </div> : null}
                         <div>
                             <button onClick={e => checkCreds()} className="loginBtn" >Login</button>
                         </div>
                     </div>
                 </div>
                 :
-                <Navigate to='/User' />
+                <Outlet />
             }
         </>
     )

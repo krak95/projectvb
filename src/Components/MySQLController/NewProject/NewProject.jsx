@@ -12,7 +12,7 @@ export default function NewProject() {
     const newProject = async () => {
         socket.emit("newProject")
         console.log('newproject')
-        try {
+        try { 
             const res = await newProjectAXIOS({
                 'Project': Project,
                 'Country': Country,
@@ -27,22 +27,11 @@ export default function NewProject() {
 
     return (
         <>
-            <div>
-                <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} />
-            </div>
-            <div>
-                <input placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} />
-            </div>
-            <div>
-                <input placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} />
-            </div>
-            <div>
-                <input placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} />
-            </div>
-
-            <div>
-                <button className="sendBtn" onClick={e => newProject(e)}>Add Project</button>
-            </div>
+            <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} />
+            <input placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} />
+            <input placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} />
+            <input placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} />
+            <button className="sendBtn" onClick={e => newProject(e)}>Add Project</button>
         </>
     )
 }

@@ -1,23 +1,21 @@
-.itemIssuesContentDiv {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border-top: 1px solid var(--secondary);
-    border-left: 1px solid var(--secondary);
-    border-radius: 6px 0 0 0;
-}
-
-.issuesMainDiv {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.pqaSoMainDiv {
     width: 100%;
-    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-
 }
 
-.issuesList {
+.pqaNewSo {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.pqaListSo {
+    text-align: center;
     padding: 6px;
     margin: 10px;
     display: flex;
@@ -28,10 +26,10 @@
     text-align: center;
 }
 
-.issuesList>div {
+.pqaListSo>div {
     display: grid;
     background-color: var(--light);
-    grid-template-columns: repeat(3, calc(100%/3));
+    grid-template-columns: repeat(2, calc(100%/2));
     width: 100%;
     height: 30px;
     align-items: center;
@@ -40,9 +38,10 @@
     font-size: 12px;
 }
 
-.issuesListHeaders {
+.pqaListSoHeaders {
     border-bottom: 1px solid var(--secondary);
     background-color: var(--secondary) !important;
     color: var(--light);
     font-size: 14px !important;
+
 }
