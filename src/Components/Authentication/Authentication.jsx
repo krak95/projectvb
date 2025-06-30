@@ -3,21 +3,29 @@ import "./Authentication.css"
 import { useState } from "react"
 import Register from "./Register/Register"
 import Login from "./Login/Login"
+import amadeus_logo from "./../../Img/amadeus_logo.png"
+import { useAuth } from "../../GLOBAL/Global"
+import GlobalContent from "../../GLOBAL/Global"
+import { useContext } from "react"
 
 export default function Authentication() {
-
-    const [swapAuth, setSwapAuth] = useState('register')
+    const { swapRegisterLogin, authorized } = useAuth()
+    const { swapRegisterLoginF } = useContext(GlobalContent);
 
     return (
         <>
-            <div className="authMainDiv">
-                <div className="btnDiv">
-                    <button className={(swapAuth === 'register' ? 'swapregBtn focusBtn' : 'swapregBtn')} onClick={e => setSwapAuth('register')}>Register</button>
-                    <button className={(swapAuth === 'login' ? 'swaplogBtn focusBtn' : 'swaplogBtn')} onClick={e => setSwapAuth('login')}>Login</button>
-                </div>
+            {authorized === 0 ? <div className="authMainDiv">
                 <div>
-                    {swapAuth === 'register' ? <Register /> : <Login />}
+                    <div className="btnDiv">
+                        <button className={(swapRegisterLogin === 'register' ? 'swapregBtn focusBtn' : 'swapregBtn')} onClick={e => swapRegisterLoginF('register')}>Register</button>
+                        <button className={(swapRegisterLogin === 'login' ? 'swaplogBtn focusBtn' : 'swaplogBtn')} onClick={e => swapRegisterLoginF('login')}>Login</button>
+                    </div>
+                    {swapRegisterLogin === 'register' ? <Register /> : <Login />}
                 </div>
+            </div>
+                : null}
+            <div className="logoDiv">
+                <img src={amadeus_logo} alt="" />
             </div>
         </>
     )

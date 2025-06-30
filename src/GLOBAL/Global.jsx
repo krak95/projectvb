@@ -9,6 +9,9 @@ export const useAuth = () => useContext(GlobalContent)
 export const GlobalProvider = ({ children }) => {
 
     const [authorized, setAuthorized] = useState(null)
+    const [swapRegisterLogin, setswapRegisterLogin] = useState('login')
+    const [path, setPath] = useState(null)
+    const [menu, setMenu] = useState('click')
 
     console.log(authorized)
 
@@ -21,12 +24,24 @@ export const GlobalProvider = ({ children }) => {
         }))
     }
 
+    const setPathGlobal = (e) => {
+        console.log('Global Path: ', e)
+        setPath(e)
+    }
+    useEffect(() => {
+    }, [])
+
     const authorizing = (e) => {
         setAuthorized(e)
     }
 
+    const swapRegisterLoginF = (e) => {
+        setswapRegisterLogin(e)
+        console.log(e)
+    }
+
     return (
-        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing }}>
+        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing, swapRegisterLoginF, setswapRegisterLogin, swapRegisterLogin, setPathGlobal, path, setPath, menu, setMenu }}>
             {children}
         </GlobalContent.Provider>
     );

@@ -1,6 +1,8 @@
 import { registerAXIOS } from "../../../API/Axios/axiosCS"
 import "./Register.css"
 import { useState } from "react"
+import { useContext } from "react"
+import GlobalContent from "../../../GLOBAL/Global"
 
 export default function Register() {
 
@@ -9,6 +11,9 @@ export default function Register() {
     const [role, setRole] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [alert, setAlert] = useState('')
+
+    const { swapRegisterLoginF } = useContext(GlobalContent);
 
     const register = async () => {
         try {
@@ -20,10 +25,15 @@ export default function Register() {
                 password
             })
             console.log(res.data)
+            setAlert('green')
+            setTimeout(() => {
+                swapRegisterLoginF('login')
+            }, 1000);
         } catch (e) {
-            console.log(e.response.data)
+            console.log(e)
             if ((e.response.data.message).includes('Duplicate')) {
-                alert('User already exists!')
+                setAlert('red')
+                swapRegisterLoginF('register')
             }
         }
     }
@@ -36,10 +46,10 @@ export default function Register() {
                         <div>Fullname</div>
                         <div><input onChange={e => setFullname(e.target.value)} type="text" /></div>
                     </div>
-                    <div>
+                    {/* <div>
                         <div>Admin</div>
                         <div><input onChange={e => setAdmin(e.target.value)} type="number" /></div>
-                    </div>
+                    </div> */}
                     <div>
                         <div>Role</div>
                         <div><input onChange={e => setRole(e.target.value)} type="text" /></div>
@@ -55,6 +65,20 @@ export default function Register() {
                     <div>
                         <button className="loginBtn" onClick={register} >Register</button>
                     </div>
+                    {alert === 'green'
+                        ?
+                        <div>
+                            <div style={{ color: 'var(--green)' }}>Registered successfully...</div>
+                        </div>
+                        : null
+                    }
+                    {alert === 'red'
+                        ?
+                        <div>
+                            <div style={{ color: 'var(--red)' }}>User already exists!</div>
+                        </div>
+                        : null
+                    }
                 </div>
             </div>
 

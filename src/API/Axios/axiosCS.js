@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const axiosBase = axios.create({
-    baseURL: 'http://localhost:5000/api/My',
+    baseURL: 'http://10.76.76.44:5000/api/My',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -89,6 +89,81 @@ export const fetchProductionAXIOS = ({
 }) => {
     console.log(projectSearch, codeaSearch, Tester)
     return axiosBase.post('/fetchProduction',
+        {
+            Project: projectSearch,
+            So: soSearch,
+            Equipment: equipSearch,
+            CodeA: codeaSearch,
+            CodeB: codebSearch,
+            CodePR: codeprSearch,
+            CodePS: codepsSearch,
+            CodeDR: codedrSearch,
+            Type0: type0Search,
+            Type1: type1Search,
+            Type2: type2Search,
+            Type3: type3Search,
+            Type4: type4Search,
+            Tester
+        }
+    )
+}
+export const checkProductionAXIOS = ({
+    Project: project,
+    So: so,
+    Equipment: equip,
+    CodeA: codea,
+    CodeB: codeb,
+    CodePR: codepr,
+    CodePS: codeps,
+    CodeDR: codedr,
+    Type0: type0,
+    Type1: type1,
+    Type2: type2,
+    Type3: type3,
+    Type4: type4
+}) => {
+    console.log(project, codea)
+    return axiosBase.post('/checkProduction',
+        {
+            Project: project,
+            So: so,
+            Equipment: equip,
+            CodeA: codea,
+            CodeB: codeb,
+            CodePR: codepr,
+            CodePS: codeps,
+            CodeDR: codedr,
+            Type0: type0,
+            Type1: type1,
+            Type2: type2,
+            Type3: type3,
+            Type4: type4
+        }
+    )
+}
+
+export const updateStatusAXIOS = ({ id_prod, status }) => {
+    console.log({ id_prod, status })
+    return axiosBase.post('/updateStatus', { id_prod, status })
+}
+export const fetchCountProductionAXIOS = ({
+    Project: projectSearch,
+    So: soSearch,
+    Equipment: equipSearch,
+    CodeA: codeaSearch,
+    CodeB: codebSearch,
+    CodePR: codeprSearch,
+    CodePS: codepsSearch,
+    CodeDR: codedrSearch,
+    Type0: type0Search,
+    Type1: type1Search,
+    Type2: type2Search,
+    Type3: type3Search,
+    Type4: type4Search,
+    Tester
+}) => {
+    console.log(projectSearch, codeaSearch, Tester)
+    return axiosBase.post('/fetchCountProduction',
         {
             Project: projectSearch,
             So: soSearch,
@@ -218,7 +293,7 @@ export const addItemIssueAXIOS = ({ id_issue, id_item, comment }) => {
 
 }
 
-export const fetchItemIssuesAXIOS = ({ id_item:id_prod }) => {
-    console.log({id_item:id_prod} )
-    return axiosBase.post('/fetchItemIssues', { id_item:id_prod  })
+export const fetchItemIssuesAXIOS = ({ id_item: id_prod }) => {
+    console.log({ id_item: id_prod })
+    return axiosBase.post('/fetchItemIssues', { id_item: id_prod })
 }

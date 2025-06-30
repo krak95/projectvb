@@ -7,12 +7,19 @@
 }
 
 .loginInputDiv>div {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 100px 1fr;
     gap: 10px;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 14px; */
+    color: var(--secondary);
+}
+
+.loginInputDiv>div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .loginInputDiv input {
@@ -21,18 +28,20 @@
     border: none;
     padding: 4px;
     text-align: center;
+    border: 1px solid var(--vbBlue);
 }
 
-.loginInputDiv button {
-    border-radius: 6px;
-    height: 30px;
-    width: 80px;
-    background-color: var(--secondary);
-    color: var(--light);
-    border: none;
+.loginInputDiv>div:hover {
+    color: var(--primary);
 }
 
-.loginInputDiv button:hover {
-    background-color: var(--vbBlue);
-    cursor: pointer;
+.loginInputDiv input:focus {
+    border: 1px solid var(--primary);
+}
+
+.loginAlertUsername {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--red) !important;
 }

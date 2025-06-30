@@ -1,18 +1,24 @@
 .mySqlControllerContent {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    background-color: var(--secondary);
+    padding: 10px;
+    border-radius: 6px;
 }
 
-.mySqlControllerContent div {
+.mySqlControllerContent>div {
     display: flex;
-    align-items: center;
-    justify-content: start;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 10px;
 }
+
+.mySqlControllerContent div {}
 
 .mySqlControllerContent input {
     border-radius: 6px;
     border: none;
-    margin: 4px;
     background-color: var(--light);
     padding: 4px;
     text-align: center;
@@ -22,13 +28,8 @@
     background-color: white;
 }
 
-.mySqlControllerContent button {
-    border: none;
-}
-
-.mySqlControllerContent button:hover {
-    cursor: pointer;
-    background-color: var(--vbBlue);
+.mySqlControllerContent select {
+    width: 100px;
 }
 
 .openBtn {
@@ -42,8 +43,26 @@
     padding: 6px;
 }
 
-.authenticationInputDiv>div:last-child{
+.authenticationInputDiv>div:last-child {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.itemNotExist {
+    color: var(--light);
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.itemNotExist>div {
+    margin: 20px;
+}
+
+.mySqlControllerContent select {
+    width: 100%;
 }

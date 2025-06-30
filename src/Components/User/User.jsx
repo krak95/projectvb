@@ -132,7 +132,10 @@ export default function User() {
     return (
         <>
             <div className="userMainDiv">
-                <button onClick={logoutBtn}>Logout</button>
+                <div>
+                    
+                    <button onClick={logoutBtn}>Logout</button>
+                </div>
                 {/* <button onClick={storage}> STORAGE</button> */}
                 <div>
                     <div className="searchControllerDiv">

@@ -1,18 +1,35 @@
 .registerMainDiv>div {
-    display: grid;
-    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--light);
-    padding: 20px;
+    padding: 10px;
     border-radius: 0 0 10px 10px;
 }
 
 .registerInputDiv>div {
-    display: grid;
+    /* display: grid;
     grid-template-columns: 100px 1fr;
     gap: 10px;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 14px; */
+    color: var(--secondary);
+}
+
+.registerInputDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerInputDiv>div {
+    padding: 10px;
+}
+
+.registerInputDiv>div:hover {
+    color: var(--primary);
 }
 
 .registerInputDiv input {
@@ -20,19 +37,10 @@
     outline: none;
     border: none;
     padding: 4px;
+    border: 1px solid var(--vbBlue);
     text-align: center;
 }
 
-.registerInputDiv button {
-    border-radius: 6px;
-    height: 30px;
-    width: 80px;
-    background-color: var(--secondary);
-    color: var(--light);
-    border: none;
-}
-
-.registerInputDiv button:hover {
-    background-color: var(--vbBlue);
-    cursor: pointer;
+.registerInputDiv input:focus {
+    border: 1px solid var(--primary);
 }
