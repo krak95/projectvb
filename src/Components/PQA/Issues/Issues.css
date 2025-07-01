@@ -1,12 +1,3 @@
-.itemIssuesContentDiv {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border-top: 1px solid var(--secondary);
-    border-left: 1px solid var(--secondary);
-    border-radius: 6px 0 0 0;
-}
-
 .issuesMainDiv {
     display: flex;
     align-items: center;

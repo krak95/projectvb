@@ -1,21 +1,16 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, NavLink, Outlet } from 'react-router-dom';
+import { Route, Routes, NavLink, } from 'react-router-dom';
 import Production from './Components/Production/Production';
 import MySQLController from './Components/MySQLController/MySQLController';
 import PQA from './Components/PQA/PQA';
-import axios from 'axios';
-import { useRef, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getCheckLoginAXIOS } from './API/Axios/axiosCS';
-import LiveCamera from './Components/LiveCamera/LiveCamera';
-import CameraStream from './Components/LiveCamera/RTSCcamera';
 import Item from './Components/Item/Item';
-import User from './Components/User/User';
 import Issues from './Components/PQA/Issues/Issues';
 import Projects from './Components/PQA/Projects/Projects';
 import So from './Components/PQA/SO/SO';
 import Equipments from './Components/PQA/Equipments/Equipments';
 import Authentication from './Components/Authentication/Authentication';
-import Home from './Components/Home/Home';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext } from 'react';
@@ -23,14 +18,13 @@ import { getData } from './CustomHooks/LocalStorage/GetData';
 import { setData } from './CustomHooks/LocalStorage/StoreData';
 import socket from './API/Socket/socket';
 import { logout } from './CustomHooks/Logout/logout';
-import { datefunction } from './CustomHooks/Date/Date';
 import amadeuslogo from './Img/amadeus_logo.png'
-import $ from 'jquery'
+import Statistics from './Components/Statistics/Statistics';
 
 function App() {
 
-  const { authorized, path, setPath } = useAuth()
-  const { authorizing, setPathGlobal } = useContext(GlobalContent);
+  const { authorized, path } = useAuth()
+  const { authorizing } = useContext(GlobalContent);
 
   const logoutBtn = async () => {
     const res = await logout()
@@ -117,6 +111,7 @@ function App() {
                   <Route path='/PQA/Projects' element={<Projects />}></Route>
                   <Route path='/PQA/So' element={<So />}></Route>
                   <Route path='/PQA/Equipments' element={<Equipments />}></Route>
+                  <Route path='/PQA/Statistics' element={<Statistics />}></Route>
                 </Route>
               </Route>
             </Routes>

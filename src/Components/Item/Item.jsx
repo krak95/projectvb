@@ -178,9 +178,11 @@ export default function Item() {
                 {alert !== 'NotExist' ? <div className='itemInfo'>
                     <div className='itemPageHeader'>
                         <div>
-                            Tested by: <p>{tester}</p>
                             <div>
-                                {startDate}
+                                Tested by: <p>{tester}</p>
+                            </div>
+                            <div>
+                                <p>{startDate}</p> until <p>{endDate === '' ? 'Not finished' : endDate}</p>
                             </div>
                         </div>
                         <button className='backBtn' onClick={delProd}>DELETE ITEM</button>
@@ -210,7 +212,7 @@ export default function Item() {
                             <div>endDate    </div>
                         </div> */}
                     </div>
-                    <div>
+                    <div className='itemInformation'>
                         <div>
                             <div>
                                 {project}
@@ -218,17 +220,19 @@ export default function Item() {
                             <div>
                                 {so}
                             </div>
-                        </div>
-                        <div>
                             <div>
                                 {equip}
                             </div>
+                        </div>
+                        <div>
                             <div>
                                 {codeA}
                             </div>
                             <div>
                                 {codeB}
                             </div>
+                        </div>
+                        <div>
                             <div>
                                 {codePR}
                             </div>
@@ -240,7 +244,6 @@ export default function Item() {
                             </div>
                         </div>
                         <div>
-
                             <div>
                                 {type0}
                             </div>
@@ -255,12 +258,6 @@ export default function Item() {
                             </div>
                             <div>
                                 {type4}
-                            </div>
-                        </div>
-                        <div>
-
-                            <div>
-                                {endDate}
                             </div>
                         </div>
                     </div>
