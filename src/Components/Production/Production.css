@@ -66,6 +66,10 @@
     border-bottom: solid 1px var(--secondary);
 }
 
+.itemListDiv:hover {
+    background-color: white;
+}
+
 .itemListDiv:hover * {
     background-color: white;
     opacity: 1;

@@ -29,7 +29,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, auto);
-  gap: 10px;
   text-align: center;
 }
 
@@ -39,6 +38,13 @@
   align-items: self-start;
   justify-content: space-between;
   margin-bottom: 10px;
+}
+
+.itemPageHeader>div {
+  display: flex;
+  align-items: center;
+  width: 50%;
+  justify-content: space-between;
 }
 
 .itemPageHeader p {
@@ -107,6 +113,20 @@
   padding: 10px;
 }
 
+.itemInformation {
+  background-color: white;
+  border-radius: 10px;
+}
+
+.itemInformation>div {
+  border: 1px solid var(--light);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding: 8px;
+}
+
 .itemIssueContent {
   display: grid;
   width: 100%;
@@ -136,4 +156,8 @@
 
 .finishProcBtn {
   margin: 4px;
+}
+
+.itemStatusSpan {
+  text-align: center;
 }
