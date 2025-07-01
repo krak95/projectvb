@@ -1,11 +1,12 @@
 import './Item.css'
 import axios from 'axios'
-import { delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
+import { delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
 import { Outlet, NavLink, Route, Routes } from "react-router-dom"
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import socket from '../../API/Socket/socket'
+import $ from 'jquery'
 
 export default function Item() {
 
@@ -16,7 +17,7 @@ export default function Item() {
     const navigate = useNavigate();
 
     const handleRetro = () => {
-        navigate('../../Production');
+        window.location.href = 'http://10.76.76.44:3000/Production'
     };
 
 
@@ -53,46 +54,31 @@ export default function Item() {
     const [itemIssuesArray, setItemIssuesArray] = useState([])
     const [issueSearch, setIssueSearch] = useState('')
 
-
-
     const fetchItemIssues = async () => {
         const res = await fetchItemIssuesAXIOS({ id_item: id_prod })
         console.log(res)
         setItemIssuesArray(res.data)
     }
 
-
     const fetchIssues = async () => {
-        const res = await fetchIssuesAXIOS({ ref_issue: issueSearch, description_issue: issueSearch })
+        const res = await fetchIssuesAXIOS({ ref_issue: '', description_issue: issueSearch, level_issue: '' })
         console.log(res.data)
         setIssueArray(res.data)
     }
 
     const checkProduction = async () => {
-        console.log('prod fetch asunc', project, codeA)
+        console.log('prod fetch asunc',)
         try {
             const res = await checkProductionAXIOS({
-                'Project': project,
-                'So': so,
-                'Equipment': equip,
-                'CodeA': codeA,
-                'CodeB': codeB,
-                'CodePR': codePR,
-                'CodePS': codePS,
-                'CodeDR': codeDR,
-                'Type0': type0,
-                'Type1': type1,
-                'Type2': type2,
-                'Type3': type3,
-                'Type4': type4,
-                'ReadyPQA': null,
+                'id_prod': id_prod
             })
+            setItems(res.data)
+            console.log(res.data.length)
             if (res.data.length === 0) {
                 setAlert('NotExist')
                 return
             } else {
                 console.log('setItemsCheck')
-                setItems(res.data)
             }
         } catch (e) {
             console.log(e)
@@ -100,8 +86,9 @@ export default function Item() {
     }
 
     const updateStatus = async () => {
-        var status = items[0].status
-        if (status === 'nok') {
+        var status
+        console.log('finishprocess: ', finishProcess)
+        if (finishProcess === false) {
             status = 'ok'
         } else {
             status = 'nok'
@@ -120,6 +107,24 @@ export default function Item() {
         console.log(items[0].status)
     }
 
+
+    const updateItemIssueStatus = async (e) => {
+        var statusf
+        if (itemIssuesArray[e.key].issue_status === 'CLOSE') {
+            statusf = 'OPEN'
+        } else {
+            statusf = 'CLOSE'
+        }
+        // console.log({ itemIssuesArray[key], key: e.key })
+        // console.log({ iditem_issues: e.iditem_issues, issue_status: e.key })
+        try {
+            const res = await updateItemIssueStatusAXIOS({ iditem_issues: itemIssuesArray[e.key].iditem_issues, issue_status: statusf })
+            socketAddItemIssue()
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     const delProd = async () => {
         if (window.confirm("Delete item?") === true) {
             console.log(id_prod)
@@ -130,6 +135,15 @@ export default function Item() {
         }
     }
 
+
+    const [finishProcess, setFinishProcess] = useState('')
+    const checkIssueStatus = async () => {
+        console.log(itemIssuesArray)
+        const res = itemIssuesArray.some((e, key) => e.issue_status === "OPEN")
+        setFinishProcess(res)
+
+    }
+
     function socketNewItem() {
         socket.emit('socketNewItem', 'data')
         console.log('emit fetchprod')
@@ -137,6 +151,9 @@ export default function Item() {
 
     function socketAddItemIssue() {
         socket.emit('socketAddItemIssue')
+    }
+    function socketRefreshItemIssue() {
+        socket.emit('socketFetchItemIssue')
     }
 
     useEffect(() => {
@@ -151,13 +168,21 @@ export default function Item() {
     useEffect(() => {
         fetchIssues()
     }, [issueSearch])
+
+    useEffect(() => {
+        checkIssueStatus()
+    }, [updateItemIssueStatus])
     return (
         <>
             <div className="itemContentDiv">
                 {alert !== 'NotExist' ? <div className='itemInfo'>
                     <div className='itemPageHeader'>
-                        <button className='backBtn' onClick={handleRetro}>BACK</button>
-                        <div>Tested by: <p>{tester}</p></div>
+                        <div>
+                            Tested by: <p>{tester}</p>
+                            <div>
+                                {startDate}
+                            </div>
+                        </div>
                         <button className='backBtn' onClick={delProd}>DELETE ITEM</button>
                     </div>
                     <div className='itemHeaders'>
@@ -233,9 +258,7 @@ export default function Item() {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                {startDate}
-                            </div>
+
                             <div>
                                 {endDate}
                             </div>
@@ -245,7 +268,7 @@ export default function Item() {
                         <div className='itemIssuesContentDiv'>
                             <div className='itemIssuesSearch'>
                                 <div>
-                                    <input type="text" onChange={e => setIssueSearch(e.target.value)} />
+                                    <input placeholder="Search by description" type="text" onChange={e => setIssueSearch(e.target.value)} />
                                     <select name="" id="" onChange={e => setRef_Issue(e.target.value)}>
                                         <option value=""></option>
                                         {issueArray.map((e, key) =>
@@ -260,7 +283,7 @@ export default function Item() {
                                     <input placeholder='Comment' type="text" name="" id="" onChange={e => setComment(e.target.value)} />
                                 </div>
                                 <div>
-                                    <button onClick={addItemIssue}>Add Issue</button>
+                                    <button onClick={e => addItemIssue()}>Add Issue</button>
                                 </div>
                             </div>
                         </div>
@@ -270,6 +293,7 @@ export default function Item() {
                                 <div>Issue Description</div>
                                 <div>Issue Level</div>
                                 <div>Comment</div>
+                                <div>Issue Status</div>
                             </div>
                             {itemIssuesArray.map((e, key) => (
                                 <div className='itemIssueContent' key={key}>
@@ -277,17 +301,35 @@ export default function Item() {
                                     <div>{e.description_issue}</div>
                                     <div>{e.level_issue}</div>
                                     <div>{e.comment}</div>
+                                    <div>
+                                        <a style={e.issue_status === 'OPEN' ? { backgroundColor: 'yellow' } : { backgroundColor: 'var(--green)', color: 'white' }} onClick={a => updateItemIssueStatus({ iditem_issues: e.iditem_issues, key: key })}>
+                                            {e.issue_status}
+                                        </a>
+
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <button onClick={e => updateStatus()}>
-                        Finish process
-                    </button>
+                    < div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '8px' }}>
+                        <button className='finishProcBtn' onClick={e => updateStatus()}>
+                            Finish process
+                        </button>
+                        {finishProcess === false
+                            ?
+                            null
+                            :
+                            <p style={{ color: 'var(--red)' }} s>
+                                This product has open issues!
+                            </p>
+                        }
+                    </div>
+
+
                 </div> :
                     <div className='itemNotExist'>
                         <div>
-                            <button className='backBtn' onClick={handleRetro}>BACK</button>
+                            <button className='backBtn' onClick={e => handleRetro()}>BACK</button>
                         </div>
                         <div>
                             This item does not exist!

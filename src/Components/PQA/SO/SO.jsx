@@ -30,8 +30,10 @@ export default function So() {
     }
 
     const [soArray, setSoArray] = useState([])
+    const [projectSearch, setProjectSearch] = useState('')
+    const [soSearch, setSoSearch] = useState('')
     const fetchSO = async () => {
-        const res = await fetchSOAXIOS({ project: '', SOref: '' })
+        const res = await fetchSOAXIOS({ project: projectSearch, SOref: soSearch })
         setSoArray(res.data)
         console.log(res)
     }
@@ -39,34 +41,45 @@ export default function So() {
     socket.on('fetchSO', () => {
         fetchSO()
     })
+
     useEffect(() => {
         fetchProjects()
         fetchSO()
-    }, [])
+    }, [projectSearch, soSearch])
 
     return (
         <>
             <div className="pqaSoMainDiv">
-
                 <div className="pqaNewSo">
+                    <div>
+                        <select name="" id="" placeholder='Project' onChange={e => setProject(e.target.value)}>
+                            <option value="">Project</option>
+                            {projectArray.map((e, key) =>
+                                <option value={e.project}>
+                                    {e.project}
+                                </option>
+                            )}
+                        </select>
+                    </div>
 
-                    <select name="" id="" onChange={e => setProject(e.target.value)}>
-                        <option value=""></option>
-                        {projectArray.map((e, key) =>
-                            <option value={e.project}>
-                                {e.project}
-                            </option>
-                        )}
-                    </select>
-                    <input placeholder="SO ref" type="text" onChange={e => setSOref(e.target.value)} />
+                    <div>
+                        <input placeholder="SO ref" type="text" onChange={e => setSOref(e.target.value)} />
+                    </div>
                     {/* <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /> */}
-                    <button className="sendBtn" onClick={e => newSO(e)}>Add SO</button>
+                    <div>
+                        <button className="sendBtn" onClick={e => newSO(e)}>Add SO</button>
+                    </div>
                 </div>
-
                 <div className="pqaListSo">
                     <div className="pqaListSoHeaders">
-                        <div>Project</div>
-                        <div>SO number</div>
+                        <div>
+                            Project
+                            <input type="text" name="" id="" onChange={e => setProjectSearch(e.target.value)} />
+                        </div>
+                        <div>
+                            SO number
+                            <input type="text" name="" id="" onChange={e => setSoSearch(e.target.value)} />
+                        </div>
                     </div>
                     {soArray.map((e, key) =>
                         <div>

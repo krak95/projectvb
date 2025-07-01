@@ -9,6 +9,11 @@ export default function Projects() {
     const [Proj_manager, setProjManager] = useState('')
     const [Client_name, setClientName] = useState('')
 
+    const [projectSearch, setProjectSearch] = useState('')
+    const [countrySearch, setCountrySearch] = useState('')
+    const [pmSearch, setPMSearch] = useState('')
+    const [clientNameSearch, setClientNameSearch] = useState('')
+
     const [projectsArray, setProjectsArray] = useState([])
 
     const newProject = async () => {
@@ -28,7 +33,12 @@ export default function Projects() {
     }
 
     const fetchProjects = async () => {
-        const res = await fetchProjectsAXIOS({ project: '' })
+        const res = await fetchProjectsAXIOS({
+            project: projectSearch,
+            country: countrySearch,
+            proj_manager: pmSearch,
+            client_name: clientNameSearch
+        })
         setProjectsArray(res.data)
         console.log(res)
     }
@@ -36,28 +46,46 @@ export default function Projects() {
     socket.on("fetchProject", () => {
         fetchProjects()
     })
+
     useEffect(() => {
         fetchProjects()
-    }, [])
+    }, [
+        projectSearch,
+        countrySearch,
+        pmSearch,
+        clientNameSearch
+    ])
 
     return (
         <>
             <div className="pqaProjectsMainDiv">
 
                 <div className="pqaNewProject">
-                    <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} />
-                    <input placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} />
-                    <input placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} />
-                    <input placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} />
-                    <button className="sendBtn" onClick={e => newProject(e)}>Add Project</button>
+                    <div> <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /></div>
+                    <div> <input placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} /></div>
+                    <div> <input placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} /></div>
+                    <div> <input placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} /></div>
+                    <div> <button className="sendBtn" onClick={e => newProject(e)}>Add Project</button></div>
                 </div>
 
                 <div className="pqaListProjects">
                     <div className="pqaListHeadersProjects">
-                        <div>Project Name</div>
-                        <div>Country</div>
-                        <div>Project Manager</div>
-                        <div>Client Name</div>
+                        <div>
+                            Project Name
+                            <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                        </div>
+                        <div>
+                            Country
+                            <input type="text" onChange={e => setCountrySearch(e.target.value)} />
+                        </div>
+                        <div>
+                            Project Manager
+                            <input type="text" onChange={e => setPMSearch(e.target.value)} />
+                        </div>
+                        <div>
+                            Client Name
+                            <input type="text" onChange={e => setClientNameSearch(e.target.value)} />
+                        </div>
                     </div>
                     {projectsArray.map((e, key) =>
                         <div>

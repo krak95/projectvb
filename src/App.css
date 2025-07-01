@@ -3,7 +3,7 @@
   --grey: rgb(231, 246, 255);
   --dark: #0D1B2A;
   --primary: #1B263B;
-  --vbBlue: #3a80cf;
+  --vbBlue: #3078c9;
   --secondary: #415A77;
   --grey1: #a3adb9;
   --light: #c5d3e1;
@@ -44,6 +44,7 @@ a.active {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--primary);
 }
 
 .rootHeader img {
@@ -51,44 +52,55 @@ a.active {
   width: auto;
 }
 
-.rootHeader div:first-child {
-  background-color: var(--light);
-
-}
+.rootHeader div:first-child {}
 
 .rootHeader a {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
-  color: var(--light);
+  color: var(--vbBlue);
+  background-color: var(--secondary)
 }
 
 .rootHeader a:hover {
   background-color: var(--vbBlue);
 }
 
+.rootHeader a:visited {
+  background-color: var(--secondary) !important;
+}
+
 .rootBody {
   display: flex;
+  flex-direction: column;
 }
 
 .logoutBtn {
   width: 50px !important;
 }
 
+.amadeusLogoMenu:hover {
+  cursor: pointer;
+  background-color: white !important;
+}
+
 .mainNav {}
 
-.mainNavDiv {}
+.mainNavDiv {
+  background-color: var(--secondary);
+}
 
 .mainNavDiv>nav {
   display: flex;
-  flex-direction: column;
 }
 
 .mainNav {
+  width: 100%;
+  background-color: var(--secondary);
   transition: .3s;
   display: flex;
-  flex-direction: column;
+  border-bottom: 1px solid var(--primary);
 }
 
 .mainNav a {
@@ -97,6 +109,7 @@ a.active {
   background-color: var(--secondary);
   padding: 10px;
   font-size: 14px;
+  border-right: 1px solid var(--primary);
 }
 
 .mainNav a:hover {
@@ -121,17 +134,53 @@ a.active {
   margin: 10px;
 }
 
+input {
+  border-radius: 6px;
+  width: 150px;
+  padding: 4px;
+  outline: none;
+  border: none;
+  text-align: center;
+}
+
+input:hover {
+  background-color: white !important;
+  cursor: pointer;
+}
+
 input:focus {
+  outline: none;
+  background-color: white !important;
+}
+
+select {
+  border-radius: 6px;
+  padding: 4px;
+  width: 150px !important;
+  background-color: var(--light);
+}
+
+option:first-child {
+  color: var(--light) !important;
+  background-color: var(--secondary) !important;
+}
+
+select:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
+select:focus {
   outline: none;
 }
 
 button {
-  background-color: var(--vbBlue);
+  background-color: var(--light) !important;
   border-radius: 6px;
   height: 30px;
   width: 80px;
-  color: var(--light);
-  border: none;
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
   justify-content: center;
   align-items: center;
   display: flex;
@@ -139,7 +188,10 @@ button {
 }
 
 button:hover {
-  background-color: var(--secondary);
+  background-color: var(--vbBlue) !important;
+  border: 1px solid var(--light);
+  color: var(--light);
+
   cursor: pointer;
 }
 

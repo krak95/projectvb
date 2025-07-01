@@ -42,7 +42,6 @@ function App() {
     }
   }
 
-
   const checkLogin = async (e) => {
     console.log(e)
     const storedData = getData()
@@ -56,7 +55,6 @@ function App() {
       authorizing(0)
     }
   }
-
 
   useEffect(() => {
     socket.on('socketCheckLogin', (data) => {
@@ -73,9 +71,6 @@ function App() {
 
   console.log('App Path:', window.location.href)
 
-
-
-
   return (
     <>
       {/* <LiveCamera/> */}
@@ -83,9 +78,9 @@ function App() {
       <div className='rootPage'>
         <div className='rootHeader'>
           <div>
-            <a className='amadeusLogoMenu'>
+            <NavLink to='/' className='amadeusLogoMenu'>
               <img src={amadeuslogo} alt="" />
-            </a>
+            </NavLink>
           </div>
           <div>
             <NavLink to='/' onClick={e => logoutBtn(e)} className='logoutBtn'>EXIT</NavLink>
@@ -105,7 +100,6 @@ function App() {
                   <NavLink to="PQA">PQA Team</NavLink>
                 </>
               }
-
             </nav>
           </div>
           <div className='mainPage'>
@@ -116,8 +110,8 @@ function App() {
                 {/* <Route path='/User' element={<User />}></Route> */}
                 <Route path='/Production' element={<Production />}>
                   <Route path="/Production/item" element={<Item />}></Route>
+                  <Route path='/Production/MySQLController' element={<MySQLController />}></Route>
                 </Route>
-                <Route path='/MySQLController' element={<MySQLController />}></Route>
                 <Route path='/PQA' element={<PQA />}>
                   <Route path='/PQA/Issues' element={<Issues />}></Route>
                   <Route path='/PQA/Projects' element={<Projects />}></Route>
