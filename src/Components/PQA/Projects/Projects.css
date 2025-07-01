@@ -7,17 +7,20 @@
 }
 
 .pqaNewProject {
-    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    width: 100%;
+    background-color: var(--secondary);
+    border-bottom: 1px solid var(--primary);
+}
+
+.pqaNewProject>div {
+    padding: 10px;
 }
 
 .pqaListProjects {
     text-align: center;
-    padding: 6px;
-    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -43,5 +46,12 @@
     background-color: var(--secondary) !important;
     color: var(--light);
     font-size: 14px !important;
+    height: 50px !important;
+}
 
+.pqaListHeadersProjects>div {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

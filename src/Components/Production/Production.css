@@ -23,16 +23,21 @@
     color: var(--light) !important;
     display: flex;
     background-color: var(--secondary);
+    height: 50px;
     border-bottom: 1px solid var(--primary);
+}
+
+.itemListHeaders input {
+    text-align: center;
 }
 
 .itemListHeaders>div {
     width: 100%;
-    height: 30px;
     align-items: center;
     justify-content: center;
     display: flex;
     text-align: center;
+    flex-direction: column;
 }
 
 .itemListMainDiv {
@@ -81,17 +86,6 @@
     width: 100%;
 }
 
-.prodMainDiv ol {
-    padding: 10px;
-    margin: 0;
-    border-radius: 6px;
-}
-
-.prodMainDiv li {
-    display: flex;
-    background-color: var(--light);
-}
-
 
 .prodNav {
     display: flex;
@@ -112,10 +106,10 @@
 .searchDiv {
     display: flex;
     width: 100%;
-    justify-content: space-between;
     align-items: center;
     overflow: hidden;
     height: 0;
+    flex-direction: column;
 }
 
 .searchDiv input:focus {
@@ -131,21 +125,23 @@
 }
 
 .searchDiv>div {
+    display: flex;
     color: var(--light);
 }
 
+.controllerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-around !important;
+}
 
-.searchDiv li:hover {
-    cursor: pointer;
-    background-color: var(--secondary);
-    border-radius: 6px;
-
+.controllerDiv>div {
+    margin: 6px;
 }
 
 .searchController {
     border: NONE;
     border-radius: 6px;
-    margin-bottom: 10px;
     height: 30px;
     width: 100px;
     background-color: var(--secondary);
@@ -192,7 +188,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
-    border-radius: 100%;
     opacity: .5;
+    text-transform: uppercase;
+}
+
+.prodMainDiv {
+    margin-bottom: 26px;
 }

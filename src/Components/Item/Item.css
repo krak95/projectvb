@@ -14,6 +14,8 @@
   left: 0;
   width: 100%;
   overflow-y: scroll;
+  font-size: 12px;
+  z-index: 1;
 }
 
 .itemInfo {
@@ -50,7 +52,8 @@
 .backBtn {
   border: NONE;
   border-radius: 6px;
-  color: var(--light);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
 }
 
 .backBtn:hover {
@@ -96,7 +99,7 @@
 .itemIssuesHeaders {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: repeat(5, 20%);
   border-bottom: 1px solid var(--secondary);
   color: var(--light);
   margin-top: 14px;
@@ -106,18 +109,31 @@
 
 .itemIssueContent {
   display: grid;
-  padding: 10px;
   width: 100%;
-  grid-template-columns: repeat(4, 25%);
+  padding: 8px;
+  grid-template-columns: repeat(5, 20%);
   border-bottom: 1px solid var(--secondary);
 }
 
-.itemIssueContent:last-child {
-  border-bottom: none !important;
-}
 
 .itemIssueContent>div {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.itemIssueContent a {
+  padding: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--light);
+  min-width: 120px;
+}
+
+.itemIssueContent a:hover {
+  cursor: pointer;
+  border: 1px solid var(--vbBlue);
+}
+
+.finishProcBtn {
+  margin: 4px;
 }

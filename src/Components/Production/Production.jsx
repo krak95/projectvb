@@ -86,7 +86,7 @@ export default function Production() {
         if (searchState === false) {
             // $('.searchDiv').css('display', 'flex')
             $('.searchDiv').animate({
-                height: "200px"
+                height: "76px"
             }, 50, function () {
             });
             setSearchState(!searchState)
@@ -100,6 +100,9 @@ export default function Production() {
             setSearchState(!searchState)
         }
     }
+
+
+
 
     const location = useLocation();
 
@@ -145,75 +148,28 @@ export default function Production() {
             fetchProduction()
         })
     }, [])
+
     return (
         <>
+
+            <div className="mainNav">
+                <NavLink className='newItemBtn' to="/Production/MySQLController">New Item</NavLink>
+            </div>
+            <Outlet />
             <div className="prodMainDiv">
-                <div>
-                    <a className="searchController" onClick={searchController}>Search</a>
-                </div>
-                <div>
-                    <NavLink to="/MySQLController">New Item</NavLink>
+                <div className="controllerDiv">
+                    <div>
+                        <a className="searchController" onClick={searchController}>Search</a>
+                    </div>
                 </div>
                 <div className="searchDiv" style={{ display: 'flex' }}>
-                    <div className="projectSearchDiv">
-                        <input type="text" onChange={e => setProjectSearch(e.target.value)} placeholder="Project" />
-                        {projects === undefined ? null
-                            : projects.map((e, key) => {
-                                return (
-                                    <li key={key}>
-                                        {e.project}
-                                    </li>
-                                )
-                            })
-                        }
-                    </div>
-
-                    <div className="soSearchDiv">
-                        <input type="text" onChange={e => setSoSearch(e.target.value)} placeholder="SO" />
-                        {(projects === undefined || so === undefined) ? null :
-                            so.map((e, key) => {
-                                return (
-                                    <li key={key}>
-                                        {e.SOref}
-                                    </li>
-                                )
-                            })}
-                    </div>
-
-                    <div className="equipmentSearchDiv">
-                        <input type="text" onChange={e => setEquipSearch(e.target.value)} placeholder="Equipment" />
-                        {/* <select name="" id="">
-                            <option value=""></option>
-                            {equips === undefined ? null : equips.map((e, key) => {
-                                return (
-                                    <option value={e.equipName} key={key}>
-                                        {e.equipName}
-                                    </option>
-                                )
-                            })}
-                        </select> */}
-                    </div>
-
                     <div className="codeSearchDiv">
-                        <div className="codeASearchDiv">
-                            <input type="text" onChange={e => setCodeaSearch(e.target.value)} placeholder="CodeA" />
-                            {/* <li>
-                                CodeA
-                            </li> */}
-                        </div>
-                        <div className="CodeBSearchDiv">
-                            <input type="text" onChange={e => setCodebSearch(e.target.value)} placeholder="CodeB" />
-                            {/* <li>
-                                CodeB
-                            </li> */}
-                        </div>
                         <div className="CodePRSearchDiv">
                             <input type="text" onChange={e => setCodeprSearch(e.target.value)} placeholder="CodePR" />
                             {/* <li>
                                 CodePR
                             </li> */}
                         </div>
-
                         <div className="CodePSSearchDiv">
                             <input type="text" onChange={e => setCodepsSearch(e.target.value)} placeholder="CodePS" />
                             {/* <li>
@@ -229,7 +185,7 @@ export default function Production() {
                     </div>
                     <div className="typeSearchDiv">
                         <div className="type0Div">
-                            <input type="text" onChange={e => setType0Search(e.target.value)} placeholder="Type0" />
+                            <input type="text" onChange={e => setType0Search(e.target.value)} placeholder="Start/Middle/End" />
                             {/* <select name="" id="">
                                 <option value=""></option>
                                 <option value=""></option>
@@ -237,7 +193,7 @@ export default function Production() {
                             </select> */}
                         </div>
                         <div className="type1Div">
-                            <input type="text" onChange={e => setType1Search(e.target.value)} placeholder="Type1" />
+                            <input type="text" onChange={e => setType1Search(e.target.value)} placeholder="A/B" />
                             {/* <select name="" id="">
                                 <option value=""></option>
                                 <option value=""></option>
@@ -245,7 +201,7 @@ export default function Production() {
                             </select> */}
                         </div>
                         <div className="type2Div">
-                            <input type="text" onChange={e => setType2Search(e.target.value)} placeholder="Type2" />
+                            <input type="text" onChange={e => setType2Search(e.target.value)} placeholder="Standard/Hybrid/PRM" />
                             {/* <select name="" id="">
                                 <option value=""></option>
                                 <option value=""></option>
@@ -253,7 +209,7 @@ export default function Production() {
                             </select> */}
                         </div>
                         <div className="type3Div">
-                            <input type="text" onChange={e => setType3Search(e.target.value)} placeholder="Type3" />
+                            <input type="text" onChange={e => setType3Search(e.target.value)} placeholder="IN/OUT" />
                             {/* <select name="" id="">
                                 <option value=""></option>
                                 <option value=""></option>
@@ -261,7 +217,7 @@ export default function Production() {
                             </select> */}
                         </div>
                         <div className="type4Div">
-                            <input type="text" onChange={e => setType4Search(e.target.value)} placeholder="Type4" />
+                            <input type="text" onChange={e => setType4Search(e.target.value)} placeholder="SCP/SBG/ABC" />
                             {/* <select name="" id="">
                                 <option value=""></option>
                                 <option value=""></option>
@@ -269,7 +225,6 @@ export default function Production() {
                             </select> */}
                         </div>
                     </div>
-
                 </div>
                 <div className="productionCountDiv">
                     <div>
@@ -286,33 +241,79 @@ export default function Production() {
                             <div>
                                 Project
                             </div>
+                            <div className="projectSearchDiv">
+                                <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                                {projects === undefined ? null
+                                    : projects.map((e, key) => {
+                                        return (
+                                            <li key={key}>
+                                                {e.project}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                         <div>
                             <div>
                                 SO
+                            </div>
+                            <div className="soSearchDiv">
+                                <input type="text" onChange={e => setSoSearch(e.target.value)} />
+                                {(projects === undefined || so === undefined) ? null :
+                                    so.map((e, key) => {
+                                        return (
+                                            <li key={key}>
+                                                {e.SOref}
+                                            </li>
+                                        )
+                                    })}
                             </div>
                         </div>
                         <div>
                             <div>
                                 Equipment
                             </div>
+                            <div className="equipmentSearchDiv">
+                                <input type="text" onChange={e => setEquipSearch(e.target.value)} />
+                                {/* <select name="" id="">
+                            <option value=""></option>
+                            {equips === undefined ? null : equips.map((e, key) => {
+                                return (
+                                    <option value={e.equipName} key={key}>
+                                        {e.equipName}
+                                    </option>
+                                )
+                            })}
+                        </select> */}
+                            </div>
                         </div>
                         <div>
                             <div>
                                 Code A
+                            </div>
+                            <div className="codeASearchDiv">
+                                <input type="text" onChange={e => setCodeaSearch(e.target.value)} />
+                                {/* <li>
+                                CodeA
+                            </li> */}
                             </div>
                         </div>
                         <div>
                             <div>
                                 Code B
                             </div>
+                            <div className="CodeBSearchDiv">
+                                <input type="text" onChange={e => setCodebSearch(e.target.value)} />
+                                {/* <li>
+                                CodeB
+                            </li> */}
+                            </div>
                         </div>
                     </div>
-
                     {production === undefined ? null : production.map((e, key) =>
                     (
                         <div key={key} className="itemListLink">
-
                             <NavLink to={
                                 "/Production/item?"
                                 + "id_prod=" + e.id_prod
@@ -337,11 +338,12 @@ export default function Production() {
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
                                         <div className="itemStatusDiv">
-                                            <span
-                                                style={e.status === 'ok' ? { backgroundColor: 'var(--green)' } : { backgroundColor: 'var(--red)' }}
-
-                                                className="itemStatusSpan">
-                                                {/* {e.status} */}
+                                            <span className="itemStatusSpan"
+                                                style={
+                                                    e.status === 'ok' ? { color: 'var(--green)' } : { color: 'var(--red)' }
+                                                }
+                                            >
+                                                {e.status}
                                             </span>
                                         </div>
                                         <div>
@@ -377,7 +379,6 @@ export default function Production() {
                     )}
                 </div >
             </div >
-            <Outlet />
         </>
     )
 }

@@ -220,7 +220,6 @@ io.on("connection", (socket) => {
         io.emit("fetchIssues")
     })
 
-
 });
 
 server.listen(8000);

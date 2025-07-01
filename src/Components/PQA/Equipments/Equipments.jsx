@@ -21,8 +21,10 @@ export default function Equipments() {
     }
 
     const [equipsArray, setEquipsArray] = useState([])
+    const [equipSearch, setEquipSearch] = useState('')
+
     const fetchEquips = async () => {
-        const res = await fetchEquipmentsAXIOS({ EquipName: '' })
+        const res = await fetchEquipmentsAXIOS({ EquipName: equipSearch })
         setEquipsArray(res.data)
         console.log(res)
     }
@@ -31,21 +33,26 @@ export default function Equipments() {
         console.log('socketfetch')
         fetchEquips()
     })
+
     useEffect(() => {
         fetchEquips()
-    }, [])
+    }, [equipSearch])
 
     return (
         <>
             <div className="pqaEquipMainDiv">
                 <div className="pqaNewEquip">
-
-                    <input placeholder="Equip name" type="text" onChange={e => setEquipName(e.target.value)} />
-                    <button className="sendBtn" onClick={e => newEquip(e)}>New   Equipment</button>
+                    <div>
+                        <input placeholder="Equip name" type="text" onChange={e => setEquipName(e.target.value)} />
+                    </div>
+                    <div>
+                        <button className="sendBtn" onClick={e => newEquip(e)}>New Equipment</button>
+                    </div>
                 </div>
                 <div className="pqaEquipList">
                     <div className="pqaEquipListHeaders">
                         <div>Equipment Name</div>
+                        <input type="text" name="" id="" onChange={e => setEquipSearch(e.target.value)} />
                     </div>
 
                     {equipsArray.map((e, key) =>

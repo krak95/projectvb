@@ -16,8 +16,12 @@ export default function Issues() {
         console.log(res)
     }
 
+    const [IssueRef, setIssueRefSearch] = useState('')
+    const [IssueDescrSearch, setIssueDescrSearch] = useState('')
+    const [IssueLevelSearch, setIssueLevelSearch] = useState('')
+
     const fetchIssues = async () => {
-        const res = await fetchIssuesAXIOS({ ref_issue: '', description_issue: '' })
+        const res = await fetchIssuesAXIOS({ ref_issue: IssueRef, description_issue: IssueDescrSearch, level_issue: IssueLevelSearch })
         setIssuesArray(res.data)
     }
     socket.on("fetchIssues", () => {
@@ -25,14 +29,18 @@ export default function Issues() {
     })
     useEffect(() => {
         fetchIssues()
-    }, [])
+    }, [
+        IssueRef,
+        IssueDescrSearch,
+        IssueLevelSearch
+    ])
 
 
     console.log('issues')
     return (
         <>
             <div className="issuesMainDiv">
-                <div>
+                <div className="issueNewDiv">
                     <div>
                         <input placeholder="Ref" type="text" onChange={e => setIssueRef(e.target.value)} />
                     </div>
@@ -54,9 +62,15 @@ export default function Issues() {
                 </div>
                 <div className="issuesList">
                     <div className="issuesListHeaders">
-                        <div>Issue Ref</div>
-                        <div>Issue Description</div>
-                        <div>Issue Level</div>
+                        <div>Issue Ref
+                            <input type="text" onChange={e => setIssueRefSearch(e.target.value)} name="" id="" />
+                        </div>
+                        <div>Issue Description
+                            <input type="text" onChange={e => setIssueDescrSearch(e.target.value)} name="" id="" />
+                        </div>
+                        <div>Issue Level
+                            <input type="text" onChange={e => setIssueLevelSearch(e.target.value)} name="" id="" />
+                        </div>
                     </div>
 
                     {issuesArray.map((e, key) =>

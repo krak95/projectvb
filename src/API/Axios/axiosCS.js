@@ -57,9 +57,19 @@ export const refreshLogAXIOS = ({ username, logDate }) => {
 export const getALLProductionAXIOS = () => {
     return axiosBase.get('/getProduction',)
 }
-export const fetchProjectsAXIOS = ({ project }) => {
+export const fetchProjectsAXIOS = ({
+    project,
+    country,
+    proj_manager,
+    client_name
+}) => {
     console.log(project)
-    return axiosBase.post('/fetchProjects', { project })
+    return axiosBase.post('/fetchProjects', {
+        project,
+        country,
+        proj_manager,
+        client_name
+    })
 }
 
 export const fetchSOAXIOS = ({ project, SOref }) => {
@@ -108,36 +118,16 @@ export const fetchProductionAXIOS = ({
     )
 }
 export const checkProductionAXIOS = ({
-    Project: project,
-    So: so,
-    Equipment: equip,
-    CodeA: codea,
-    CodeB: codeb,
-    CodePR: codepr,
-    CodePS: codeps,
-    CodeDR: codedr,
-    Type0: type0,
-    Type1: type1,
-    Type2: type2,
-    Type3: type3,
-    Type4: type4
+    id_prod: id_prod
 }) => {
-    console.log(project, codea)
+    console.log(
+        {
+            id_prod: id_prod
+        }
+    )
     return axiosBase.post('/checkProduction',
         {
-            Project: project,
-            So: so,
-            Equipment: equip,
-            CodeA: codea,
-            CodeB: codeb,
-            CodePR: codepr,
-            CodePS: codeps,
-            CodeDR: codedr,
-            Type0: type0,
-            Type1: type1,
-            Type2: type2,
-            Type3: type3,
-            Type4: type4
+            id_prod: id_prod
         }
     )
 }
@@ -281,19 +271,22 @@ export const newIssueAXIOS = ({ ref_issue, description_issue, level_issue }) => 
     return axiosBase.post('/newIssue', { ref_issue, description_issue, level_issue })
 }
 
-export const fetchIssuesAXIOS = ({ ref_issue, description_issue }) => {
-    console.log({ ref_issue, description_issue })
-    return axiosBase.post('/fetchIssues', { ref_issue, description_issue })
+export const fetchIssuesAXIOS = ({ ref_issue, description_issue, level_issue }) => {
+    console.log({ ref_issue, description_issue, level_issue })
+    return axiosBase.post('/fetchIssues', { ref_issue, description_issue, level_issue })
 }
 
 export const addItemIssueAXIOS = ({ id_issue, id_item, comment }) => {
     console.log(id_issue, id_item, comment)
     return axiosBase.post('/addItemIssue', { id_issue, id_item, comment })
-
-
 }
 
 export const fetchItemIssuesAXIOS = ({ id_item: id_prod }) => {
     console.log({ id_item: id_prod })
     return axiosBase.post('/fetchItemIssues', { id_item: id_prod })
+}
+
+export const updateItemIssueStatusAXIOS = ({ iditem_issues, issue_status }) => {
+    console.log({ iditem_issues, issue_status })
+    return axiosBase.post('/updateItemIssues', { iditem_issues, issue_status })
 }

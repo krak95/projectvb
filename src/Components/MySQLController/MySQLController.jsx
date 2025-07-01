@@ -50,7 +50,7 @@ export default function MySQLController() {
                 'Type4': type4,
                 'ReadyPQA': null,
                 'Tester': JSON.parse(localStorage.getItem('User')).fullname,
-                'StartDate': startDate,
+                'StartDate': fullDate,
                 'EndDate': endDate
             })
 
@@ -73,7 +73,7 @@ export default function MySQLController() {
     const [projectArray, setProjectArray] = useState([])
     const [projectSearch, setProjectSearch] = useState('')
     const fetchProjects = async () => {
-        const res = await fetchProjectsAXIOS({ project: projectSearch })
+        const res = await fetchProjectsAXIOS({ project: projectSearch, country: '', proj_manager: '', client_name: '' })
         setProjectArray(res.data)
         console.log(soArray)
     }
@@ -91,9 +91,25 @@ export default function MySQLController() {
         console.log(res)
     }
 
+
+    //DATE FORM
+    const [dayDate, setDayDate] = useState('')
+    const [monthDate, setMonthDate] = useState('')
+    const [yearDate, setYearDate] = useState('')
+    const [fullDate, setFullDate] = useState('')
+
+    const fullDateF = () => {
+        setFullDate(dayDate + ' - ' + monthDate + ' - ' + yearDate)
+    }
+
+    useEffect(() => {
+        fullDateF()
+    }, [dayDate, monthDate, yearDate])
+
     useEffect(() => {
         fetchEquip()
-    }, [equipment])
+    }, [projectSearch])
+
     useEffect(() => {
         fetchProjects()
         socket.on("fetchProject", () => {
@@ -109,6 +125,7 @@ export default function MySQLController() {
             fetchEquip()
         })
     }, [])
+
     useEffect(() => {
         setSoArray([])
         setSO('')
@@ -164,6 +181,16 @@ export default function MySQLController() {
                                     }
                                 </select>
                             </div>
+
+                        </div>
+                        <div>
+
+                        </div>
+                        <div>
+
+                        </div>
+                        <div>
+
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeA === '' || null ? 'Code A' : codeA}</p>
@@ -185,36 +212,90 @@ export default function MySQLController() {
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeDR === '' || null ? 'Code DR' : codeDR}</p>
                             <input type="text" placeholder="codeDR" onChange={e => setCodeDR(e.target.value)} />
                         </div>
+                        <div></div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type0 === '' || null ? 'Type 0' : type0}</p>
-                            <input type="text" placeholder="type0" onChange={e => setType0(e.target.value)} />
+                            <select name="" id="" onChange={e => setType0(e.target.value)}>
+                                <option value="">Start/Middle/End</option>
+                                <option value="Start">Start</option>
+                                <option value="Middle">Middle</option>
+                                <option value="End">End</option>
+                            </select>
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type1 === '' || null ? 'Type 1' : type1}</p>
-                            <input type="text" placeholder="type1" onChange={e => setType1(e.target.value)} />
+                            <select name="" id="" onChange={e => setType1(e.target.value)} >
+                                <option value="">A/B</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type2 === '' || null ? 'Type 2' : type2}</p>
-                            <input type="text" placeholder="type2" onChange={e => setType2(e.target.value)} />
+                            <select name="" id="" onChange={e => setType2(e.target.value)}>
+                                <option value="">Standard/Hybrid/PRM</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="PRM">PRM</option>
+                            </select>
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type3 === '' || null ? 'Type 3' : type3}</p>
-                            <input type="text" placeholder="type3" onChange={e => setType3(e.target.value)} />
+                            <select name="" id="" onChange={e => setType3(e.target.value)}>
+                                <option value="">IN/OUT</option>
+                                <option value="IN">IN</option>
+                                <option value="OUT">OUT</option>
+                            </select>
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{type4 === '' || null ? 'Type 4' : type4}</p>
-                            <input type="text" placeholder="type4" onChange={e => setType4(e.target.value)} />
+                            <select name="" id="" onChange={e => setType4(e.target.value)}>
+                                <option value="">SCP/SBG/ABC</option>
+                                <option value="ABC">ABC</option>
+                                <option value="SCP">SCP</option>
+                                <option value="SBG">SBG</option>
+                            </select>
                         </div>
-                        <div>
-                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{startDate === '' || null ? 'Start Date' : startDate}</p>
-                            <input type="text" placeholder="start date" onChange={e => setStartDate(e.target.value)} />
+                        <div></div>
+                        <div className="dateForm">
+                            <div>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>{startDate === '' || null ? 'Start Date' : startDate}</p>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Day" onChange={e => setDayDate(e.target.value)} />
+                            </div>
+                            <div>
+                                <select name="" id="" onChange={e => setMonthDate(e.target.value)} >
+                                    <option value="">Month</option>
+                                    <option value="Jan">Jan</option>
+                                    <option value="Feb">Feb</option>
+                                    <option value="Mar">Mar</option>
+                                    <option value="Apr">Apr</option>
+                                    <option value="May">May</option>
+                                    <option value="Jun">Jun</option>
+                                    <option value="Jul">Jul</option>
+                                    <option value="Aug">Aug</option>
+                                    <option value="Sep">Sep</option>
+                                    <option value="Nov">Nov</option>
+                                    <option value="Dec">Dec</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Year" onChange={e => setYearDate(e.target.value)} />
+                            </div>
+                            {/* <input type="date" placeholder="start date" onChange={e => setStartDate(e.target.value)} /> */}
                         </div>
-                        <div>
+                        {/* <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{endDate === '' || null ? 'End Date' : endDate}</p>
                             <input type="text" placeholder="end date" onChange={e => setEndDate(e.target.value)} />
-                        </div>
+                        </div> */}
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                         <div>
-                            <button className="sendBtn" onClick={newItem}>SEND</button>
+                            <button className="sendBtn" onClick={e => newItem(e)}>SEND</button>
                         </div>
                     </>
                 }
