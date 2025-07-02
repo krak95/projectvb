@@ -1,9 +1,9 @@
 import './Item.css'
 import axios from 'axios'
-import { delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
+import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
 import { Outlet, NavLink, Route, Routes } from "react-router-dom"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import socket from '../../API/Socket/socket'
 import $ from 'jquery'
@@ -56,8 +56,11 @@ export default function Item() {
 
     const fetchItemIssues = async () => {
         const res = await fetchItemIssuesAXIOS({ id_item: id_prod })
-        console.log(res)
+        console.log(res.data)
         setItemIssuesArray(res.data)
+        const res2 = (res.data).some((e, key) => e.issue_status === "OPEN")
+        console.log(res2)
+        setFinishProcess(res2)
     }
 
     const fetchIssues = async () => {
@@ -100,6 +103,7 @@ export default function Item() {
             socket.emit('socketNewItem')
             checkProduction()
             handleRetro()
+            socketRefreshItemStatus()
             console.log(res)
         } catch (e) {
             console.log(e)
@@ -124,6 +128,8 @@ export default function Item() {
             console.log(e)
         }
     }
+    const [finishProcess, setFinishProcess] = useState('')
+
 
     const delProd = async () => {
         if (window.confirm("Delete item?") === true) {
@@ -136,11 +142,12 @@ export default function Item() {
     }
 
 
-    const [finishProcess, setFinishProcess] = useState('')
-    const checkIssueStatus = async () => {
-        console.log(itemIssuesArray)
-        const res = itemIssuesArray.some((e, key) => e.issue_status === "OPEN")
-        setFinishProcess(res)
+
+    const deleteItemIssue = async (e) => {
+        const res = await deleteItemIssueAXIOS({ e })
+        socketAddItemIssue()
+        console.log(res)
+        console.log(e)
 
     }
 
@@ -152,8 +159,9 @@ export default function Item() {
     function socketAddItemIssue() {
         socket.emit('socketAddItemIssue')
     }
-    function socketRefreshItemIssue() {
-        socket.emit('socketFetchItemIssue')
+
+    function socketRefreshItemStatus() {
+        socket.emit('socketNewItem')
     }
 
     useEffect(() => {
@@ -168,10 +176,6 @@ export default function Item() {
     useEffect(() => {
         fetchIssues()
     }, [issueSearch])
-
-    useEffect(() => {
-        checkIssueStatus()
-    }, [updateItemIssueStatus])
     return (
         <>
             <div className="itemContentDiv">
@@ -291,6 +295,7 @@ export default function Item() {
                                 <div>Issue Level</div>
                                 <div>Comment</div>
                                 <div>Issue Status</div>
+                                <div></div>
                             </div>
                             {itemIssuesArray.map((e, key) => (
                                 <div className='itemIssueContent' key={key}>
@@ -302,8 +307,10 @@ export default function Item() {
                                         <a style={e.issue_status === 'OPEN' ? { backgroundColor: 'yellow' } : { backgroundColor: 'var(--green)', color: 'white' }} onClick={a => updateItemIssueStatus({ iditem_issues: e.iditem_issues, key: key })}>
                                             {e.issue_status}
                                         </a>
-
                                     </div>
+                                    <a onClick={a => deleteItemIssue(e.iditem_issues)}>
+                                        Delete
+                                    </a>
                                 </div>
                             ))}
                         </div>

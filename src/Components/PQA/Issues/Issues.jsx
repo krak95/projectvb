@@ -49,7 +49,7 @@ export default function Issues() {
                     </div>
                     <div>
                         <select name="" id="" onChange={e => setIssueLevel(e.target.value)}>
-                            <option value=""></option>
+                            <option value="">Issue Classification</option>
                             <option value="Minor">Minor</option>
                             <option value="Trivial">Trivial</option>
                             <option value="Major">Major</option>

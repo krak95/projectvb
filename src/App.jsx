@@ -11,9 +11,10 @@ import Projects from './Components/PQA/Projects/Projects';
 import So from './Components/PQA/SO/SO';
 import Equipments from './Components/PQA/Equipments/Equipments';
 import Authentication from './Components/Authentication/Authentication';
+import User from './Components/User/User'
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { getData } from './CustomHooks/LocalStorage/GetData';
 import { setData } from './CustomHooks/LocalStorage/StoreData';
 import socket from './API/Socket/socket';
@@ -63,7 +64,60 @@ function App() {
     checkLogin()
   }, [])
 
-  console.log('App Path:', window.location.href)
+
+  const [globalDate, setGlobalDate] = useState('')
+  const globalDatef = () => {
+    var d = new Date()
+
+    var dMonth = d.getMonth()
+
+    var listmonths =
+      [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Out",
+        "Nov",
+        "Dec",
+      ]
+
+    dMonth = listmonths[dMonth]
+
+    var dDay = d.getDate()
+    if (dDay < 10) {
+      dDay = '0' + dDay
+    }
+
+    var dHour = d.getHours()
+    if (dHour < 10) {
+      dHour = '0' + d.getHours()
+    }
+
+    var dMin = d.getMinutes()
+    if (dMin < 10) {
+      dMin = '0' + d.getMinutes()
+    }
+
+    var dSec = d.getSeconds()
+    if (dSec < 10) {
+      dSec = '0' + d.getSeconds()
+    }
+
+    var concatDate = dDay + '-' + dMonth + '-' + d.getFullYear() + ' ' + dHour + ':' + dMin + ':' + dSec
+
+
+    setGlobalDate(concatDate)
+  }
+
+  setInterval(() => {
+    globalDatef()
+  }, 1000);
 
   return (
     <>
@@ -75,6 +129,9 @@ function App() {
             <NavLink to='/' className='amadeusLogoMenu'>
               <img src={amadeuslogo} alt="" />
             </NavLink>
+          </div>
+          <div style={{ color: 'var(--light)', fontSize: '12px' }}>
+            {globalDate}
           </div>
           <div>
             <NavLink to='/' onClick={e => logoutBtn(e)} className='logoutBtn'>EXIT</NavLink>
@@ -90,6 +147,7 @@ function App() {
                 null
                 :
                 <>
+                  <NavLink to="User">My account</NavLink>
                   <NavLink to="Production">Production Team</NavLink>
                   <NavLink to="PQA">PQA Team</NavLink>
                 </>
@@ -101,7 +159,7 @@ function App() {
               {/* <Route path='/' element={<Home />}></Route> */}
               <Route path='/' element={<Authentication />}></Route>
               <Route element={<ProtectRoutes />}>
-                {/* <Route path='/User' element={<User />}></Route> */}
+                <Route path='/User' element={<User />}></Route>
                 <Route path='/Production' element={<Production />}>
                   <Route path="/Production/item" element={<Item />}></Route>
                   <Route path='/Production/MySQLController' element={<MySQLController />}></Route>
@@ -117,7 +175,6 @@ function App() {
             </Routes>
           </div >
         </div>
-
       </div>
     </>
   );

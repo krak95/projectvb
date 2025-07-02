@@ -290,3 +290,8 @@ export const updateItemIssueStatusAXIOS = ({ iditem_issues, issue_status }) => {
     console.log({ iditem_issues, issue_status })
     return axiosBase.post('/updateItemIssues', { iditem_issues, issue_status })
 }
+
+export const deleteItemIssueAXIOS = ({ e }) => {
+    console.log(e)
+    return axiosBase.post('/deleteItemIssues', { iditem_issues: e })
+}

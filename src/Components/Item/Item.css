@@ -105,7 +105,7 @@
 .itemIssuesHeaders {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(5, 20%);
+  grid-template-columns: repeat(6, calc(100%/6));
   border-bottom: 1px solid var(--secondary);
   color: var(--light);
   margin-top: 14px;
@@ -131,7 +131,7 @@
   display: grid;
   width: 100%;
   padding: 8px;
-  grid-template-columns: repeat(5, 20%);
+  grid-template-columns: repeat(6, calc(100%/6));
   border-bottom: 1px solid var(--secondary);
 }
 

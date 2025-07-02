@@ -4,10 +4,8 @@ import { Outlet, useLocation } from "react-router-dom"
 import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS, fetchCountProductionAXIOS } from "../../API/Axios/axiosCS"
 import { NavLink } from 'react-router-dom';
 import './Production.css'
-import { useAuth } from "../../GLOBAL/Global"
 import $ from 'jquery'
 import socket from "../../API/Socket/socket";
-import { useNavigate } from "react-router-dom";
 
 export default function Production() {
 
@@ -185,44 +183,42 @@ export default function Production() {
                     </div>
                     <div className="typeSearchDiv">
                         <div className="type0Div">
-                            <input type="text" onChange={e => setType0Search(e.target.value)} placeholder="Start/Middle/End" />
-                            {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
+                            <select name="" id="" onChange={e => setType0Search(e.target.value)} >
+                                <option value="">Start/Middle/End</option>
+                                <option value="Start">Start</option>
+                                <option value="Middle">Middle</option>
+                                <option value="End">End</option>
+                            </select>
                         </div>
                         <div className="type1Div">
-                            <input type="text" onChange={e => setType1Search(e.target.value)} placeholder="A/B" />
-                            {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
+                            <select name="" id="" onChange={e => setType1Search(e.target.value)}>
+                                <option value="">A/B</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
                         </div>
                         <div className="type2Div">
-                            <input type="text" onChange={e => setType2Search(e.target.value)} placeholder="Standard/Hybrid/PRM" />
-                            {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
+                            <select name="" id="" onChange={e => setType2Search(e.target.value)}>
+                                <option value="">Standard/Hybrid/PRM</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="PRM">PRM</option>
+                            </select>
                         </div>
                         <div className="type3Div">
-                            <input type="text" onChange={e => setType3Search(e.target.value)} placeholder="IN/OUT" />
-                            {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
+                            <select name="" id="" onChange={e => setType3Search(e.target.value)}>
+                                <option value="">In/Out</option>
+                                <option value="In">In</option>
+                                <option value="Out">Out</option>
+                            </select>
                         </div>
                         <div className="type4Div">
-                            <input type="text" onChange={e => setType4Search(e.target.value)} placeholder="SCP/SBG/ABC" />
-                            {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
+                            <select name="" id="" onChange={e => setType4Search(e.target.value)}>
+                                <option value="">ABC/SBG/SCP</option>
+                                <option value="ABC">ABC</option>
+                                <option value="SBG">SBG</option>
+                                <option value="SCP">SCP</option>
+                            </select>
                         </div>
                     </div>
                 </div>

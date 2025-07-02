@@ -1,33 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import { logoutAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
-import { getData } from "../../CustomHooks/LocalStorage/GetData"
-import { setData } from "../../CustomHooks/LocalStorage/StoreData";
-import GlobalContent, { useAuth } from "../../GLOBAL/Global"
-import "./User.css"
-import { NavLink } from "react-router-dom";
-import { ProtectRoutes } from "../ProtectedRoutes/ProtectedRoutes";
+import React, { useEffect } from "react"
+import { useState } from "react"
+import { Outlet, useLocation } from "react-router-dom"
+import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS, fetchCountProductionAXIOS } from "../../API/Axios/axiosCS"
+import { NavLink } from 'react-router-dom';
 import $ from 'jquery'
-import { logout } from "../../CustomHooks/Logout/logout";
-import socket from '../../API/Socket/socket'
+import socket from "../../API/Socket/socket";
 
 export default function User() {
 
-    const storage = () => {
-        setData({ username: 'jose', token: 'token', fullname: 'ff' })
-    }
-
-    const { authorizing } = useContext(GlobalContent);
-    const { fullname } = useAuth()
-
-    const logoutBtn = async () => {
-        const res = await logout()
-        console.log(res)
-        if (res === 'logout') {
-            authorizing(0)
-        } else {
-            alert('logout error')
-        }
-    }
 
     const [projects, setProjects] = useState([])
     const [so, setSo] = useState([])
@@ -56,31 +36,23 @@ export default function User() {
     const [type3Search, setType3Search] = useState('')
     const [type4Search, setType4Search] = useState('')
 
-    const [searchState, setSearchState] = useState(false)
-    const searchController = () => {
-        if (searchState === false) {
-            // $('.searchDiv').css('display', 'flex')
-            $('.searchDiv').animate({
-                height: "0px"
-            }, 50, function () {
-                // closedetheka
-                $('.searchController').text('OPEN')
-            });
-            setSearchState(!searchState)
-        } else {
-            // $('.searchDiv').css('display', 'none')
-            $('.searchDiv').animate({
-                height: "200px"
-            }, 50, function () {
-                // opendetcheka
-                $('.searchController').text('CLOSE')
+    const fetchProjects = async () => {
+        const res = await fetchProjectsAXIOS({ projectSearch })
+        console.log(res)
+        setProjects(res.data[0])
+    }
+    const fetchSO = async () => {
+        const res = await fetchSOAXIOS({ 'Project': projectSearch, 'So': soSearch })
+        setSo(res.data[0])
+    }
 
-            });
-            setSearchState(!searchState)
-        }
+    const fetchEquips = async () => {
+        const res = await fetchEquipmentsAXIOS({ 'Equipment': equipSearch })
+        setEquips(res.data[0])
     }
 
     const [production, setProduction] = useState([])
+    const [countProd, setCountProd] = useState(0)
 
     const fetchProduction = async () => {
         console.log('prod fetch asunc')
@@ -98,19 +70,56 @@ export default function User() {
             'Type2': type2Search,
             'Type3': type3Search,
             'Type4': type4Search,
-            'ReadyPQA': '',
-            'Tester': JSON.parse(localStorage.getItem('User')).fullname,
+            'ReadyPQA': null,
+            'Tester': JSON.parse(localStorage.getItem('User')).username,
         })
         console.log(res.data)
         setProduction(res.data)
-
+        setCountProd((res.data).length)
     }
+
+    const [searchState, setSearchState] = useState(false)
+    const searchController = () => {
+        if (searchState === false) {
+            // $('.searchDiv').css('display', 'flex')
+            $('.searchDiv').animate({
+                height: "76px"
+            }, 50, function () {
+            });
+            setSearchState(!searchState)
+        } else {
+            // $('.searchDiv').css('display', 'none')
+            $('.searchDiv').animate({
+                height: "0"
+            }, 50, function () {
+
+            });
+            setSearchState(!searchState)
+        }
+    }
+
+
+
+
+    const location = useLocation();
+
+    // useEffect(() => {
+    //     console.log('Fetching productions...');
+    //     fetchProduction();
+    // }, [location.key]);
+
     useEffect(() => {
-        socket.on('fetchProduction', (data) => {
-            console.log('fetchProdcution on socket', data)
-            fetchProduction()
-        })
-    }, [])
+        fetchProjects()
+    }, [projectSearch])
+
+    useEffect(() => {
+        fetchSO()
+    }, [projectSearch, soSearch])
+
+    useEffect(() => {
+        fetchEquips()
+    }, [equipSearch])
+
     useEffect(() => {
         fetchProduction()
     }, [
@@ -129,47 +138,140 @@ export default function User() {
         type4Search
     ])
 
+    useEffect(() => {
+        fetchProduction()
+        socket.on('fetchProduction', (data) => {
+            console.log('fetchProdcution on socket', data)
+            fetchProduction()
+        })
+    }, [])
+
     return (
         <>
-            <div className="userMainDiv">
-                <div>
-                    
-                    <button onClick={logoutBtn}>Logout</button>
-                </div>
-                {/* <button onClick={storage}> STORAGE</button> */}
-                <div>
-                    <div className="searchControllerDiv">
-                        <button className="searchController" onClick={searchController}>CLOSE</button>
+
+            <div className="mainNav">
+                <NavLink className='newItemBtn' to="/Production/MySQLController">New Item</NavLink>
+            </div>
+            <Outlet />
+            <div className="prodMainDiv">
+                <div className="controllerDiv">
+                    <div>
+                        <a className="searchController" onClick={searchController}>Search</a>
                     </div>
-                    <div className="searchDiv" style={{ display: 'flex' }}>
-                        <div className="projectSearchDiv">
-                            <input type="text" onChange={e => setProjectSearch(e.target.value)} placeholder="Project" />
-                            {projects === undefined ? null
-                                : projects.map((e, key) => {
-                                    return (
-                                        <li key={key}>
-                                            {e.project}
-                                        </li>
-                                    )
-                                })
-                            }
+                </div>
+                <div className="searchDiv" style={{ display: 'flex' }}>
+                    <div className="codeSearchDiv">
+                        <div className="CodePRSearchDiv">
+                            <input type="text" onChange={e => setCodeprSearch(e.target.value)} placeholder="CodePR" />
+                            {/* <li>
+                                CodePR
+                            </li> */}
                         </div>
-
-                        <div className="soSearchDiv">
-                            <input type="text" onChange={e => setSoSearch(e.target.value)} placeholder="SO" />
-                            {(projects === undefined || so === undefined) ? null :
-                                so.map((e, key) => {
-                                    return (
-                                        <li key={key}>
-                                            {e.SOref}
-                                        </li>
-                                    )
-                                })}
+                        <div className="CodePSSearchDiv">
+                            <input type="text" onChange={e => setCodepsSearch(e.target.value)} placeholder="CodePS" />
+                            {/* <li>
+                                CodePS
+                            </li> */}
                         </div>
-
-                        <div className="equipmentSearchDiv">
-                            <input type="text" onChange={e => setEquipSearch(e.target.value)} placeholder="Equipment" />
-                            {/* <select name="" id="">
+                        <div className="CodeDRSearchDiv">
+                            <input type="text" onChange={e => setCodedrSearch(e.target.value)} placeholder="CodeDR" />
+                            {/* <li>
+                                CodeDR
+                            </li> */}
+                        </div>
+                    </div>
+                    <div className="typeSearchDiv">
+                        <div className="type0Div">
+                            <select name="" id="" onChange={e => setType0Search(e.target.value)} >
+                                <option value="">Start/Middle/End</option>
+                                <option value="Start">Start</option>
+                                <option value="Middle">Middle</option>
+                                <option value="End">End</option>
+                            </select>
+                        </div>
+                        <div className="type1Div">
+                            <select name="" id="" onChange={e => setType1Search(e.target.value)}>
+                                <option value="">A/B</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                            </select>
+                        </div>
+                        <div className="type2Div">
+                            <select name="" id="" onChange={e => setType2Search(e.target.value)}>
+                                <option value="">Standard/Hybrid/PRM</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="PRM">PRM</option>
+                            </select>
+                        </div>
+                        <div className="type3Div">
+                            <select name="" id="" onChange={e => setType3Search(e.target.value)}>
+                                <option value="">In/Out</option>
+                                <option value="In">In</option>
+                                <option value="Out">Out</option>
+                            </select>
+                        </div>
+                        <div className="type4Div">
+                            <select name="" id="" onChange={e => setType4Search(e.target.value)}>
+                                <option value="">ABC/SBG/SCP</option>
+                                <option value="ABC">ABC</option>
+                                <option value="SBG">SBG</option>
+                                <option value="SCP">SCP</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="productionCountDiv">
+                    <div>
+                        Product quantity: {countProd}
+                    </div>
+                </div>
+                <div className="itemListMainDiv">
+                    <div className="itemListHeaders">
+                        <div className="itemStatusHeaderDiv">
+                            <div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Project
+                            </div>
+                            <div className="projectSearchDiv">
+                                <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                                {projects === undefined ? null
+                                    : projects.map((e, key) => {
+                                        return (
+                                            <li key={key}>
+                                                {e.project}
+                                            </li>
+                                        )
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                SO
+                            </div>
+                            <div className="soSearchDiv">
+                                <input type="text" onChange={e => setSoSearch(e.target.value)} />
+                                {(projects === undefined || so === undefined) ? null :
+                                    so.map((e, key) => {
+                                        return (
+                                            <li key={key}>
+                                                {e.SOref}
+                                            </li>
+                                        )
+                                    })}
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Equipment
+                            </div>
+                            <div className="equipmentSearchDiv">
+                                <input type="text" onChange={e => setEquipSearch(e.target.value)} />
+                                {/* <select name="" id="">
                             <option value=""></option>
                             {equips === undefined ? null : equips.map((e, key) => {
                                 return (
@@ -179,181 +281,99 @@ export default function User() {
                                 )
                             })}
                         </select> */}
+                            </div>
                         </div>
-
-                        <div className="codeSearchDiv">
+                        <div>
+                            <div>
+                                Code A
+                            </div>
                             <div className="codeASearchDiv">
-                                <input type="text" onChange={e => setCodeaSearch(e.target.value)} placeholder="CodeA" />
+                                <input type="text" onChange={e => setCodeaSearch(e.target.value)} />
                                 {/* <li>
                                 CodeA
                             </li> */}
                             </div>
+                        </div>
+                        <div>
+                            <div>
+                                Code B
+                            </div>
                             <div className="CodeBSearchDiv">
-                                <input type="text" onChange={e => setCodebSearch(e.target.value)} placeholder="CodeB" />
+                                <input type="text" onChange={e => setCodebSearch(e.target.value)} />
                                 {/* <li>
                                 CodeB
                             </li> */}
                             </div>
-                            <div className="CodePRSearchDiv">
-                                <input type="text" onChange={e => setCodeprSearch(e.target.value)} placeholder="CodePR" />
-                                {/* <li>
-                                CodePR
-                            </li> */}
-                            </div>
-
-                            <div className="CodePSSearchDiv">
-                                <input type="text" onChange={e => setCodepsSearch(e.target.value)} placeholder="CodePS" />
-                                {/* <li>
-                                CodePS
-                            </li> */}
-                            </div>
-                            <div className="CodeDRSearchDiv">
-                                <input type="text" onChange={e => setCodedrSearch(e.target.value)} placeholder="CodeDR" />
-                                {/* <li>
-                                CodeDR
-                            </li> */}
-                            </div>
                         </div>
-                        <div className="typeSearchDiv">
-                            <div className="type0Div">
-                                <input type="text" onChange={e => setType0Search(e.target.value)} placeholder="Type0" />
-                                {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
-                            </div>
-                            <div className="type1Div">
-                                <input type="text" onChange={e => setType1Search(e.target.value)} placeholder="Type1" />
-                                {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
-                            </div>
-                            <div className="type2Div">
-                                <input type="text" onChange={e => setType2Search(e.target.value)} placeholder="Type2" />
-                                {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
-                            </div>
-                            <div className="type3Div">
-                                <input type="text" onChange={e => setType3Search(e.target.value)} placeholder="Type3" />
-                                {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
-                            </div>
-                            <div className="type4Div">
-                                <input type="text" onChange={e => setType4Search(e.target.value)} placeholder="Type4" />
-                                {/* <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                                <option value=""></option>
-                            </select> */}
-                            </div>
-                        </div>
-
                     </div>
-                    <div className="itemListMainDiv">
-                        <div className="itemListHeaders">
-                            <div>
-                                <div>
-                                    Project
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    SO
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    Equipment
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    Code A
-                                </div>
-                            </div>
-                            <div>
-                                <div>
-                                    Code B
-                                </div>
-                            </div>
-                        </div>
-                        {production === undefined ? null : production.map((e, key) =>
-                        (
-                            <>
-                                <div className="itemListLink">
-
-                                    <NavLink to={
-                                        "/Production/item?"
-                                        + "id_prod=" + e.id_prod
-                                        + "&project=" + e.project
-                                        + "&so=" + e.so
-                                        + "&equip=" + e.equipment
-                                        + "&codeA=" + e.codeA
-                                        + "&codeB=" + e.codeB
-                                        + "&codePR=" + e.codePR
-                                        + "&codePS=" + e.codePS
-                                        + "&codeDR=" + e.codeDR
-                                        + "&type0=" + e.type0
-                                        + "&type1=" + e.type1
-                                        + "&type2=" + e.type2
-                                        + "&type3=" + e.type3
-                                        + "&type4=" + e.type4
-                                        + "&tester=" + e.tester
-                                        + "&startDate=" + e.startDate
-                                        + "&endDate=" + e.endDate
-                                    }>
-                                        <div className="itemListDiv" key={key}>
-                                            <div className="itemList">
-                                                <div>
-                                                    <div>
-                                                        {e.project}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        {e.so}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        {e.equipment}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        {e.codeA}
-
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        {e.codeB}
-
-                                                    </div>
-                                                </div>
+                    {production === undefined ? null : production.map((e, key) =>
+                    (
+                        <div key={key} className="itemListLink">
+                            <NavLink to={
+                                "/Production/item?"
+                                + "id_prod=" + e.id_prod
+                                + "&project=" + e.project
+                                + "&so=" + e.so
+                                + "&equip=" + e.equipment
+                                + "&codeA=" + e.codeA
+                                + "&codeB=" + e.codeB
+                                + "&codePR=" + e.codePR
+                                + "&codePS=" + e.codePS
+                                + "&codeDR=" + e.codeDR
+                                + "&type0=" + e.type0
+                                + "&type1=" + e.type1
+                                + "&type2=" + e.type2
+                                + "&type3=" + e.type3
+                                + "&type4=" + e.type4
+                                + "&tester=" + e.tester
+                                + "&startDate=" + e.startDate
+                                + "&endDate=" + e.endDate
+                                + "&status=" + e.status
+                            }>
+                                <div className="itemListDiv" key={key}>
+                                    <div className="itemList">
+                                        <div className="itemStatusDiv">
+                                            <span className="itemStatusSpan"
+                                                style={
+                                                    e.status === 'ok' ? { color: 'var(--green)' } : { color: 'var(--red)' }
+                                                }
+                                            >
+                                                {e.status}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                {e.project}
                                             </div>
                                         </div>
-                                    </NavLink>
+                                        <div>
+                                            <div>
+                                                {e.so}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                {e.equipment}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                {e.codeA}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                {e.codeB}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-                            </>
-                        )
-                        )}
-                    </div>
-                </div>
-            </div>
+                            </NavLink>
+                        </div>
+                    )
+                    )}
+                </div >
+            </div >
         </>
     )
 }
