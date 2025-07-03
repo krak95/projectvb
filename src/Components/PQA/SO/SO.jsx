@@ -25,7 +25,13 @@ export default function So() {
 
     const [projectArray, setProjectArray] = useState([])
     const fetchProjects = async () => {
-        const res = await fetchProjectsAXIOS({ project: '' })
+        const res = await fetchProjectsAXIOS({
+            project: projectSearch,
+            country: '',
+            proj_manager: '',
+            client_name: ''
+        })
+        console.log(res)
         setProjectArray(res.data)
     }
 

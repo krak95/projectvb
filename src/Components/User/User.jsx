@@ -148,10 +148,6 @@ export default function User() {
 
     return (
         <>
-
-            <div className="mainNav">
-                <NavLink className='newItemBtn' to="/Production/MySQLController">New Item</NavLink>
-            </div>
             <Outlet />
             <div className="prodMainDiv">
                 <div className="controllerDiv">

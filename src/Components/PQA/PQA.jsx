@@ -8,7 +8,7 @@ export default function PQA() {
                 <NavLink to='/PQA/So'>SO</NavLink>
                 <NavLink to='/PQA/Equipments'>Equipments</NavLink>
                 <NavLink to='/PQA/Issues'>Issues</NavLink>
-                <NavLink to='/PQA/Statistics'>Statistics</NavLink>
+                {/* <NavLink to='/PQA/Statistics'>Statistics</NavLink> */}
             </div>
             <Outlet />
         </>

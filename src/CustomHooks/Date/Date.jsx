@@ -39,7 +39,8 @@ if (dSec < 10) {
     dSec = '0' + d.getSeconds()
 }
 
-var concatDate = dDay + '-' + dMonth + '-' + d.getFullYear() + ' at ' + dHour + ':' + dMin + ':' + dSec
+var concatDate = dDay + '-' + dMonth + '-' + d.getFullYear()
+// + ' at ' + dHour + ':' + dMin + ':' + dSec
 
 export const datefunction = () => {
 

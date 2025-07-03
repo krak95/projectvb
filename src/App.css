@@ -85,8 +85,6 @@ a.active {
   background-color: white !important;
 }
 
-.mainNav {}
-
 .mainNavDiv {
   background-color: var(--secondary);
 }

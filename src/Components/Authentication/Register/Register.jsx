@@ -31,8 +31,12 @@ export default function Register() {
             }, 1000);
         } catch (e) {
             console.log(e)
-            if ((e.response.data.message).includes('Duplicate')) {
-                setAlert('red')
+            if ((e.response.data.message).includes('Duplicate' && 'username')) {
+                setAlert('usernameerror')
+                swapRegisterLoginF('register')
+            }
+            if ((e.response.data.message).includes('Duplicate' && 'fullname')) {
+                setAlert('fullnameerror')
                 swapRegisterLoginF('register')
             }
         }
@@ -44,7 +48,12 @@ export default function Register() {
                 <div className="registerInputDiv">
                     <div>
                         <div>Fullname</div>
-                        <div><input onChange={e => setFullname(e.target.value)} type="text" /></div>
+                        <div><input onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                register()
+                            }
+                        }}
+                            onChange={e => setFullname(e.target.value)} type="text" /></div>
                     </div>
                     {/* <div>
                         <div>Admin</div>
@@ -52,32 +61,60 @@ export default function Register() {
                     </div> */}
                     <div>
                         <div>Role</div>
-                        <div><input onChange={e => setRole(e.target.value)} type="text" /></div>
+                        <div><input onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                register()
+                            }
+                        }}
+                            onChange={e => setRole(e.target.value)} type="text" /></div>
                     </div>
                     <div>
                         <div>Username</div>
-                        <div><input onChange={e => setUsername(e.target.value)} type="text" /></div>
+                        <div><input onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                register()
+                            }
+                        }}
+                            onChange={e => setUsername(e.target.value)} type="text" /></div>
                     </div>
                     <div>
                         <div>Password</div>
-                        <div><input onChange={e => setPassword(e.target.value)} type="password" /></div>
+                        <div><input onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                register()
+                            }
+                        }}
+                            onChange={e => setPassword(e.target.value)} type="password" /></div>
                     </div>
                     <div>
-                        <button className="loginBtn" onClick={register} >Register</button>
+                        <button className="loginBtn"
+
+                            onClick={register}
+                        >Register</button>
                     </div>
-                    {alert === 'green'
-                        ?
-                        <div>
-                            <div style={{ color: 'var(--green)' }}>Registered successfully...</div>
-                        </div>
-                        : null
+                    {
+                        alert === 'green'
+                            ?
+                            <div>
+                                <div style={{ color: 'var(--green)' }}>Registered successfully...</div>
+                            </div>
+                            : null
                     }
-                    {alert === 'red'
-                        ?
-                        <div>
-                            <div style={{ color: 'var(--red)' }}>User already exists!</div>
-                        </div>
-                        : null
+                    {
+                        alert === 'usernameerror'
+                            ?
+                            <div>
+                                <div style={{ color: 'var(--red)' }}>User already exists!</div>
+                            </div>
+                            : null
+                    }
+                    {
+                        alert === 'fullnameerror'
+                            ?
+                            <div>
+                                <div style={{ color: 'var(--red)' }}>Name already exists!</div>
+                            </div>
+                            : null
                     }
                 </div>
             </div>

@@ -7,9 +7,14 @@ import { useState, useEffect, use } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import socket from '../../API/Socket/socket'
 import $ from 'jquery'
+import { datefunction } from '../../CustomHooks/Date/Date'
+import { checkLogin } from '../../CustomHooks/Login/LoginHook'
+import GlobalContent from '../../GLOBAL/Global'
+import { setData } from '../../CustomHooks/LocalStorage/StoreData'
+import { useContext } from 'react'
 
 export default function Item() {
-
+    const { authorizing } = useContext(GlobalContent);
     const [items, setItems] = useState([])
 
     const [alert, setAlert] = useState('')
@@ -90,6 +95,7 @@ export default function Item() {
 
     const updateStatus = async () => {
         var status
+        var endDate = datefunction()
         console.log('finishprocess: ', finishProcess)
         if (finishProcess === false) {
             status = 'ok'
@@ -99,7 +105,7 @@ export default function Item() {
         var id_prod = items[0].id_prod
         console.log({ id_prod, status })
         try {
-            const res = await updateStatusAXIOS({ id_prod, status })
+            const res = await updateStatusAXIOS({ id_prod, status, endDate: endDate })
             socket.emit('socketNewItem')
             checkProduction()
             handleRetro()
@@ -132,12 +138,20 @@ export default function Item() {
 
 
     const delProd = async () => {
-        if (window.confirm("Delete item?") === true) {
-            console.log(id_prod)
-            const res = await delProdAXIOS(id_prod)
+        const res = await checkLogin()
+        if (res != 0) {
             console.log(res)
-            navigate(-1);
-            socketNewItem()
+            authorizing(1)
+            if (window.confirm("Delete item?") === true) {
+                console.log(id_prod)
+                const res = await delProdAXIOS({ id_prod, tester: JSON.parse(localStorage.getItem('User')).fullname })
+                console.log(res)
+                navigate(-1)
+                socketNewItem()
+            }
+        } else {
+            setData({ username: '', token: '', fullname: '' })
+            authorizing(0)
         }
     }
 
@@ -181,6 +195,7 @@ export default function Item() {
             <div className="itemContentDiv">
                 {alert !== 'NotExist' ? <div className='itemInfo'>
                     <div className='itemPageHeader'>
+                        <button className='backBtn' onClick={handleRetro}>Back</button>
                         <div>
                             <div>
                                 Tested by: <p>{tester}</p>
@@ -189,7 +204,7 @@ export default function Item() {
                                 <p>{startDate}</p> until <p>{endDate === '' ? 'Not finished' : endDate}</p>
                             </div>
                         </div>
-                        <button className='backBtn' onClick={delProd}>DELETE ITEM</button>
+                        <button className='backBtn' onClick={delProd}>Delete product</button>
                     </div>
                     <div className='itemHeaders'>
                         {/* <div>

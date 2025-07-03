@@ -99,7 +99,7 @@ export default function MySQLController() {
     const [fullDate, setFullDate] = useState('')
 
     const fullDateF = () => {
-        setFullDate(dayDate + ' - ' + monthDate + ' - ' + yearDate)
+        setFullDate(dayDate + '-' + monthDate + '-' + yearDate)
     }
 
     useEffect(() => {
@@ -146,7 +146,6 @@ export default function MySQLController() {
                         <input type="text" placeholder="project" onChange={e => setProjectSearch(e.target.value)} />
                         <select onChange={e => setProject(e.target.value)} name="" id="">
                             <option value=""></option>
-
                             {projectArray.map((e, key) =>
                                 <option key={key} value={e.project}>{e.project}</option>
                             )

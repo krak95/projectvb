@@ -199,3 +199,7 @@
 .prodMainDiv {
     margin-bottom: 26px;
 }
+
+.itemStatusSpan {
+    font-size: 12px;
+}

@@ -132,9 +132,9 @@ export const checkProductionAXIOS = ({
     )
 }
 
-export const updateStatusAXIOS = ({ id_prod, status }) => {
-    console.log({ id_prod, status })
-    return axiosBase.post('/updateStatus', { id_prod, status })
+export const updateStatusAXIOS = ({ id_prod, status, endDate }) => {
+    console.log({ id_prod, status, endDate })
+    return axiosBase.post('/updateStatus', { id_prod, status, endDate })
 }
 export const fetchCountProductionAXIOS = ({
     Project: projectSearch,
@@ -216,9 +216,9 @@ export const getALLUsersAXIOS = () => {
     return axiosBase.get('/getUsers',)
 }
 
-export const delProdAXIOS = (id_prod) => {
-    console.log(id_prod)
-    return axiosBase.post('/delProd', id_prod)
+export const delProdAXIOS = ({ id_prod, tester }) => {
+    console.log({ id_prod, tester })
+    return axiosBase.post('/delProd', { id_prod, tester })
 }
 
 export const newProjectAXIOS = ({

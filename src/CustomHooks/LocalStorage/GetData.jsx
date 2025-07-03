@@ -1,9 +1,9 @@
 export const getData = () => {
-    const user = JSON.parse(localStorage.getItem('User'))
+    var user = localStorage.getItem('User')
     console.log(user)
-    if (user === null) {
+    if (user === null || user === '') {
         return false
     } else {
-        return { username: user.username, token: user.token }
+        return { username: JSON.parse(localStorage.getItem('User')).username, token: JSON.parse(localStorage.getItem('User')).token }
     }
 }

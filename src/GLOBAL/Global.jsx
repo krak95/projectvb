@@ -14,14 +14,17 @@ export const GlobalProvider = ({ children }) => {
     const [menu, setMenu] = useState('click')
 
     console.log(authorized)
+    console.log(localStorage.getItem('User'))
 
     const storedData = getData()
-    if (!storedData) {
-        localStorage.setItem('User', JSON.stringify({
-            'username': '',
-            'token': '',
-            'fullname': ''
-        }))
+    
+    if (!storedData || storedData === undefined) {
+        console.log(storedData)
+        setData({
+            username: '',
+            token: '',
+            fullname: ''
+        })
     }
 
     const setPathGlobal = (e) => {

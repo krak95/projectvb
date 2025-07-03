@@ -21,6 +21,7 @@ import socket from './API/Socket/socket';
 import { logout } from './CustomHooks/Logout/logout';
 import amadeuslogo from './Img/amadeus_logo.png'
 import Statistics from './Components/Statistics/Statistics';
+import { checkLogin } from './CustomHooks/Login/LoginHook';
 
 function App() {
 
@@ -37,15 +38,27 @@ function App() {
     }
   }
 
-  const checkLogin = async (e) => {
-    console.log(e)
-    const storedData = getData()
-    console.log(storedData)
-    const res = await getCheckLoginAXIOS({ username: storedData.username, token: storedData.token })
-    console.log(res.data)
-    if ((res.data.length) != 0) {
+  // const checkLogin = async (e) => {
+  //   console.log(e)
+  //   const storedData = getData()
+  //   console.log(storedData)
+  //   const res = await getCheckLoginAXIOS({ username: storedData.username, token: storedData.token })
+  //   console.log(res.data)
+  //   if ((res.data.length) != 0) {
+  //     authorizing(1)
+  //   } else {
+  //     setData({ username: '', token: '', fullname: '' })
+  //     authorizing(0)
+  //   }
+  // }
+
+  const checkLoginHook = async () => {
+    const res = await checkLogin()
+    if (res != 0) {
       authorizing(1)
-    } else {
+    }
+    if (res === 'error') {
+      console.log('error')
       setData({ username: '', token: '', fullname: '' })
       authorizing(0)
     }
@@ -54,16 +67,15 @@ function App() {
   useEffect(() => {
     socket.on('socketCheckLogin', (data) => {
       console.log('socketchecklogin')
-      checkLogin(data)
+      checkLoginHook(data)
     })
   }, [])
 
   useEffect(() => {
     // setPathGlobal(window.location.href)
     console.log(path)
-    checkLogin()
+    checkLoginHook()
   }, [])
-
 
   const [globalDate, setGlobalDate] = useState('')
   const globalDatef = () => {
@@ -111,7 +123,6 @@ function App() {
 
     var concatDate = dDay + '-' + dMonth + '-' + d.getFullYear() + ' ' + dHour + ':' + dMin + ':' + dSec
 
-
     setGlobalDate(concatDate)
   }
 
@@ -133,13 +144,14 @@ function App() {
           <div style={{ color: 'var(--light)', fontSize: '12px' }}>
             {globalDate}
           </div>
+          <div style={{ color: 'var(--light)', fontSize: '12px' }}>
+            {JSON.parse(localStorage.getItem('User'))?.fullname}
+          </div>
           <div>
             <NavLink to='/' onClick={e => logoutBtn(e)} className='logoutBtn'>EXIT</NavLink>
           </div>
-
         </div>
         <div className='rootBody'>
-
           <div className='mainNavDiv'>
             <nav className='mainNav'>
               {authorized === 0
@@ -169,7 +181,7 @@ function App() {
                   <Route path='/PQA/Projects' element={<Projects />}></Route>
                   <Route path='/PQA/So' element={<So />}></Route>
                   <Route path='/PQA/Equipments' element={<Equipments />}></Route>
-                  <Route path='/PQA/Statistics' element={<Statistics />}></Route>
+                  {/* <Route path='/PQA/Statistics' element={<Statistics />}></Route> */}
                 </Route>
               </Route>
             </Routes>
