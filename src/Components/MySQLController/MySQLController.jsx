@@ -61,7 +61,11 @@ export default function MySQLController() {
                 setAlert('')
             }, 1000);
         } catch (error) {
+            console.log(error.request.response)
             console.error("Error:", error.res?.data || error.message);
+            if ((error.request.response).includes('Duplicate')) {
+                setAlert('duplicateB')
+            }
         }
     }
 
@@ -197,7 +201,7 @@ export default function MySQLController() {
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeB === '' || null ? 'Code B' : codeB}</p>
-                            <input type="text" placeholder="codeB" onChange={e => setCodeB(e.target.value)} />
+                            <input style={alert === 'duplicateB' ? { backgroundColor: 'var(--red)' } : null} type="text" placeholder="codeB" onChange={e => setCodeB(e.target.value)} />
                         </div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codePR === '' || null ? 'Code PR' : codePR}</p>
