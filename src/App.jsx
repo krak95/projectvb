@@ -12,6 +12,8 @@ import So from './Components/PQA/SO/SO';
 import Equipments from './Components/PQA/Equipments/Equipments';
 import Authentication from './Components/Authentication/Authentication';
 import User from './Components/User/User'
+import Admin from './Components/User/Admin/Admin';
+import MyProduction from './Components/User/MyProduction/MyProduction';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext, useState } from 'react';
@@ -38,6 +40,25 @@ function App() {
     }
   }
 
+  const [role, setRole] = useState('')
+  const getRole = () => {
+    const res = getData()
+    console.log(res.role)
+    setRole(res.role)
+  }
+  const [admin, setAdmin] = useState(0)
+  const getAdmin = () => {
+    const res = getData()
+    setAdmin(res.admin)
+  }
+
+
+
+  useEffect(() => {
+    getRole()
+    getAdmin()
+  }, [authorized])
+
   // const checkLogin = async (e) => {
   //   console.log(e)
   //   const storedData = getData()
@@ -59,7 +80,7 @@ function App() {
     }
     if (res === 'error') {
       console.log('error')
-      setData({ username: '', token: '', fullname: '' })
+      setData({ username: '', token: '', fullname: '', role: '' })
       authorizing(0)
     }
   }
@@ -161,7 +182,12 @@ function App() {
                 <>
                   <NavLink to="User">My account</NavLink>
                   <NavLink to="Production">Production Team</NavLink>
-                  <NavLink to="PQA">PQA Team</NavLink>
+                  {role !== 'Quality'
+                    ?
+                    null
+                    :
+                    <NavLink to="PQA">PQA Team</NavLink>
+                  }
                 </>
               }
             </nav>
@@ -171,18 +197,28 @@ function App() {
               {/* <Route path='/' element={<Home />}></Route> */}
               <Route path='/' element={<Authentication />}></Route>
               <Route element={<ProtectRoutes />}>
-                <Route path='/User' element={<User />}></Route>
+                <Route path='/User' element={<User />}>
+                  <Route path="/User/MyProduction/item" element={<Item path={'User/MyProduction'} />}></Route>
+                  {admin === 1 ?
+                    <Route path="/User/Admin" element={<Admin />}></Route>
+                    : null
+                  }
+                  <Route path="/User/MyProduction" element={<MyProduction />}></Route>
+                </Route>
                 <Route path='/Production' element={<Production />}>
-                  <Route path="/Production/item" element={<Item />}></Route>
+                  <Route path="/Production/item" element={<Item path={'Production'} />}></Route>
                   <Route path='/Production/MySQLController' element={<MySQLController />}></Route>
                 </Route>
-                <Route path='/PQA' element={<PQA />}>
-                  <Route path='/PQA/Issues' element={<Issues />}></Route>
-                  <Route path='/PQA/Projects' element={<Projects />}></Route>
-                  <Route path='/PQA/So' element={<So />}></Route>
-                  <Route path='/PQA/Equipments' element={<Equipments />}></Route>
-                  {/* <Route path='/PQA/Statistics' element={<Statistics />}></Route> */}
-                </Route>
+                {role !== 'Quality' ? null
+                  :
+                  <Route path='/PQA' element={<PQA />}>
+                    <Route path='/PQA/Issues' element={<Issues />}></Route>
+                    <Route path='/PQA/Projects' element={<Projects />}></Route>
+                    <Route path='/PQA/So' element={<So />}></Route>
+                    <Route path='/PQA/Equipments' element={<Equipments />}></Route>
+                    {/* <Route path='/PQA/Statistics' element={<Statistics />}></Route> */}
+                  </Route>
+                }
               </Route>
             </Routes>
           </div >

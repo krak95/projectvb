@@ -13,7 +13,7 @@ import GlobalContent from '../../GLOBAL/Global'
 import { setData } from '../../CustomHooks/LocalStorage/StoreData'
 import { useContext } from 'react'
 
-export default function Item() {
+export default function Item({path}) {
     const { authorizing } = useContext(GlobalContent);
     const [items, setItems] = useState([])
 
@@ -22,7 +22,7 @@ export default function Item() {
     const navigate = useNavigate();
 
     const handleRetro = () => {
-        window.location.href = 'http://10.76.76.44:3000/Production'
+        window.location.href = 'http://10.76.76.44:3000/' + path + ''
     };
 
 

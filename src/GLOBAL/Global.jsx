@@ -9,6 +9,7 @@ export const useAuth = () => useContext(GlobalContent)
 export const GlobalProvider = ({ children }) => {
 
     const [authorized, setAuthorized] = useState(null)
+    const [role, setRole] = useState(null)
     const [swapRegisterLogin, setswapRegisterLogin] = useState('login')
     const [path, setPath] = useState(null)
     const [menu, setMenu] = useState('click')
@@ -17,13 +18,14 @@ export const GlobalProvider = ({ children }) => {
     console.log(localStorage.getItem('User'))
 
     const storedData = getData()
-    
+
     if (!storedData || storedData === undefined) {
         console.log(storedData)
         setData({
             username: '',
             token: '',
-            fullname: ''
+            fullname: '',
+            role: ''
         })
     }
 
@@ -37,6 +39,9 @@ export const GlobalProvider = ({ children }) => {
     const authorizing = (e) => {
         setAuthorized(e)
     }
+    const rolling = (e) => {
+        setRole(e)
+    }
 
     const swapRegisterLoginF = (e) => {
         setswapRegisterLogin(e)
@@ -44,7 +49,7 @@ export const GlobalProvider = ({ children }) => {
     }
 
     return (
-        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing, swapRegisterLoginF, setswapRegisterLogin, swapRegisterLogin, setPathGlobal, path, setPath, menu, setMenu }}>
+        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing, rolling, setRole, role, swapRegisterLoginF, setswapRegisterLogin, swapRegisterLogin, setPathGlobal, path, setPath, menu, setMenu }}>
             {children}
         </GlobalContent.Provider>
     );

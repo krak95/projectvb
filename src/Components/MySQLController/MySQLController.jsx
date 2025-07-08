@@ -3,9 +3,6 @@ import { useEffect, useState } from "react"
 import socket from '../../API/Socket/socket'
 import "./MySQLController.css"
 import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS } from "../../API/Axios/axiosCS"
-import NewProject from "./NewProject/NewProject"
-import NewSO from "./NewSO/NewSO"
-import NewEquip from "./NewEquip/NewEquip"
 
 export default function MySQLController() {
 
@@ -184,17 +181,10 @@ export default function MySQLController() {
                                     }
                                 </select>
                             </div>
-
                         </div>
-                        <div>
-
-                        </div>
-                        <div>
-
-                        </div>
-                        <div>
-
-                        </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                         <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeA === '' || null ? 'Code A' : codeA}</p>
                             <input type="text" placeholder="codeA" onChange={e => setCodeA(e.target.value)} />

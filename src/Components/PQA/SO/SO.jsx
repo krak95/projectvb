@@ -3,7 +3,6 @@ import { newSOAXIOS, fetchSOAXIOS, fetchProjectsAXIOS } from "../../../API/Axios
 import socket from "../../../API/Socket/socket"
 import './SO.css'
 
-
 export default function So() {
 
     const [SOref, setSOref] = useState('')
@@ -69,7 +68,11 @@ export default function So() {
                     </div>
 
                     <div>
-                        <input placeholder="SO ref" type="text" onChange={e => setSOref(e.target.value)} />
+                        <input onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                newSO()
+                            }
+                        }} placeholder="SO ref" type="text" onChange={e => setSOref(e.target.value)} />
                     </div>
                     {/* <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /> */}
                     <div>

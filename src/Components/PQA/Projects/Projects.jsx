@@ -16,6 +16,8 @@ export default function Projects() {
 
     const [projectsArray, setProjectsArray] = useState([])
 
+    const [alert, setAlert] = useState('')
+
     const newProject = async () => {
         socket.emit("newProject")
         console.log('newproject')
@@ -29,6 +31,9 @@ export default function Projects() {
             console.log(res.data)
         } catch (error) {
             console.error("Error:", error.res?.data || error.message);
+            if ((error.request.response).includes('Duplicate')) {
+                setAlert('Duplicate')
+            }
         }
     }
 
@@ -61,10 +66,26 @@ export default function Projects() {
             <div className="pqaProjectsMainDiv">
 
                 <div className="pqaNewProject">
-                    <div> <input placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /></div>
-                    <div> <input placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} /></div>
-                    <div> <input placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} /></div>
-                    <div> <input placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} /></div>
+                    <div> <input onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            newProject()
+                        }
+                    }} style={alert === 'Duplicate' ? { backgroundColor: 'var(--red)' } : null} placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /></div>
+                    <div> <input onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            newProject()
+                        }
+                    }} placeholder="Country" type="text" onChange={e => setCountry(e.target.value)} /></div>
+                    <div> <input onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            newProject()
+                        }
+                    }} placeholder="P. Manager" type="text" onChange={e => setProjManager(e.target.value)} /></div>
+                    <div> <input onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            newProject()
+                        }
+                    }} placeholder="Client" type="text" onChange={e => setClientName(e.target.value)} /></div>
                     <div> <button className="sendBtn" onClick={e => newProject(e)}>Add Project</button></div>
                 </div>
 

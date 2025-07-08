@@ -7,6 +7,8 @@ export default function Equipments() {
 
     const [EquipName, setEquipName] = useState('')
 
+    const [alert, setAlert] = useState('')
+
     const newEquip = async () => {
         socket.emit('newEquip')
         console.log('newproject')
@@ -16,7 +18,9 @@ export default function Equipments() {
             })
             console.log(res.data)
         } catch (error) {
-            console.error("Error:", error.res?.data || error.message);
+            if ((error.request.response).includes('Duplicate')) {
+                setAlert('Duplicate')
+            }
         }
     }
 
@@ -43,7 +47,13 @@ export default function Equipments() {
             <div className="pqaEquipMainDiv">
                 <div className="pqaNewEquip">
                     <div>
-                        <input placeholder="Equip name" type="text" onChange={e => setEquipName(e.target.value)} />
+                        <input
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    newEquip()
+                                }
+                            }}
+                            style={alert === 'Duplicate' ? { backgroundColor: 'var(--red)' } : null} placeholder="Equip name" type="text" onChange={e => setEquipName(e.target.value)} />
                     </div>
                     <div>
                         <button className="sendBtn" onClick={e => newEquip(e)}>New Equipment</button>

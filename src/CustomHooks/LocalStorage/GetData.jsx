@@ -4,6 +4,6 @@ export const getData = () => {
     if (user === null || user === '') {
         return false
     } else {
-        return { username: JSON.parse(localStorage.getItem('User')).username, token: JSON.parse(localStorage.getItem('User')).token }
+        return { username: JSON.parse(localStorage.getItem('User')).username, token: JSON.parse(localStorage.getItem('User')).token, role: JSON.parse(localStorage.getItem('User')).role, admin: JSON.parse(localStorage.getItem('User')).admin }
     }
 }

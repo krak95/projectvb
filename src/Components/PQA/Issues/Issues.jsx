@@ -36,7 +36,6 @@ export default function Issues() {
     ])
 
 
-    console.log('issues')
     return (
         <>
             <div className="issuesMainDiv">

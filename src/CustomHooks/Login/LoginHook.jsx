@@ -8,12 +8,15 @@ export const checkLogin = async (e) => {
     console.log(storedData)
     try {
         const res = await getCheckLoginAXIOS({ username: storedData.username, token: storedData.token })
+        console.log(res.data[0])
         setData({
             username: res.data[0].username,
             token: res.data[0].token,
-            fullname: res.data[0].fullname
+            fullname: res.data[0].fullname,
+            role: res.data[0].role,
+            admin: res.data[0].admin
         })
-        console.log(res.data[0].username)
+        console.log(res.data)
         return res.data
     } catch (e) {
         console.log(e)

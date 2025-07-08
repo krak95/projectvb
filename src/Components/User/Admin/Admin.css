@@ -1,0 +1,13 @@
+.rolesAssignDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column !important;
+    background-color: var(--secondary);
+    padding: 10px;
+    
+}
+
+.rolesAssignHeader {
+    color: white;
+}

@@ -12,6 +12,12 @@ export const logoutAXIOS = ({ username }) => {
     return axiosBase.post('/logout', { username })
 }
 
+export const fetchUsersAXIOS = ({ fullname }) => {
+    console.log(fullname)
+    return axiosBase.post('/fetchUsers', { fullname })
+}
+
+
 export const registerAXIOS = ({
     fullname,
     admin,
@@ -34,14 +40,14 @@ export const registerAXIOS = ({
         password
     })
 }
+
 export const checkCredsAXIOS = ({ username, password }) => {
     console.log(username, password)
     return axiosBase.post('/checkCreds', { username, password })
-
 }
-export const newLoginAXIOS = ({ username, fullname, logDate }) => {
-    console.log(username)
-    return axiosBase.post('/newLogin', { username, fullname, logDate })
+export const newLoginAXIOS = ({ username, fullname, logDate, role, admin }) => {
+    console.log(role)
+    return axiosBase.post('/newLogin', { username, fullname, logDate, role, admin })
 }
 
 export const getCheckLoginAXIOS = ({ username, token }) => {
@@ -49,9 +55,9 @@ export const getCheckLoginAXIOS = ({ username, token }) => {
     return axiosBase.post('/checkLogin', { username, token })
 }
 
-export const refreshLogAXIOS = ({ username, logDate }) => {
-    console.log(username, logDate)
-    return axiosBase.post('/refreshLog', { username, logDate })
+export const refreshLogAXIOS = ({ username, logDate, role, admin }) => {
+    console.log(username, logDate, role)
+    return axiosBase.post('/refreshLog', { username, logDate, role, admin })
 }
 
 export const getALLProductionAXIOS = () => {
@@ -172,6 +178,11 @@ export const fetchCountProductionAXIOS = ({
         }
     )
 }
+export const assignRolesAXIOS = ({ fullname, role }) => {
+    console.log(fullname, role)
+    return axiosBase.post('/assignRoles', { fullname, role })
+
+}
 
 export const newProductionAXIOS = ({
     Project: project,
@@ -215,7 +226,9 @@ export const newProductionAXIOS = ({
 export const getALLUsersAXIOS = () => {
     return axiosBase.get('/getUsers',)
 }
-
+export const fetchRolesAXIOS = ({ rolename }) => {
+    return axiosBase.post('/fetchRoles', { rolename })
+}
 export const delProdAXIOS = ({ id_prod, tester }) => {
     console.log({ id_prod, tester })
     return axiosBase.post('/delProd', { id_prod, tester })

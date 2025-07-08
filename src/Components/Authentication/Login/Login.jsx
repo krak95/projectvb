@@ -29,10 +29,11 @@ export default function Login() {
         try {
             console.log(username, password)
             const res = await checkCredsAXIOS({ username, password })
+            console.log(res)
             if (res.data !== "Wrong credentials!") {
                 const concatDate = datefunction()
                 console.log(res.data)
-                newLogin({ fullname: res.data })
+                newLogin({ fullname: res.data['fullname'], role: res.data['role'], admin: res.data['admin'] })
                 socket.emit("newUserSocket", concatDate)
                 setTimeout(() => {
                     navigate('/Production')
@@ -45,6 +46,7 @@ export default function Login() {
                 }, 1000);
             }
         } catch (e) {
+            console.log(e)
             if ((e.response.data.message).includes('negative')) {
                 setAlert('wrong')
                 setTimeout(() => {
@@ -64,14 +66,15 @@ export default function Login() {
     // }
 
     const newLogin = async (e) => {
+        console.log(e)
         try {
             const concatDate = datefunction()
-            const res = await newLoginAXIOS({ username, fullname: e.fullname, logDate: concatDate })
+            const res = await newLoginAXIOS({ username, fullname: e.fullname, logDate: concatDate, role: e.role, admin: e.admin })
             // localStorage.setItem('username', username)
             // localStorage.setItem('token', res.data)
-            setData({ username: username, token: res.data, fullname: e.fullname })
+            setData({ username: username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
             authorizing(1)
-            socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname })
+            socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
             navigate('/Production')
 
         } catch (error) {
@@ -79,18 +82,18 @@ export default function Login() {
             if ((error.response.data.message).includes('Duplicate')) {
                 setAlert('loggedin')
                 const concatDate = datefunction()
-                refreshLog({ username: username, logDate: concatDate, fullname: e.fullname })
+                refreshLog({ username: username, logDate: concatDate, fullname: e.fullname, role: e.role, admin: e.admin })
             }
         }
     }
 
     const refreshLog = async (e) => {
         try {
-            const res = await refreshLogAXIOS({ username: username, logDate: e.logDate })
+            const res = await refreshLogAXIOS({ username: username, logDate: e.logDate, role: e.role, admin: e.admin })
             console.log(res.data)
-            setData({ username: e.username, token: res.data, fullname: e.fullname })
+            setData({ username: e.username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
             authorizing(1)
-            socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname })
+            socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
         } catch (error) {
             console.log(error)
 
