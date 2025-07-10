@@ -34,7 +34,6 @@ export default function Admin() {
         fetchUsers()
     }, [fullname])
 
-
     return (
         <div className='rolesAssignDiv'>
             <div className='rolesAssignHeader'>
@@ -62,6 +61,7 @@ export default function Admin() {
                     )}
 
                 </select>
+
 
                 <button onClick={assignRoles}>Assign</button>
             </div>

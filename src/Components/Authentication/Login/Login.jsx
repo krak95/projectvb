@@ -82,7 +82,9 @@ export default function Login() {
             if ((error.response.data.message).includes('Duplicate')) {
                 setAlert('loggedin')
                 const concatDate = datefunction()
-                refreshLog({ username: username, logDate: concatDate, fullname: e.fullname, role: e.role, admin: e.admin })
+                setTimeout(() => {
+                    refreshLog({ username: username, logDate: concatDate, fullname: e.fullname, role: e.role, admin: e.admin })
+                }, 1000);
             }
         }
     }
@@ -96,9 +98,7 @@ export default function Login() {
             socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
         } catch (error) {
             console.log(error)
-
         }
-
     }
 
     return (

@@ -13,11 +13,11 @@ import GlobalContent from '../../GLOBAL/Global'
 import { setData } from '../../CustomHooks/LocalStorage/StoreData'
 import { useContext } from 'react'
 
-export default function Item({path}) {
+export default function Item({ path }) {
     const { authorizing } = useContext(GlobalContent);
     const [items, setItems] = useState([])
 
-    const [alert, setAlert] = useState('')
+    const [alert0, setAlert0] = useState('')
 
     const navigate = useNavigate();
 
@@ -49,9 +49,18 @@ export default function Item({path}) {
 
     const [comment, setComment] = useState('')
     const addItemIssue = async () => {
-        const res = await addItemIssueAXIOS({ id_issue: ref_issue, id_item: id_prod, comment: comment })
-        console.log(res.data)
-        socketAddItemIssue()
+        try {
+
+            const res = await addItemIssueAXIOS({ id_issue: ref_issue, id_item: id_prod, comment: comment })
+            console.log(res.data)
+            socketAddItemIssue()
+        } catch (e) {
+            setTimeout(() => {
+                setAlert0('')
+            }, 1000);
+            setAlert0('missingRef')
+            console.log(e)
+        }
     }
 
     const [ref_issue, setRef_Issue] = useState('')
@@ -63,9 +72,13 @@ export default function Item({path}) {
         const res = await fetchItemIssuesAXIOS({ id_item: id_prod })
         console.log(res.data)
         setItemIssuesArray(res.data)
-        const res2 = (res.data).some((e, key) => e.issue_status === "OPEN")
-        console.log(res2)
-        setFinishProcess(res2)
+        if ((res.data).length > 0) {
+            const res2 = (res.data).some((e, key) => e.issue_status === "OPEN")
+            console.log(res2)
+            setFinishProcess(res2)
+        } else {
+            setFinishProcess('empty')
+        }
     }
 
     const fetchIssues = async () => {
@@ -83,7 +96,7 @@ export default function Item({path}) {
             setItems(res.data)
             console.log(res.data.length)
             if (res.data.length === 0) {
-                setAlert('NotExist')
+                setAlert0('NotExist')
                 return
             } else {
                 console.log('setItemsCheck')
@@ -98,9 +111,11 @@ export default function Item({path}) {
         var endDate = datefunction()
         console.log('finishprocess: ', finishProcess)
         if (finishProcess === false) {
-            status = 'ok'
-        } else {
+            status = 'fixed'
+        } else if (finishProcess === true) {
             status = 'nok'
+        } else {
+            status = 'ok'
         }
         var id_prod = items[0].id_prod
         console.log({ id_prod, status })
@@ -139,6 +154,7 @@ export default function Item({path}) {
 
     const delProd = async () => {
         const res = await checkLogin()
+        console.log(res)
         if (res != 0) {
             console.log(res)
             authorizing(1)
@@ -146,16 +162,18 @@ export default function Item({path}) {
                 console.log(id_prod)
                 const res = await delProdAXIOS({ id_prod, tester: JSON.parse(localStorage.getItem('User')).fullname })
                 console.log(res)
-                navigate(-1)
                 socketNewItem()
+                if (res.data === 0) {
+                    alert('You cannot delete this item!')
+                } else {
+                    navigate(-1)
+                }
             }
         } else {
             setData({ username: '', token: '', fullname: '' })
             authorizing(0)
         }
     }
-
-
 
     const deleteItemIssue = async (e) => {
         const res = await deleteItemIssueAXIOS({ e })
@@ -185,7 +203,7 @@ export default function Item({path}) {
         socket.on('socketFetchItemIssue', () => {
             fetchItemIssues()
         })
-        // alert('item', project, so, codeA, codeB)
+        // alert0('item', project, so, codeA, codeB)
     }, [])
     useEffect(() => {
         fetchIssues()
@@ -193,7 +211,7 @@ export default function Item({path}) {
     return (
         <>
             <div className="itemContentDiv">
-                {alert !== 'NotExist' ? <div className='itemInfo'>
+                {alert0 !== 'NotExist' ? <div className='itemInfo'>
                     <div className='itemPageHeader'>
                         <button className='backBtn' onClick={handleRetro}>Back</button>
                         <div>
@@ -285,7 +303,7 @@ export default function Item({path}) {
                             <div className='itemIssuesSearch'>
                                 <div>
                                     <input placeholder="Search by description" type="text" onChange={e => setIssueSearch(e.target.value)} />
-                                    <select name="" id="" onChange={e => setRef_Issue(e.target.value)}>
+                                    <select style={alert0 === 'missingRef' ? { backgroundColor: 'var(--red)'} : null} name="" id="" onChange={e => setRef_Issue(e.target.value)}>
                                         <option value=""></option>
                                         {issueArray.map((e, key) =>
                                             <option value={e.id_issues}>
@@ -330,21 +348,19 @@ export default function Item({path}) {
                             ))}
                         </div>
                     </div>
-                    < div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '8px' }}>
+                    < div style={{ flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '8px' }}>
                         <button className='finishProcBtn' onClick={e => updateStatus()}>
                             Finish process
                         </button>
-                        {finishProcess === false
+                        {finishProcess === true
                             ?
-                            null
-                            :
                             <p style={{ color: 'var(--red)' }} s>
                                 This product has open issues!
                             </p>
+                            :
+                            null
                         }
                     </div>
-
-
                 </div> :
                     <div className='itemNotExist'>
                         <div>
@@ -355,7 +371,6 @@ export default function Item({path}) {
                         </div>
                     </div>
                 }
-
             </div >
         </>
     )
