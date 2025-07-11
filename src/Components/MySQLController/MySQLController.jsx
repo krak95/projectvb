@@ -10,7 +10,7 @@ export default function MySQLController() {
     const [so, setSO] = useState('')
     const [equipment, setEquipment] = useState('')
     const [codeA, setCodeA] = useState('')
-    const [codeB, setCodeB] = useState('')
+    const [codeB, setCodeB] = useState(null)
     const [codePR, setCodePR] = useState('')
     const [codePS, setCodePS] = useState('')
     const [codeDR, setCodeDR] = useState('')
@@ -57,11 +57,21 @@ export default function MySQLController() {
             setTimeout(() => {
                 setAlert('')
             }, 1000);
+
         } catch (error) {
             console.log(error.request.response)
             console.error("Error:", error.res?.data || error.message);
             if ((error.request.response).includes('Duplicate')) {
                 setAlert('duplicateB')
+                setTimeout(() => {
+                    setAlert('')
+                }, 1000);
+            }
+            if ((error.request.response).includes('null')) {
+                setAlert('null')
+                setTimeout(() => {
+                    setAlert('')
+                }, 1000);
             }
         }
     }
@@ -296,6 +306,13 @@ export default function MySQLController() {
                     alert === 'ok' ?
                         <div style={{ color: 'var(--green)' }}>
                             Added successfully!
+                        </div>
+                        : null
+                }
+                {
+                    alert === 'null' ?
+                        <div style={{ color: 'var(--red)' }}>
+                            You need B code!
                         </div>
                         : null
                 }

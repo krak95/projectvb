@@ -144,10 +144,9 @@
 }
 
 .searchController {
-    border: NONE;
-    border-radius: 6px;
     height: 30px;
     width: 100px;
+    border-bottom: 1px solid var(--light);
     background-color: var(--secondary);
     color: var(--light);
     display: flex;
@@ -156,8 +155,10 @@
 }
 
 .searchController:hover {
-    background-color: var(--vbBlue);
+    background-color: var(--light) !important;
     cursor: pointer;
+    color: var(--secondary);
+    transition: 0.3s;
 }
 
 .codeSearchDiv div {
@@ -172,10 +173,15 @@
     color: var(--light);
     background-color: var(--secondary);
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .productionCountDiv>div {
     padding: 10px;
+    
 }
 
 .itemStatusDiv {
@@ -202,6 +208,6 @@
     font-size: 12px;
 }
 
-.newItemBtn{
+.newItemBtn {
     background-color: var(--green) !important;
 }

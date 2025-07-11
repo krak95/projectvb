@@ -165,8 +165,8 @@ function App() {
           <div style={{ color: 'var(--light)', fontSize: '12px' }}>
             {globalDate}
           </div>
-          <div style={{ color: 'var(--light)', fontSize: '12px' }}>
-            {JSON.parse(localStorage.getItem('User'))?.fullname}
+          <div >
+            <NavLink style={{ color: 'var(--light) !important', fontSize: '12px' }} to="User">{JSON.parse(localStorage.getItem('User'))?.fullname}</NavLink>
           </div>
           <div>
             <NavLink to='/' onClick={e => logoutBtn(e)} className='logoutBtn'>EXIT</NavLink>
@@ -180,7 +180,6 @@ function App() {
                 null
                 :
                 <>
-                  <NavLink to="User">My account</NavLink>
                   <NavLink to="Production">Production Team</NavLink>
                   {role !== 'Quality'
                     ?

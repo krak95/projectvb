@@ -148,11 +148,7 @@ export default function MyProduction() {
     }, [])
     return (
         <div className="prodMainDiv">
-            <div className="controllerDiv">
-                <div>
-                    <a className="searchController" onClick={searchController}>Search</a>
-                </div>
-            </div>
+
             <div className="searchDiv" style={{ display: 'flex' }}>
                 <div className="codeSearchDiv">
                     <div className="CodePRSearchDiv">
@@ -216,22 +212,24 @@ export default function MyProduction() {
                 </div>
             </div>
             <div className="productionCountDiv">
-                <div>
+                <div className="controllerDiv">
+                    <div>
+                        <a className="searchController" onClick={searchController}>Search</a>
+                    </div>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'var(--light)', color: 'var(--primary)' }}>
                     Product quantity: {countProd}
                 </div>
             </div>
             <div className="itemListMainDiv">
                 <div className="itemListHeaders">
-                    <div className="itemStatusHeaderDiv">
-                        <div>
-                        </div>
-                    </div>
+
                     <div>
                         <div>
                             Project
                         </div>
                         <div className="projectSearchDiv">
-                            <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                            <input placeholder="Search by project" type="text" onChange={e => setProjectSearch(e.target.value)} />
                             {projects === undefined ? null
                                 : projects.map((e, key) => {
                                     return (
@@ -248,7 +246,7 @@ export default function MyProduction() {
                             SO
                         </div>
                         <div className="soSearchDiv">
-                            <input type="text" onChange={e => setSoSearch(e.target.value)} />
+                            <input placeholder="Search by so" type="text" onChange={e => setSoSearch(e.target.value)} />
                             {(projects === undefined || so === undefined) ? null :
                                 so.map((e, key) => {
                                     return (
@@ -264,7 +262,7 @@ export default function MyProduction() {
                             Equipment
                         </div>
                         <div className="equipmentSearchDiv">
-                            <input type="text" onChange={e => setEquipSearch(e.target.value)} />
+                            <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} />
                             {/* <select name="" id="">
                             <option value=""></option>
                             {equips === undefined ? null : equips.map((e, key) => {
@@ -282,7 +280,7 @@ export default function MyProduction() {
                             Code A
                         </div>
                         <div className="codeASearchDiv">
-                            <input type="text" onChange={e => setCodeaSearch(e.target.value)} />
+                            <input placeholder="Search by A code" type="text" onChange={e => setCodeaSearch(e.target.value)} />
                             {/* <li>
                                 CodeA
                             </li> */}
@@ -293,10 +291,14 @@ export default function MyProduction() {
                             Code B
                         </div>
                         <div className="CodeBSearchDiv">
-                            <input type="text" onChange={e => setCodebSearch(e.target.value)} />
+                            <input placeholder="Search by B code" type="text" onChange={e => setCodebSearch(e.target.value)} />
                             {/* <li>
                                 CodeB
                             </li> */}
+                        </div>
+                    </div>
+                    <div className="itemStatusHeaderDiv">
+                        <div>
                         </div>
                     </div>
                 </div>
@@ -326,15 +328,7 @@ export default function MyProduction() {
                         }>
                             <div className="itemListDiv" key={key}>
                                 <div className="itemList">
-                                    <div className="itemStatusDiv">
-                                        <span className="itemStatusSpan"
-                                            style={
-                                                (e.status === 'ok' || e.status === 'fixed') ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
-                                            }
-                                        >
-                                            {e.status}
-                                        </span>
-                                    </div>
+
                                     <div>
                                         <div>
                                             {e.project}
@@ -359,6 +353,15 @@ export default function MyProduction() {
                                         <div>
                                             {e.codeB}
                                         </div>
+                                    </div>
+                                    <div className="itemStatusDiv">
+                                        <span className="itemStatusSpan"
+                                            style={
+                                                (e.status === 'ok' || e.status === 'fixed') ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
+                                            }
+                                        >
+                                            {e.status}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

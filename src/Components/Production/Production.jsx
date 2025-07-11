@@ -156,11 +156,7 @@ export default function Production() {
             </div>
             <Outlet />
             <div className="prodMainDiv"  >
-                <div className="controllerDiv">
-                    <div>
-                        <a className="searchController" onClick={searchController}>Search</a>
-                    </div>
-                </div>
+
                 <div className="searchDiv" style={{ display: 'flex' }}>
                     <div className="codeSearchDiv">
                         <div className="CodePRSearchDiv">
@@ -225,6 +221,9 @@ export default function Production() {
                 </div>
                 <div className="productionCountDiv">
                     <div>
+                        <span className="searchController" onClick={searchController}>Search</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'var(--light)', color: 'var(--primary)' }}>
                         Product quantity: {countProd}
                     </div>
                 </div>
@@ -236,7 +235,7 @@ export default function Production() {
                                 Project
                             </div>
                             <div className="projectSearchDiv">
-                                <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                                <input placeholder="Search by project" type="text" onChange={e => setProjectSearch(e.target.value)} />
                                 {projects === undefined ? null
                                     : projects.map((e, key) => {
                                         return (
@@ -253,7 +252,7 @@ export default function Production() {
                                 SO
                             </div>
                             <div className="soSearchDiv">
-                                <input type="text" onChange={e => setSoSearch(e.target.value)} />
+                                <input placeholder="Search by so" type="text" onChange={e => setSoSearch(e.target.value)} />
                                 {(projects === undefined || so === undefined) ? null :
                                     so.map((e, key) => {
                                         return (
@@ -269,7 +268,7 @@ export default function Production() {
                                 Equipment
                             </div>
                             <div className="equipmentSearchDiv">
-                                <input type="text" onChange={e => setEquipSearch(e.target.value)} />
+                                <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} />
                                 {/* <select name="" id="">
                             <option value=""></option>
                             {equips === undefined ? null : equips.map((e, key) => {
@@ -287,7 +286,7 @@ export default function Production() {
                                 Code A
                             </div>
                             <div className="codeASearchDiv">
-                                <input type="text" onChange={e => setCodeaSearch(e.target.value)} />
+                                <input placeholder="Search by A code" type="text" onChange={e => setCodeaSearch(e.target.value)} />
                                 {/* <li>
                                 CodeA
                             </li> */}
@@ -298,7 +297,7 @@ export default function Production() {
                                 Code B
                             </div>
                             <div className="CodeBSearchDiv">
-                                <input type="text" onChange={e => setCodebSearch(e.target.value)} />
+                                <input placeholder="Search by B code" type="text" onChange={e => setCodebSearch(e.target.value)} />
                                 {/* <li>
                                 CodeB
                             </li> */}
