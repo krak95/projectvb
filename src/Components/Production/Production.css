@@ -188,11 +188,9 @@
 
 
 .itemStatusSpan {
-    /* background-color: var(--red) !important; */
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: .5;
     text-transform: uppercase;
 }
 
@@ -202,4 +200,8 @@
 
 .itemStatusSpan {
     font-size: 12px;
+}
+
+.newItemBtn{
+    background-color: var(--green) !important;
 }

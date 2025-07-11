@@ -155,7 +155,7 @@ function App() {
     <>
       {/* <LiveCamera/> */}
       {/* <CameraStream/> */}
-      <div className='rootPage'>
+      <div className='rootPage' style={{ backgroundImage: 'url(' + amadeuslogo + ')', backgroundRepeat: "repeat-x repeat-y", backgroundSize: "300px auto" }}>
         <div className='rootHeader'>
           <div>
             <NavLink to='/' className='amadeusLogoMenu'>

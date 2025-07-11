@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import './Production.css'
 import $ from 'jquery'
 import socket from "../../API/Socket/socket";
+import amadeuslogo from "./../../Img/amadeus_logo.png"
 
 export default function Production() {
 
@@ -154,7 +155,7 @@ export default function Production() {
                 <NavLink className='newItemBtn' to="/Production/MySQLController">New Item</NavLink>
             </div>
             <Outlet />
-            <div className="prodMainDiv">
+            <div className="prodMainDiv"  >
                 <div className="controllerDiv">
                     <div>
                         <a className="searchController" onClick={searchController}>Search</a>
@@ -229,10 +230,7 @@ export default function Production() {
                 </div>
                 <div className="itemListMainDiv">
                     <div className="itemListHeaders">
-                        <div className="itemStatusHeaderDiv">
-                            <div>
-                            </div>
-                        </div>
+
                         <div>
                             <div>
                                 Project
@@ -306,6 +304,10 @@ export default function Production() {
                             </li> */}
                             </div>
                         </div>
+                        <div className="itemStatusHeaderDiv">
+                            <div>
+                            </div>
+                        </div>
                     </div>
                     {production === undefined ? null : production.map((e, key) =>
                     (
@@ -333,15 +335,7 @@ export default function Production() {
                             }>
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
-                                        <div className="itemStatusDiv">
-                                            <span className="itemStatusSpan"
-                                                style={
-                                                    (e.status === 'ok' || e.status === 'fixed') ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
-                                                }
-                                            >
-                                                {e.status}
-                                            </span>
-                                        </div>
+
                                         <div>
                                             <div>
                                                 {e.project}
@@ -366,6 +360,15 @@ export default function Production() {
                                             <div>
                                                 {e.codeB}
                                             </div>
+                                        </div>
+                                        <div className="itemStatusDiv">
+                                            <span className="itemStatusSpan"
+                                                style={
+                                                    (e.status === 'ok' || e.status === 'fixed') ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
+                                                }
+                                            >
+                                                {e.status}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

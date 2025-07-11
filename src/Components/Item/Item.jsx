@@ -222,7 +222,7 @@ export default function Item({ path }) {
                                 <p>{startDate}</p> until <p>{endDate === '' ? 'Not finished' : endDate}</p>
                             </div>
                         </div>
-                        <button className='backBtn' onClick={delProd}>Delete product</button>
+                        <button className='deleteItemBtn' onClick={delProd}>Delete product</button>
                     </div>
                     <div className='itemHeaders'>
                         {/* <div>
@@ -303,7 +303,7 @@ export default function Item({ path }) {
                             <div className='itemIssuesSearch'>
                                 <div>
                                     <input placeholder="Search by description" type="text" onChange={e => setIssueSearch(e.target.value)} />
-                                    <select style={alert0 === 'missingRef' ? { backgroundColor: 'var(--red)'} : null} name="" id="" onChange={e => setRef_Issue(e.target.value)}>
+                                    <select style={alert0 === 'missingRef' ? { backgroundColor: 'var(--red)' } : null} name="" id="" onChange={e => setRef_Issue(e.target.value)}>
                                         <option value=""></option>
                                         {issueArray.map((e, key) =>
                                             <option value={e.id_issues}>

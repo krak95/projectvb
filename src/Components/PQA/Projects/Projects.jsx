@@ -3,6 +3,7 @@ import { newProjectAXIOS, fetchProjectsAXIOS, deleteProjectAXIOS } from "../../.
 import socket from "../../../API/Socket/socket"
 import { getData } from "../../../CustomHooks/LocalStorage/GetData"
 import "./Projects.css"
+import amadeuslogo from "./../../../Img/amadeus_logo.png"
 
 export default function Projects() {
     const [Project, setProject] = useState('')
@@ -83,7 +84,7 @@ export default function Projects() {
 
     return (
         <>
-            <div className="pqaProjectsMainDiv">
+            <div className="pqaProjectsMainDiv" >
                 <div className="pqaNewProject">
                     <div> <input onKeyDown={(e) => {
                         if (e.key === 'Enter') {

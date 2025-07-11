@@ -66,6 +66,19 @@
   cursor: pointer;
 }
 
+.deleteItemBtn {
+  border: NONE;
+  border-radius: 6px;
+  color: white;
+  border: 1px solid var(--red);
+  background-color: var(--red) !important;
+}
+
+.deleteItemBtn:hover {
+  cursor: pointer;
+}
+
+
 .itemIssuesDiv {
   display: flex !important;
   flex-direction: column !important;
