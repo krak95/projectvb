@@ -82,9 +82,7 @@ export default function Login() {
             if ((error.response.data.message).includes('Duplicate')) {
                 setAlert('loggedin')
                 const concatDate = datefunction()
-                setTimeout(() => {
-                    refreshLog({ username: username, logDate: concatDate, fullname: e.fullname, role: e.role, admin: e.admin })
-                }, 1000);
+                refreshLog({ username: username, logDate: concatDate, fullname: e.fullname, role: e.role, admin: e.admin })
             }
         }
     }

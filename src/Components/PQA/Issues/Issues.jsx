@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import "./Issues.css"
-import { newIssueAXIOS, fetchIssuesAXIOS } from "../../../API/Axios/axiosCS"
+import { newIssueAXIOS, fetchIssuesAXIOS, deleteIssuesAXIOS } from "../../../API/Axios/axiosCS"
 import socket from "../../../API/Socket/socket"
+import { getData } from "../../../CustomHooks/LocalStorage/GetData"
 
 export default function Issues() {
     const [issueRef, setIssueRef] = useState('')
@@ -9,11 +10,26 @@ export default function Issues() {
     const [issueLevel, setIssueLevel] = useState('')
     const [issuesArray, setIssuesArray] = useState([])
 
+    const [admin, setAdmin] = useState(0)
+    const getAdmin = () => {
+        const res = getData()
+        setAdmin(res.admin)
+    }
+
+    useEffect(() => {
+        getAdmin()
+    }, [])
 
     const newIssue = async () => {
         socket.emit("newIssue")
         const res = await newIssueAXIOS({ ref_issue: issueRef, description_issue: issueDescription, level_issue: issueLevel })
         console.log(res)
+    }
+
+    const deleteBtn = async (e) => {
+        const res = await deleteIssuesAXIOS({ id_issues: e })
+        console.log(res)
+        socket.emit('newIssue')
     }
 
     const [IssueRef, setIssueRefSearch] = useState('')
@@ -60,7 +76,7 @@ export default function Issues() {
                     </div>
                 </div>
                 <div className="issuesList">
-                    <div className="issuesListHeaders">
+                    <div className="issuesListHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(4, calc(100%/4))' }}>
                         <div>Issue Ref
                             <input type="text" onChange={e => setIssueRefSearch(e.target.value)} name="" id="" />
                         </div>
@@ -73,10 +89,15 @@ export default function Issues() {
                     </div>
 
                     {issuesArray.map((e, key) =>
-                        <div key={key} className="issuesListContent">
+                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(4, calc(100%/4))' }} key={key} className="issuesListContent">
                             <div>{e.ref_issue}</div>
                             <div>{e.description_issue}</div>
                             <div>{e.level_issue}</div>
+                            {admin === 0 ? null :
+                                <div onClick={a => deleteBtn(e.id_issues)}>
+                                    <span>Delete</span>
+                                </div>
+                            }
                         </div>
                     )}
                 </div>

@@ -53,3 +53,15 @@
     justify-content: center;
     height: 50px !important;
 }
+
+.pqaEquipList span {
+    background-color: var(--secondary);
+    padding: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+.pqaEquipList span:hover {
+    background-color: var(--vbBlue);
+    cursor: pointer;
+}

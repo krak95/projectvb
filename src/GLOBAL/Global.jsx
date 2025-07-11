@@ -33,6 +33,7 @@ export const GlobalProvider = ({ children }) => {
         console.log('Global Path: ', e)
         setPath(e)
     }
+
     useEffect(() => {
     }, [])
 
@@ -49,7 +50,9 @@ export const GlobalProvider = ({ children }) => {
     }
 
     return (
-        <GlobalContent.Provider value={{ authorized, setAuthorized, authorizing, rolling, setRole, role, swapRegisterLoginF, setswapRegisterLogin, swapRegisterLogin, setPathGlobal, path, setPath, menu, setMenu }}>
+        <GlobalContent.Provider value={{
+            authorized, setAuthorized, authorizing, rolling, setRole, role, swapRegisterLoginF, setswapRegisterLogin, swapRegisterLogin, setPathGlobal, path, setPath, menu, setMenu 
+        }}>
             {children}
         </GlobalContent.Provider>
     );

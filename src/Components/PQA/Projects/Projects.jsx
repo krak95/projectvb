@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { newProjectAXIOS, fetchProjectsAXIOS } from "../../../API/Axios/axiosCS"
+import { newProjectAXIOS, fetchProjectsAXIOS, deleteProjectAXIOS } from "../../../API/Axios/axiosCS"
 import socket from "../../../API/Socket/socket"
+import { getData } from "../../../CustomHooks/LocalStorage/GetData"
 import "./Projects.css"
 
 export default function Projects() {
@@ -16,7 +17,17 @@ export default function Projects() {
 
     const [projectsArray, setProjectsArray] = useState([])
 
-    const [alert, setAlert] = useState('')
+    const [alert0, setAlert0] = useState('')
+
+    const [admin, setAdmin] = useState(0)
+    const getAdmin = () => {
+        const res = getData()
+        setAdmin(res.admin)
+    }
+
+    useEffect(() => {
+        getAdmin()
+    }, [])
 
     const newProject = async () => {
         socket.emit("newProject")
@@ -32,7 +43,10 @@ export default function Projects() {
         } catch (error) {
             console.error("Error:", error.res?.data || error.message);
             if ((error.request.response).includes('Duplicate')) {
-                setAlert('Duplicate')
+                setAlert0('Duplicate')
+                setTimeout(() => {
+                    setAlert0('')
+                }, 1000);
             }
         }
     }
@@ -46,6 +60,12 @@ export default function Projects() {
         })
         setProjectsArray(res.data)
         console.log(res)
+    }
+
+    const deleteBtn = async (e) => {
+        const res = await deleteProjectAXIOS({ id_proj: e })
+        console.log(res)
+        socket.emit('newProject')
     }
 
     socket.on("fetchProject", () => {
@@ -64,13 +84,12 @@ export default function Projects() {
     return (
         <>
             <div className="pqaProjectsMainDiv">
-
                 <div className="pqaNewProject">
                     <div> <input onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             newProject()
                         }
-                    }} style={alert === 'Duplicate' ? { backgroundColor: 'var(--red)' } : null} placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /></div>
+                    }} style={alert0 === 'Duplicate' ? { backgroundColor: 'var(--red)' } : null} placeholder="Project" type="text" onChange={e => setProject(e.target.value)} /></div>
                     <div> <input onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                             newProject()
@@ -90,7 +109,7 @@ export default function Projects() {
                 </div>
 
                 <div className="pqaListProjects">
-                    <div className="pqaListHeadersProjects">
+                    <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(5, calc(100%/5))' }} className="pqaListHeadersProjects">
                         <div>
                             Project Name
                             <input type="text" onChange={e => setProjectSearch(e.target.value)} />
@@ -108,8 +127,9 @@ export default function Projects() {
                             <input type="text" onChange={e => setClientNameSearch(e.target.value)} />
                         </div>
                     </div>
+
                     {projectsArray.map((e, key) =>
-                        <div>
+                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(5, calc(100%/5))' }} >
                             <div>
                                 {e.project}
                             </div>
@@ -122,8 +142,15 @@ export default function Projects() {
                             <div>
                                 {e.client_name}
                             </div>
+                            {admin === 0 ? null :
+                                <div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                                        <span onClick={a => deleteBtn(e.id_proj)}>Delete</span>
+                                        {/* <span onClick={updateBtn}>update</span> */}
+                                    </div>
+                                </div>
+                            }
                         </div>
-
                     )}
                 </div>
             </div>

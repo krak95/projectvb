@@ -56,3 +56,15 @@
     align-items: center;
     justify-content: center;
 }
+
+.pqaListProjects span {
+    background-color: var(--secondary);
+    padding: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+.pqaListProjects span:hover {
+    background-color: var(--vbBlue);
+    cursor: pointer;
+}

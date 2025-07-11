@@ -336,7 +336,7 @@ export default function Production() {
                                         <div className="itemStatusDiv">
                                             <span className="itemStatusSpan"
                                                 style={
-                                                    e.status === 'ok' || e.status === 'fixed' ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
+                                                    (e.status === 'ok' || e.status === 'fixed') ? { color: 'var(--green)' } : (e.status === 'nok' ? { color: 'var(--red)' } : { color: 'black' })
                                                 }
                                             >
                                                 {e.status}

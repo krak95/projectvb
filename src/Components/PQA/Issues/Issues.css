@@ -4,7 +4,7 @@
     justify-content: space-between;
     width: 100%;
     flex-direction: column;
-    margin-top:4px;
+    margin-top: 4px;
 }
 
 .issueNewDiv {
@@ -58,4 +58,17 @@
 
 .issuesListContent {
     height: 30px !important;
+}
+
+
+.issuesList span {
+    background-color: var(--secondary);
+    padding: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+.issuesList span:hover {
+    background-color: var(--vbBlue);
+    cursor: pointer;
 }

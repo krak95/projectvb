@@ -308,3 +308,24 @@ export const deleteItemIssueAXIOS = ({ e }) => {
     console.log(e)
     return axiosBase.post('/deleteItemIssues', { iditem_issues: e })
 }
+
+export const deleteProjectAXIOS = ({ id_proj }) => {
+    console.log({ id_proj })
+    return axiosBase.post('/deleteProject', { id_proj })
+}
+export const deleteSOAXIOS = ({ idSO }) => {
+    console.log({ idSO })
+    return axiosBase.post('/deleteSO', { idSO })
+}
+
+export const deleteEquipAXIOS = ({ idequipments }) => {
+    console.log({ idequipments })
+    return axiosBase.post('/delEquip', { idequipments })
+}
+
+
+export const deleteIssuesAXIOS = ({ id_issues }) => {
+    console.log({ id_issues })
+    return axiosBase.post('/delIssues', { id_issues })
+}
+

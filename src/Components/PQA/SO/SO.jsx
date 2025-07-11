@@ -1,12 +1,23 @@
 import { useEffect, useState } from "react"
-import { newSOAXIOS, fetchSOAXIOS, fetchProjectsAXIOS } from "../../../API/Axios/axiosCS"
+import { newSOAXIOS, fetchSOAXIOS, fetchProjectsAXIOS, deleteSOAXIOS } from "../../../API/Axios/axiosCS"
 import socket from "../../../API/Socket/socket"
 import './SO.css'
+import { getData } from "../../../CustomHooks/LocalStorage/GetData"
 
 export default function So() {
 
     const [SOref, setSOref] = useState('')
     const [project, setProject] = useState('')
+
+    const [admin, setAdmin] = useState(0)
+    const getAdmin = () => {
+        const res = getData()
+        setAdmin(res.admin)
+    }
+
+    useEffect(() => {
+        getAdmin()
+    }, [])
 
     const newSO = async () => {
         socket.emit("newSO")
@@ -41,6 +52,12 @@ export default function So() {
         const res = await fetchSOAXIOS({ project: projectSearch, SOref: soSearch })
         setSoArray(res.data)
         console.log(res)
+    }
+
+    const deleteBtn = async (e) => {
+        const res = await deleteSOAXIOS({ idSO: e })
+        console.log(res)
+        socket.emit('newSO')
     }
 
     socket.on('fetchSO', () => {
@@ -80,7 +97,7 @@ export default function So() {
                     </div>
                 </div>
                 <div className="pqaListSo">
-                    <div className="pqaListSoHeaders">
+                    <div className="pqaListSoHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(3, calc(100%/3))' }}>
                         <div>
                             Project
                             <input type="text" name="" id="" onChange={e => setProjectSearch(e.target.value)} />
@@ -91,13 +108,18 @@ export default function So() {
                         </div>
                     </div>
                     {soArray.map((e, key) =>
-                        <div>
+                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(3, calc(100%/3))' }} >
                             <div>
                                 {e.project}
                             </div>
                             <div>
                                 {e.sOref}
                             </div>
+                            {admin === 0 ? null :
+                                <div>
+                                    <span onClick={a => deleteBtn(e.idSO)}>Delete</span>
+                                </div>
+                            }
                         </div>
                     )}
                 </div>

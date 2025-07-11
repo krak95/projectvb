@@ -1,13 +1,33 @@
 import { useEffect, useState } from "react"
-import { newEquipAXIOS, fetchEquipmentsAXIOS } from "../../../API/Axios/axiosCS"
+import { newEquipAXIOS, fetchEquipmentsAXIOS, deleteEquipAXIOS } from "../../../API/Axios/axiosCS"
 import socket from "../../../API/Socket/socket"
 import './Equipments.css'
+import { getData } from "../../../CustomHooks/LocalStorage/GetData"
 
 export default function Equipments() {
 
     const [EquipName, setEquipName] = useState('')
 
     const [alert, setAlert] = useState('')
+
+
+    const [admin, setAdmin] = useState(0)
+    const getAdmin = () => {
+        const res = getData()
+        setAdmin(res.admin)
+        console.log(res)
+    }
+
+    useEffect(() => {
+        getAdmin()
+    }, [])
+
+    const deleteBtn = async (e) => {
+        const res = await deleteEquipAXIOS({ idequipments: e })
+        console.log(res)
+        socket.emit('newEquip')
+    }
+
 
     const newEquip = async () => {
         socket.emit('newEquip')
@@ -60,16 +80,21 @@ export default function Equipments() {
                     </div>
                 </div>
                 <div className="pqaEquipList">
-                    <div className="pqaEquipListHeaders">
+                    <div className="pqaEquipListHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(2, calc(100%/2))' }} >
                         <div>Equipment Name</div>
                         <input type="text" name="" id="" onChange={e => setEquipSearch(e.target.value)} />
                     </div>
 
                     {equipsArray.map((e, key) =>
-                        <div>
+                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(2, calc(100%/2))' }} >
                             <div>
                                 {e.equipName}
                             </div>
+                            {admin === 0 ? null :
+                                <div>
+                                    <span onClick={a => deleteBtn(e.idequipments)}>Delete</span>
+                                </div>
+                            }
                         </div>
                     )
                     }
