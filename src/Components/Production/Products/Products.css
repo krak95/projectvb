@@ -5,6 +5,7 @@
     flex-direction: column;
     width: 100%;
     font-size: 14px;
+    margin-top: 50px;
 }
 
 .prodMainDiv a:hover {
@@ -175,8 +176,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-between;
 }
 
 .productionCountDiv>div {
@@ -210,4 +210,6 @@
 
 .newItemBtn {
     background-color: var(--green) !important;
+    padding:10px;
+    border-radius: 6px;
 }

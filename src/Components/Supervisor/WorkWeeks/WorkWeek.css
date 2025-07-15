@@ -1,0 +1,16 @@
+.wwGrid {
+    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+}
+
+.wwGrid>a {
+    padding: 10px;
+    background-color: var(--light);
+    margin: 1px;
+}
+
+.wwMainDiv {}
+
+.wwContentDiv {
+    margin: 10px;
+}

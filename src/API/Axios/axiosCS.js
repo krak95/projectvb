@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const axiosBase = axios.create({
-    baseURL: 'http://10.76.76.44:5000/api/My',
+    // baseURL: 'http://10.76.76.44:5000/api/My',
+    baseURL: 'http://localhost:5000/api/My',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -16,7 +17,6 @@ export const fetchUsersAXIOS = ({ fullname }) => {
     console.log(fullname)
     return axiosBase.post('/fetchUsers', { fullname })
 }
-
 
 export const registerAXIOS = ({
     fullname,
@@ -101,7 +101,8 @@ export const fetchProductionAXIOS = ({
     Type2: type2Search,
     Type3: type3Search,
     Type4: type4Search,
-    Tester
+    Tester,
+    ww_number
 }) => {
     console.log(projectSearch, codeaSearch, Tester)
     return axiosBase.post('/fetchProduction',
@@ -119,7 +120,8 @@ export const fetchProductionAXIOS = ({
             Type2: type2Search,
             Type3: type3Search,
             Type4: type4Search,
-            Tester
+            Tester,
+            ww_number
         }
     )
 }
@@ -156,7 +158,8 @@ export const fetchCountProductionAXIOS = ({
     Type2: type2Search,
     Type3: type3Search,
     Type4: type4Search,
-    Tester
+    Tester,
+    ww_number
 }) => {
     console.log(projectSearch, codeaSearch, Tester)
     return axiosBase.post('/fetchCountProduction',
@@ -174,7 +177,8 @@ export const fetchCountProductionAXIOS = ({
             Type2: type2Search,
             Type3: type3Search,
             Type4: type4Search,
-            Tester
+            Tester,
+            ww_number
         }
     )
 }
@@ -200,7 +204,10 @@ export const newProductionAXIOS = ({
     Type4: type4,
     Tester: tester,
     StartDate: startDate,
-    EndDate: endDate
+    EndDate: endDate,
+    hipotValue: hipotValue,
+    hipotModel: hipotModel,
+    hipotMultimeterModel: hipotMultimeterModel
 }) => {
     return axiosBase.post('/newProduction', {
         Project: project,
@@ -218,7 +225,10 @@ export const newProductionAXIOS = ({
         Type4: type4,
         Tester: tester,
         StartDate: startDate,
-        EndDate: endDate
+        EndDate: endDate,
+        hipotValue: hipotValue,
+        hipotModel: hipotModel,
+        hipotMultimeterModel: hipotMultimeterModel
     })
 }
 
@@ -299,9 +309,9 @@ export const fetchItemIssuesAXIOS = ({ id_item: id_prod }) => {
     return axiosBase.post('/fetchItemIssues', { id_item: id_prod })
 }
 
-export const updateItemIssueStatusAXIOS = ({ iditem_issues, issue_status }) => {
-    console.log({ iditem_issues, issue_status })
-    return axiosBase.post('/updateItemIssues', { iditem_issues, issue_status })
+export const updateItemIssueStatusAXIOS = ({ iditem_issues, issue_status, action }) => {
+    console.log({ iditem_issues, issue_status, action })
+    return axiosBase.post('/updateItemIssues', { iditem_issues, issue_status, action })
 }
 
 export const deleteItemIssueAXIOS = ({ e }) => {
@@ -329,3 +339,23 @@ export const deleteIssuesAXIOS = ({ id_issues }) => {
     return axiosBase.post('/delIssues', { id_issues })
 }
 
+//JOB//
+export const addJobAXIOS = ({ equipment, model, quantityNeed, jobNumber, jobProject }) => {
+    console.log({ equipment, model, quantityNeed, jobNumber, jobProject })
+    return axiosBase.post('/addJob', { equipment, model, quantityNeed, jobNumber, jobProject })
+}
+export const fetchJobAXIOS = ({ equipment, model, jobNumber, jobProject, jobDone }) => {
+    console.log({ equipment, model, jobNumber, jobProject, jobDone })
+    return axiosBase.post('/fetchJobs', { equipment, model, jobNumber, jobProject, jobDone })
+}
+
+
+//WORKWEEKS
+
+export const fetchWorkWeeksAXIOS = ({ ww_number }) => {
+    console.log({ ww_number })
+    return axiosBase.post('/fetchWorkWeeks', { ww_number })
+}
+export const fetchWorkWeeksNRAXIOS = () => {
+    return axiosBase.post('/fetchWorkWeeksNR')
+}

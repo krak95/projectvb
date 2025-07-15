@@ -1,0 +1,20 @@
+.newJobMainDiv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.newJobMainDiv>div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--secondary);
+    border-bottom: 1px solid var(--primary);
+}
+
+.newJobMainDiv>div>div {
+    padding: 10px;
+}

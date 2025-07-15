@@ -14,6 +14,10 @@ import Authentication from './Components/Authentication/Authentication';
 import User from './Components/User/User'
 import Admin from './Components/User/Admin/Admin';
 import MyProduction from './Components/User/MyProduction/MyProduction';
+import Products from './Components/Production/Products/Products';
+import Supervisor from './Components/Supervisor/Supervisor';
+import WorkWeeks from './Components/Supervisor/WorkWeeks/WorkWeeks';
+import WeekDetails from './Components/Supervisor/WeekDetails/WeekDetails';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext, useState } from 'react';
@@ -24,6 +28,7 @@ import { logout } from './CustomHooks/Logout/logout';
 import amadeuslogo from './Img/amadeus_logo.png'
 import Statistics from './Components/Statistics/Statistics';
 import { checkLogin } from './CustomHooks/Login/LoginHook';
+import Jobs from './Components/Production/Jobs/Jobs';
 
 function App() {
 
@@ -46,13 +51,12 @@ function App() {
     console.log(res.role)
     setRole(res.role)
   }
+  
   const [admin, setAdmin] = useState(0)
   const getAdmin = () => {
     const res = getData()
     setAdmin(res.admin)
   }
-
-
 
   useEffect(() => {
     getRole()
@@ -181,11 +185,17 @@ function App() {
                 :
                 <>
                   <NavLink to="Production">Production Team</NavLink>
-                  {role !== 'Quality'
+                  {role !== ('Quality' && 'Supervisor')
                     ?
                     null
                     :
                     <NavLink to="PQA">PQA Team</NavLink>
+                  }
+                  {role !== 'Supervisor'
+                    ?
+                    null
+                    :
+                    <NavLink to="Supervisor">Supervisor Team</NavLink>
                   }
                 </>
               }
@@ -205,10 +215,14 @@ function App() {
                   <Route path="/User/MyProduction" element={<MyProduction />}></Route>
                 </Route>
                 <Route path='/Production' element={<Production />}>
-                  <Route path="/Production/item" element={<Item path={'Production'} />}></Route>
-                  <Route path='/Production/MySQLController' element={<MySQLController />}></Route>
+                  <Route path='/Production/Products' element={<Products />}>
+                    <Route path="/Production/Products/item" element={<Item path={'Production/Products'} />}></Route>
+                    <Route path='/Production/Products/MySQLController' element={<MySQLController />}></Route>
+                  </Route>
+                  <Route path='/Production/Jobs' element={<Jobs />}>
+                  </Route>
                 </Route>
-                {role !== 'Quality' ? null
+                {role !== ('Quality' && 'Supervisor') ? null
                   :
                   <Route path='/PQA' element={<PQA />}>
                     <Route path='/PQA/Issues' element={<Issues />}></Route>
@@ -216,6 +230,15 @@ function App() {
                     <Route path='/PQA/So' element={<So />}></Route>
                     <Route path='/PQA/Equipments' element={<Equipments />}></Route>
                     {/* <Route path='/PQA/Statistics' element={<Statistics />}></Route> */}
+                  </Route>
+                }
+                {role !== 'Supervisor' ? null
+                  :
+                  <Route path='/Supervisor' element={<Supervisor />}>
+                    <Route path='/Supervisor/WorkWeeks' element={<WorkWeeks />}>
+                    </Route>
+                    <Route path='/Supervisor/WeekDetails' element={<WeekDetails />}>
+                    </Route>
                   </Route>
                 }
               </Route>

@@ -3,7 +3,6 @@
     grid-template-columns: repeat(6, 200px);
     background-color: var(--secondary);
     width: 100%;
-    margin-top: 4px;
 }
 
 .mySqlControllerContent>div {
@@ -51,4 +50,8 @@
 
 .dateForm>div {
     margin: 2px;
+}
+
+.hipotDiv > div{
+    margin:2px;
 }

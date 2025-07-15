@@ -21,6 +21,9 @@ export default function MySQLController() {
     const [type4, setType4] = useState('')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+    const [hipotValue, sethipotValue] = useState('')
+    const [hipotModel, sethipotModel] = useState('')
+    const [hipotMultimeterModel, sethipotMultimeterModel] = useState('')
 
     const [showNewProj, setShowNewProj] = useState(false)
     const [showNewSO, setShowNewSO] = useState(false)
@@ -48,7 +51,10 @@ export default function MySQLController() {
                 'ReadyPQA': null,
                 'Tester': JSON.parse(localStorage.getItem('User')).fullname,
                 'StartDate': fullDate,
-                'EndDate': endDate
+                'EndDate': endDate,
+                'hipotValue': hipotValue,
+                'hipotModel': hipotModel,
+                'hipotMultimeterModel': hipotMultimeterModel
             })
 
             console.log("Success:", res.data);
@@ -167,7 +173,7 @@ export default function MySQLController() {
                 <div>
                     <div>
                         <p style={{ fontSize: '12px', color: 'var(--light)' }}>{so === '' || null ? 'SO' : so}</p>
-                        <input type="text" placeholder="so" onChange={e => setSO(e.target.value)} />
+                        <input type="text" placeholder="SO" onChange={e => setSO(e.target.value)} />
                         <select onChange={e => setSO(e.target.value)} name="" id="">
                             <option ></option>
                             {soArray.map((e, key) =>
@@ -287,6 +293,20 @@ export default function MySQLController() {
                                 <input type="text" placeholder="Year" onChange={e => setYearDate(e.target.value)} />
                             </div>
                             {/* <input type="date" placeholder="start date" onChange={e => setStartDate(e.target.value)} /> */}
+                        </div>
+                        <div className="hipotDiv">
+                            <div>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>Hipot</p>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Hipot Value" onChange={e => sethipotValue(e.target.value)} />
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Hipot Model" onChange={e => sethipotModel(e.target.value)} />
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Hipot Multimeter Model" onChange={e => sethipotMultimeterModel(e.target.value)} />
+                            </div>
                         </div>
                         {/* <div>
                             <p style={{ fontSize: '12px', color: 'var(--light)' }}>{endDate === '' || null ? 'End Date' : endDate}</p>

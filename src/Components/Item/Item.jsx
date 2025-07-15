@@ -22,7 +22,7 @@ export default function Item({ path }) {
     const navigate = useNavigate();
 
     const handleRetro = () => {
-        window.location.href = 'http://10.76.76.44:3000/' + path + ''
+        window.location.href = 'http://localhost:3000/' + path + ''
     };
 
 
@@ -46,6 +46,9 @@ export default function Item({ path }) {
     const tester = queryParams.get('tester');
     const startDate = queryParams.get('startDate');
     const endDate = queryParams.get('endDate');
+    const hipotValue = queryParams.get('hipotValue');
+    const hipotModel = queryParams.get('hipotModel');
+    const hipotMultimeterModel = queryParams.get('hipotMultimeterModel');
 
     const [comment, setComment] = useState('')
     const addItemIssue = async () => {
@@ -126,13 +129,14 @@ export default function Item({ path }) {
             handleRetro()
             socketRefreshItemStatus()
             console.log(res)
+            //update JOBS table quantityDone
         } catch (e) {
             console.log(e)
         }
         console.log(items[0].status)
     }
 
-
+    const [action, setAction] = useState('')
     const updateItemIssueStatus = async (e) => {
         var statusf
         if (itemIssuesArray[e.key].issue_status === 'CLOSE') {
@@ -143,7 +147,7 @@ export default function Item({ path }) {
         // console.log({ itemIssuesArray[key], key: e.key })
         // console.log({ iditem_issues: e.iditem_issues, issue_status: e.key })
         try {
-            const res = await updateItemIssueStatusAXIOS({ iditem_issues: itemIssuesArray[e.key].iditem_issues, issue_status: statusf })
+            const res = await updateItemIssueStatusAXIOS({ iditem_issues: itemIssuesArray[e.key].iditem_issues, issue_status: statusf, action: action })
             socketAddItemIssue()
         } catch (e) {
             console.log(e)
@@ -176,10 +180,12 @@ export default function Item({ path }) {
     }
 
     const deleteItemIssue = async (e) => {
-        const res = await deleteItemIssueAXIOS({ e })
-        socketAddItemIssue()
-        console.log(res)
-        console.log(e)
+        if (window.confirm('Delete Issue?') === true) {
+            const res = await deleteItemIssueAXIOS({ e })
+            socketAddItemIssue()
+            console.log(res)
+            console.log(e)
+        }
 
     }
 
@@ -297,6 +303,23 @@ export default function Item({ path }) {
                                 {type4}
                             </div>
                         </div>
+                        <div className='hipotInfoDiv'>
+                            <div className='hipotHeader'>Hipot</div>
+                            <div className='hipotGrid'>
+                                <div>
+                                    <div>Value</div>
+                                    <p>{hipotValue}</p>
+                                </div>
+                                <div>
+                                    <div>Model</div>
+                                    <p>{hipotModel}</p>
+                                </div>
+                                <div>
+                                    <div>Multimeter</div>
+                                    <p>{hipotMultimeterModel}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className='itemIssuesDiv'>
                         <div className='itemIssuesContentDiv'>
@@ -328,6 +351,7 @@ export default function Item({ path }) {
                                 <div>Issue Level</div>
                                 <div>Comment</div>
                                 <div>Issue Status</div>
+                                <div>Action</div>
                                 <div></div>
                             </div>
                             {itemIssuesArray.map((e, key) => (
@@ -341,9 +365,17 @@ export default function Item({ path }) {
                                             {e.issue_status}
                                         </a>
                                     </div>
-                                    <a onClick={a => deleteItemIssue(e.iditem_issues)}>
-                                        Delete
-                                    </a>
+                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <p>
+                                            {e.action}
+                                        </p>
+                                        <input type="text" onChange={a => setAction(a.target.value)} />
+                                    </div>
+                                    <div>
+                                        <a style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={a => deleteItemIssue(e.iditem_issues)}>
+                                            Delete
+                                        </a>
+                                    </div>
                                 </div>
                             ))}
                         </div>
