@@ -18,7 +18,6 @@ body {
 a {
   text-decoration: none;
   text-decoration-color: none;
-
 }
 
 a,
@@ -31,6 +30,9 @@ a:focus {
 }
 
 a.active {
+  background-color: var(--vbBlue) !important;
+}
+a.hover{
   background-color: var(--vbBlue) !important;
 }
 

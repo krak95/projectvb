@@ -1,46 +1,45 @@
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import { fetchProductionAXIOS } from "../../../API/Axios/axiosCS";
+import { useEffect, useState } from "react";
+import { fetchProductionAXIOS, fetchWorkWeeksProjectAXIOS } from "../../../API/Axios/axiosCS";
+import { NavLink, Outlet } from "react-router-dom";
+import "./WeekDetails.css"
 export default function WeekDetails() {
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
 
     const ww_number = queryParams.get('ww_number');
 
-
     const [prodArray, setProdArray] = useState([])
     const [quantDone, setQuantDone] = useState(0)
+
     const fetchProd = async () => {
-        const res = await fetchProductionAXIOS({
-            Project: '',
-            So: '',
-            Equipment: '',
-            CodeA: '',
-            CodeB: '',
-            CodePR: '',
-            CodePS: '',
-            CodeDR: '',
-            Type0: '',
-            Type1: '',
-            Type2: '',
-            Type3: '',
-            Type4: '',
-            Tester: '',
+        const res = await fetchWorkWeeksProjectAXIOS({
             ww_number: ww_number
         })
-        console.log(res)
+        console.log(res.data)
         setProdArray(res.data)
         setQuantDone((res.data).length)
     }
 
-    return (
-        <div>
-            {prodArray.map((e, key) =>
-                <div>
-                    {e.equipment}
-                </div>
+    useEffect(() => {
+        fetchProd()
+    }, [])
 
-            )}
-        </div>
+    return (
+        <div className="weekDetailMainDiv">
+            <div>
+                {prodArray.map((e, key) =>
+                    <NavLink to={'/Supervisor/WeekDetails/WeekPlan?' + 'project=' + e.project + "&ww_number=" + e.ww_number}>
+                        < div >
+                            project: {e.project}
+                        </div>
+                    </NavLink >
+                )
+                }
+            </div>
+            <div>
+                <Outlet />
+            </div>
+        </div >
     )
 }

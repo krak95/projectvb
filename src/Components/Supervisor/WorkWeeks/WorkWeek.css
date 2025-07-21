@@ -9,6 +9,10 @@
     margin: 1px;
 }
 
+.wwGrid>a:hover{
+    background-color: var(--vbBlue);
+}
+
 .wwMainDiv {}
 
 .wwContentDiv {

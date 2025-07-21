@@ -18,6 +18,7 @@ import Products from './Components/Production/Products/Products';
 import Supervisor from './Components/Supervisor/Supervisor';
 import WorkWeeks from './Components/Supervisor/WorkWeeks/WorkWeeks';
 import WeekDetails from './Components/Supervisor/WeekDetails/WeekDetails';
+import WeekPlan from './Components/Supervisor/WeekDetails/WeekPlan/WeekPlan';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext, useState } from 'react';
@@ -29,6 +30,7 @@ import amadeuslogo from './Img/amadeus_logo.png'
 import Statistics from './Components/Statistics/Statistics';
 import { checkLogin } from './CustomHooks/Login/LoginHook';
 import Jobs from './Components/Production/Jobs/Jobs';
+import CreateWorkWeeks from './Components/Supervisor/WorkWeeks/CreateWorkWeeks.jsx/CreateWorkWeeks';
 
 function App() {
 
@@ -45,23 +47,6 @@ function App() {
     }
   }
 
-  const [role, setRole] = useState('')
-  const getRole = () => {
-    const res = getData()
-    console.log(res.role)
-    setRole(res.role)
-  }
-  
-  const [admin, setAdmin] = useState(0)
-  const getAdmin = () => {
-    const res = getData()
-    setAdmin(res.admin)
-  }
-
-  useEffect(() => {
-    getRole()
-    getAdmin()
-  }, [authorized])
 
   // const checkLogin = async (e) => {
   //   console.log(e)
@@ -185,13 +170,13 @@ function App() {
                 :
                 <>
                   <NavLink to="Production">Production Team</NavLink>
-                  {role !== ('Quality' && 'Supervisor')
+                  {JSON.parse(localStorage.getItem('User')).role !== ('Quality' && 'Supervisor')
                     ?
                     null
                     :
                     <NavLink to="PQA">PQA Team</NavLink>
                   }
-                  {role !== 'Supervisor'
+                  {JSON.parse(localStorage.getItem('User')).role !== 'Supervisor'
                     ?
                     null
                     :
@@ -208,7 +193,7 @@ function App() {
               <Route element={<ProtectRoutes />}>
                 <Route path='/User' element={<User />}>
                   <Route path="/User/MyProduction/item" element={<Item path={'User/MyProduction'} />}></Route>
-                  {admin === 1 ?
+                  {JSON.parse(localStorage.getItem('User')).admin === 1 ?
                     <Route path="/User/Admin" element={<Admin />}></Route>
                     : null
                   }
@@ -222,7 +207,7 @@ function App() {
                   <Route path='/Production/Jobs' element={<Jobs />}>
                   </Route>
                 </Route>
-                {role !== ('Quality' && 'Supervisor') ? null
+                {JSON.parse(localStorage.getItem('User')).role !== ('Quality' && 'Supervisor') ? null
                   :
                   <Route path='/PQA' element={<PQA />}>
                     <Route path='/PQA/Issues' element={<Issues />}></Route>
@@ -232,12 +217,14 @@ function App() {
                     {/* <Route path='/PQA/Statistics' element={<Statistics />}></Route> */}
                   </Route>
                 }
-                {role !== 'Supervisor' ? null
+                {JSON.parse(localStorage.getItem('User')).role !== 'Supervisor' ? null
                   :
                   <Route path='/Supervisor' element={<Supervisor />}>
                     <Route path='/Supervisor/WorkWeeks' element={<WorkWeeks />}>
+                      <Route path='/Supervisor/WorkWeeks/CreateWorkWeeks' element={<CreateWorkWeeks />}></Route>
                     </Route>
                     <Route path='/Supervisor/WeekDetails' element={<WeekDetails />}>
+                      <Route path='/Supervisor/WeekDetails/WeekPlan' element={<WeekPlan />}></Route>
                     </Route>
                   </Route>
                 }

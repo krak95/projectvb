@@ -2,7 +2,7 @@ import { newItemAXIOS } from "../../API/Axios/axios"
 import { useEffect, useState } from "react"
 import socket from '../../API/Socket/socket'
 import "./MySQLController.css"
-import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS } from "../../API/Axios/axiosCS"
+import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, newEquipAXIOS } from "../../API/Axios/axiosCS"
 
 export default function MySQLController() {
 
@@ -54,7 +54,8 @@ export default function MySQLController() {
                 'EndDate': endDate,
                 'hipotValue': hipotValue,
                 'hipotModel': hipotModel,
-                'hipotMultimeterModel': hipotMultimeterModel
+                'hipotMultimeterModel': hipotMultimeterModel,
+                'ww_number': workweek + '_' + yearDate
             })
 
             console.log("Success:", res.data);
@@ -81,6 +82,8 @@ export default function MySQLController() {
             }
         }
     }
+
+
 
     function socketNewItem() {
         socket.emit('socketNewItem', 'data')
@@ -114,6 +117,7 @@ export default function MySQLController() {
     const [monthDate, setMonthDate] = useState('')
     const [yearDate, setYearDate] = useState('')
     const [fullDate, setFullDate] = useState('')
+    const [workweek, setWorkWeek] = useState('')
 
     const fullDateF = () => {
         setFullDate(dayDate + '-' + monthDate + '-' + yearDate)
@@ -122,6 +126,24 @@ export default function MySQLController() {
     useEffect(() => {
         fullDateF()
     }, [dayDate, monthDate, yearDate])
+
+    const wwGenerator = () => {
+        const date = new Date(yearDate, monthDate - 1, dayDate)
+        const nearThursday = new Date(date.valueOf())
+        nearThursday.setDate(nearThursday.getDate() + 3 - ((nearThursday.getDay() + 6) % 7))
+
+        const firstThursday = new Date(nearThursday.getFullYear(), 0, 4)
+
+        firstThursday.setDate(firstThursday.getDate() + 3 - ((firstThursday.getDay() + 6) % 7))
+
+        const weekNumber = 1 + Math.round((nearThursday - firstThursday) / (7 * 24 * 60 * 60 * 1000))
+
+        setWorkWeek(weekNumber)
+
+        console.log('wwGenerator:', { weekNumber })
+    }
+    useEffect(() => { wwGenerator() }, [dayDate, monthDate, yearDate])
+
 
     useEffect(() => {
         fetchEquip()
@@ -276,17 +298,18 @@ export default function MySQLController() {
                             <div>
                                 <select name="" id="" onChange={e => setMonthDate(e.target.value)} >
                                     <option value="">Month</option>
-                                    <option value="Jan">Jan</option>
-                                    <option value="Feb">Feb</option>
-                                    <option value="Mar">Mar</option>
-                                    <option value="Apr">Apr</option>
-                                    <option value="May">May</option>
-                                    <option value="Jun">Jun</option>
-                                    <option value="Jul">Jul</option>
-                                    <option value="Aug">Aug</option>
-                                    <option value="Sep">Sep</option>
-                                    <option value="Nov">Nov</option>
-                                    <option value="Dec">Dec</option>
+                                    <option value="1">Jan</option>
+                                    <option value="2">Feb</option>
+                                    <option value="3">Mar</option>
+                                    <option value="4">Apr</option>
+                                    <option value="5">May</option>
+                                    <option value="6">Jun</option>
+                                    <option value="7">Jul</option>
+                                    <option value="8">Aug</option>
+                                    <option value="9">Sep</option>
+                                    <option value="10">Out</option>
+                                    <option value="11">Nov</option>
+                                    <option value="12">Dec</option>
                                 </select>
                             </div>
                             <div>
@@ -306,6 +329,11 @@ export default function MySQLController() {
                             </div>
                             <div>
                                 <input type="text" placeholder="Hipot Multimeter Model" onChange={e => sethipotMultimeterModel(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="wwDiv">
+                            <div>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>WorkWeek</p>
                             </div>
                         </div>
                         {/* <div>

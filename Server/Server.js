@@ -220,6 +220,10 @@ io.on("connection", (socket) => {
         io.emit("fetchIssues")
     })
 
+    socket.on("newWW", () => {
+        io.emit("fetchWW")
+    })
+
 });
 
 server.listen(8000);

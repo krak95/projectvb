@@ -207,7 +207,8 @@ export const newProductionAXIOS = ({
     EndDate: endDate,
     hipotValue: hipotValue,
     hipotModel: hipotModel,
-    hipotMultimeterModel: hipotMultimeterModel
+    hipotMultimeterModel: hipotMultimeterModel,
+    ww_number: workweek
 }) => {
     return axiosBase.post('/newProduction', {
         Project: project,
@@ -228,7 +229,8 @@ export const newProductionAXIOS = ({
         EndDate: endDate,
         hipotValue: hipotValue,
         hipotModel: hipotModel,
-        hipotMultimeterModel: hipotMultimeterModel
+        hipotMultimeterModel: hipotMultimeterModel,
+        ww_number: workweek
     })
 }
 
@@ -349,13 +351,20 @@ export const fetchJobAXIOS = ({ equipment, model, jobNumber, jobProject, jobDone
     return axiosBase.post('/fetchJobs', { equipment, model, jobNumber, jobProject, jobDone })
 }
 
-
 //WORKWEEKS
-
 export const fetchWorkWeeksAXIOS = ({ ww_number }) => {
     console.log({ ww_number })
     return axiosBase.post('/fetchWorkWeeks', { ww_number })
 }
+export const fetchWorkWeeksProjectAXIOS = ({ ww_number }) => {
+    console.log(ww_number)
+    return axiosBase.post('fetchWorkWeeksProject', { ww_number })
+}
 export const fetchWorkWeeksNRAXIOS = () => {
     return axiosBase.post('/fetchWorkWeeksNR')
+}
+
+export const createWorkWeeksAXIOS = ({ ww_number, equipment, quantity_need, quantity_done, project }) => {
+    console.log('CwwAXIOS')
+    return axiosBase.post('/createWW', { ww_number, equipment, quantity_need, quantity_done, project })
 }

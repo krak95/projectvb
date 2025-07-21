@@ -6,7 +6,9 @@ import { NavLink } from 'react-router-dom';
 import './Products.css'
 import $ from 'jquery'
 import socket from "../../../API/Socket/socket";
-import amadeuslogo from "./../../../Img/amadeus_logo.png"
+import amadeuslogo from "./../../../Img/amadeus_logo.png";
+import * as XLSX from 'xlsx'
+
 
 export default function Products() {
 
@@ -55,6 +57,15 @@ export default function Products() {
 
     const [production, setProduction] = useState([])
     const [countProd, setCountProd] = useState(0)
+
+
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(production)
+        const workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "exportToExcel.xlsx")
+
+    }
 
     const fetchProduction = async () => {
         console.log('prod fetch asunc')
@@ -157,6 +168,9 @@ export default function Products() {
                 <Outlet />
             </div>
             <div className="prodMainDiv">
+                <div>
+                    <button onClick={e => exportToExcel()}>EXCEL EXPORT</button>
+                </div>
                 <div className="searchDiv" style={{ display: 'flex' }}>
                     <div className="codeSearchDiv">
                         <div className="CodePRSearchDiv">
@@ -255,22 +269,6 @@ export default function Products() {
                         </div>
                         <div>
                             <div>
-                                SO Number
-                            </div>
-                            <div className="soSearchDiv">
-                                <input placeholder="Search by SO" type="text" onChange={e => setSoSearch(e.target.value)} />
-                                {(projects === undefined || so === undefined) ? null :
-                                    so.map((e, key) => {
-                                        return (
-                                            <li key={key}>
-                                                {e.SOref}
-                                            </li>
-                                        )
-                                    })}
-                            </div>
-                        </div>
-                        <div>
-                            <div>
                                 Equipment
                             </div>
                             <div className="equipmentSearchDiv">
@@ -307,6 +305,22 @@ export default function Products() {
                                 {/* <li>
                                 CodeB
                             </li> */}
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                CodePR
+                            </div>
+                            <div className="soSearchDiv">
+                                <input placeholder="Search by CodePR" type="text" onChange={e => setCodeprSearch(e.target.value)} />
+                                {(projects === undefined || so === undefined) ? null :
+                                    so.map((e, key) => {
+                                        return (
+                                            <li key={key}>
+                                                {e.codePR}
+                                            </li>
+                                        )
+                                    })}
                             </div>
                         </div>
                         <div className="">
@@ -358,11 +372,6 @@ export default function Products() {
                                         </div>
                                         <div>
                                             <div>
-                                                {e.so}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>
                                                 {e.equipment}
                                             </div>
                                         </div>
@@ -374,6 +383,11 @@ export default function Products() {
                                         <div>
                                             <div>
                                                 {e.codeB}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                {e.codePR}
                                             </div>
                                         </div>
                                         <div>
