@@ -24,6 +24,7 @@ export default function MySQLController() {
     const [hipotValue, sethipotValue] = useState('')
     const [hipotModel, sethipotModel] = useState('')
     const [hipotMultimeterModel, sethipotMultimeterModel] = useState('')
+    const [comment, setComment] = useState('')
 
     const [showNewProj, setShowNewProj] = useState(false)
     const [showNewSO, setShowNewSO] = useState(false)
@@ -55,7 +56,8 @@ export default function MySQLController() {
                 'hipotValue': hipotValue,
                 'hipotModel': hipotModel,
                 'hipotMultimeterModel': hipotMultimeterModel,
-                'ww_number': workweek + '_' + yearDate
+                'ww_number': workweek + '_' + yearDate,
+                'comment': comment
             })
 
             console.log("Success:", res.data);
@@ -228,7 +230,7 @@ export default function MySQLController() {
                             <input type="text" placeholder="codeA" onChange={e => setCodeA(e.target.value)} />
                         </div>
                         <div>
-                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeB === '' || null ? 'Code B' : codeB}</p>
+                            <p style={{ fontSize: '12px', color: 'var(--light)' }}>{codeB === ('' || null) ? 'Code B' : codeB}</p>
                             <input style={alert === 'duplicateB' ? { backgroundColor: 'var(--red)' } : null} type="text" placeholder="codeB" onChange={e => setCodeB(e.target.value)} />
                         </div>
                         <div>
@@ -333,7 +335,10 @@ export default function MySQLController() {
                         </div>
                         <div className="wwDiv">
                             <div>
-                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>WorkWeek</p>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>Comment</p>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Comment" onChange={e => setComment(e.target.value)} />
                             </div>
                         </div>
                         {/* <div>

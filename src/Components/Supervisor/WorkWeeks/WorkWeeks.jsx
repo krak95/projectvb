@@ -35,17 +35,11 @@ export default function WorkWeeks() {
         setQuantDone((res.data).length)
     }
 
-    const fetchWorkWeeks = async () => {
-        const res = await fetchWorkWeeksAXIOS({ ww_number: workweek })
-        console.log(res)
-        setWorkWeeksArray(res.data)
-    }
 
     const fetchWorkWeeksNR = async () => {
         const res = await fetchWorkWeeksNRAXIOS()
         console.log(res)
         setWorkWeeksNRArray(res.data)
-
     }
 
 
@@ -59,7 +53,6 @@ export default function WorkWeeks() {
         fetchProd()
     }, [workweek])
     useEffect(() => {
-        fetchWorkWeeks()
         fetchWorkWeeksNR()
     }, [workweek])
 
@@ -79,11 +72,11 @@ export default function WorkWeeks() {
                                     Week {e.ww_number}
                                 </div>
                             </NavLink>
-                        )}
+                        )
+                        }
                     </div>
                 </div>
             </div >
-
         </>
     )
 }

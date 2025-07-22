@@ -13,7 +13,11 @@
     background-color: var(--vbBlue);
 }
 
-.wwMainDiv {}
+.wwMainDiv {
+    margin:10px;
+    background-color: var(--secondary);
+    padding:10px;
+}
 
 .wwContentDiv {
     margin: 10px;

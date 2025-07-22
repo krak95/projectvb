@@ -1,0 +1,44 @@
+.weekPlanMainDiv {
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--secondary);
+    width: 100%;
+    height: 200px;
+}
+
+.weekPlanContentDiv {
+    background-color: var(--light);
+    margin: 10px;
+    margin-bottom: 0 !important;
+    padding: 10px;
+    padding-bottom: 0 !important;
+    border-radius: 6px;
+}
+
+.weekPlanContentDiv>div {
+    margin: 6px;
+}
+
+.weekPlanProjectHeader {
+    color: var(--light);
+    font-size: large;
+}
+
+.weekPlanCardsDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statusLight {
+    background-color: red;
+    height: 10px;
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 0 !important;
+    margin: 0 !important;
+}

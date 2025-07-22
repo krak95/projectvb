@@ -1,6 +1,7 @@
 import { createWorkWeeksAXIOS, fetchEquipmentsAXIOS, fetchProjectsAXIOS } from "../../../../API/Axios/axiosCS"
 import { useEffect, useState } from "react"
 import socket from "../../../../API/Socket/socket"
+import "./CreateWorkWeek.css"
 
 
 export default function CreateWorkWeeks() {
@@ -44,7 +45,7 @@ export default function CreateWorkWeeks() {
 
     return (
         <>
-            <div>
+            <div className="createWorkWeekMainDiv">
                 <div>
                     <select name="" id="" onChange={e => setProject(e.target.value)}>
                         <option value="">Projects</option>
@@ -74,10 +75,10 @@ export default function CreateWorkWeeks() {
                     <input type="text" placeholder="QuantityNeed" onChange={e => setQuantityNeed(e.target.value)} />
                 </div>
                 <div>
-                    <input type="text" onChange={e => setww_number(e.target.value)} />
+                    <input type="number" placeholder="WorkWeek" onChange={e => setww_number(e.target.value)} />
                 </div>
                 <div>
-                    <button onClick={e => createWW()} CREATE WORKWEEKe></button>
+                    <button onClick={e => createWW()}> Create WorkWeek</button>
                 </div>
             </div>
         </>

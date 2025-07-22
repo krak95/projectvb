@@ -224,8 +224,8 @@ function App() {
                       <Route path='/Supervisor/WorkWeeks/CreateWorkWeeks' element={<CreateWorkWeeks />}></Route>
                     </Route>
                     <Route path='/Supervisor/WeekDetails' element={<WeekDetails />}>
-                      <Route path='/Supervisor/WeekDetails/WeekPlan' element={<WeekPlan />}></Route>
                     </Route>
+                    <Route path='/Supervisor/WeekPlan' element={<WeekPlan />}></Route>
                   </Route>
                 }
               </Route>

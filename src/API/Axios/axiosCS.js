@@ -102,9 +102,10 @@ export const fetchProductionAXIOS = ({
     Type3: type3Search,
     Type4: type4Search,
     Tester,
-    ww_number
+    ww_number,
+    Status
 }) => {
-    console.log(projectSearch, codeaSearch, Tester)
+    console.log({ projectSearch, equipSearch, ww_number, Status })
     return axiosBase.post('/fetchProduction',
         {
             Project: projectSearch,
@@ -121,7 +122,8 @@ export const fetchProductionAXIOS = ({
             Type3: type3Search,
             Type4: type4Search,
             Tester,
-            ww_number
+            ww_number,
+            Status
         }
     )
 }
@@ -208,7 +210,8 @@ export const newProductionAXIOS = ({
     hipotValue: hipotValue,
     hipotModel: hipotModel,
     hipotMultimeterModel: hipotMultimeterModel,
-    ww_number: workweek
+    ww_number: workweek,
+    comment: comment
 }) => {
     return axiosBase.post('/newProduction', {
         Project: project,
@@ -230,7 +233,8 @@ export const newProductionAXIOS = ({
         hipotValue: hipotValue,
         hipotModel: hipotModel,
         hipotMultimeterModel: hipotMultimeterModel,
-        ww_number: workweek
+        ww_number: workweek,
+        comment: comment
     })
 }
 
@@ -352,9 +356,9 @@ export const fetchJobAXIOS = ({ equipment, model, jobNumber, jobProject, jobDone
 }
 
 //WORKWEEKS
-export const fetchWorkWeeksAXIOS = ({ ww_number }) => {
+export const fetchWorkWeeksAXIOS = ({ ww_number, project }) => {
     console.log({ ww_number })
-    return axiosBase.post('/fetchWorkWeeks', { ww_number })
+    return axiosBase.post('/fetchWorkWeeks', { ww_number, project })
 }
 export const fetchWorkWeeksProjectAXIOS = ({ ww_number }) => {
     console.log(ww_number)
@@ -367,4 +371,9 @@ export const fetchWorkWeeksNRAXIOS = () => {
 export const createWorkWeeksAXIOS = ({ ww_number, equipment, quantity_need, quantity_done, project }) => {
     console.log('CwwAXIOS')
     return axiosBase.post('/createWW', { ww_number, equipment, quantity_need, quantity_done, project })
+}
+
+export const fetchProductionEquipCardAXIOS = ({ project, equipment, ww_number }) => {
+
+    return axiosBase.post('/fetchProductionEquipCard', { project, equipment, ww_number })
 }

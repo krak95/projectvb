@@ -85,7 +85,8 @@ export default function Products() {
             'Type4': type4Search,
             'ReadyPQA': null,
             'Tester': '',
-            'ww_number': ww_number
+            'ww_number': ww_number,
+            'Status': ''
         })
         console.log(res.data)
         setProduction(res.data)
@@ -329,6 +330,12 @@ export default function Products() {
                                 <input type="text" onChange={e => setww_number(e.target.value)} />
                             </div>
                         </div>
+                        <div className="">
+                            <div>Comment</div>
+                            <div>
+                                {/* <input type="text" onChange={e => setww_number(e.target.value)} /> */}
+                            </div>
+                        </div>
                         <div className="itemStatusHeaderDiv">
                             <div>
                             </div>
@@ -361,6 +368,7 @@ export default function Products() {
                                 + "&hipotModel=" + e.hipotModel
                                 + "&hipotMultimeterModel=" + e.hipotMultimeterModel
                                 + "&workweek=" + e.workweek
+                                + "&comment=" + e.comment
                             }>
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
@@ -392,6 +400,9 @@ export default function Products() {
                                         </div>
                                         <div>
                                             <div>{e.ww_number}</div>
+                                        </div>
+                                        <div>
+                                            <div>{e.comment}</div>
                                         </div>
                                         <div className="itemStatusDiv">
                                             <span className="itemStatusSpan"

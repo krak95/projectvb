@@ -1,12 +1,9 @@
 import './Item.css'
-import axios from 'axios'
 import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
-import { Outlet, NavLink, Route, Routes } from "react-router-dom"
 import { useState, useEffect, use } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import socket from '../../API/Socket/socket'
-import $ from 'jquery'
 import { datefunction } from '../../CustomHooks/Date/Date'
 import { checkLogin } from '../../CustomHooks/Login/LoginHook'
 import GlobalContent from '../../GLOBAL/Global'
@@ -24,7 +21,6 @@ export default function Item({ path }) {
     const handleRetro = () => {
         window.location.href = 'http://localhost:3000/' + path + ''
     };
-
 
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -386,7 +382,7 @@ export default function Item({ path }) {
                         </button>
                         {finishProcess === true
                             ?
-                            <p style={{ color: 'var(--red)' }} s>
+                            <p style={{ color: 'var(--red)' }} >
                                 This product has open issues!
                             </p>
                             :

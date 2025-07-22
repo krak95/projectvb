@@ -1,4 +1,36 @@
-.weekDetailMainDiv{
+.weekDetailMainDiv {
+    background-color: var(--secondary);
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.weekDetailHeader{
+    background-color: var(--secondary);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    height: 40px;
+}
+
+.weekDetailGridDiv {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding:14px;
+}
+
+.weekDetailGridDiv>a {
+    margin: 1px;
     background-color: var(--light);
-    
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weekDetailGridDiv>a:hover{
+    background-color: var(--vbBlue);
 }
