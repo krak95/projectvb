@@ -21,7 +21,11 @@ export default function Item({ path }) {
     const navigate = useNavigate();
 
     const handleRetro = () => {
-        window.location.href = 'http://localhost:3000/' + path + ''
+        try {
+            window.location.href = 'http://localhost:3000/' + path + ''
+        } catch (e) {
+            console.log(e)
+        }
     };
 
     const { search } = useLocation();

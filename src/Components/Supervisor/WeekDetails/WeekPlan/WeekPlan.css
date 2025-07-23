@@ -18,6 +18,10 @@
     border-radius: 6px;
 }
 
+.weekPlanContentDiv>a:hover {
+    background-color: white;
+}
+
 .weekPlanContentDiv>div {
     margin: 6px;
 }

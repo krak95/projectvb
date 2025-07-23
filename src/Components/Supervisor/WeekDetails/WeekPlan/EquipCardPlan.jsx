@@ -33,7 +33,7 @@ export default function EquipCardPlan(props) {
     useEffect(() => {
         socket.on('fetchProduction', () => {
             fetchProd()
-            console.log('fetchpordequipcard')
+            console.log()
         })
     }, [])
 

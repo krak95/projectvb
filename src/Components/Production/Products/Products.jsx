@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo } from "react"
 import { useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS, fetchCountProductionAXIOS } from "../../../API/Axios/axiosCS"
@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx'
 
 
 export default function Products() {
+
 
     const [projects, setProjects] = useState([])
     const [so, setSo] = useState([])
@@ -113,11 +114,30 @@ export default function Products() {
         }
     }
 
-
-
-
     const location = useLocation();
+    console.log(location)
 
+    const fetchProdByCard = async () => {
+        if (location.state === null) {
+            return
+        } else {
+
+            setProjectSearch(location.state.project)
+            setEquipSearch(location.state.equipment)
+            setww_number(location.state.workweek)
+        }
+        // setTimeout(() => {
+
+        //     fetchProduction()
+        // }, 300);
+
+    }
+
+
+    useEffect(() => {
+        window.history.replaceState({}, '')
+        fetchProdByCard()
+    }, [])
     // useEffect(() => {
     //     console.log('Fetching productions...');
     //     fetchProduction();
@@ -135,7 +155,7 @@ export default function Products() {
         fetchEquips()
     }, [equipSearch])
 
-    useEffect(() => {
+    useMemo(() => {
         fetchProduction()
     }, [
         projectSearch,

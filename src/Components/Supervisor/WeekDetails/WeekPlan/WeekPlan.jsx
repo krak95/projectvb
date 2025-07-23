@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { fetchBacklogAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS } from "../../../../API/Axios/axiosCS";
 import "./WeekPlan.css"
 import EquipCardPlan from "./EquipCardPlan";
+import { NavLink } from "react-router-dom";
 
 export default function WeekPlan() {
     const { search } = useLocation();
@@ -26,7 +27,7 @@ export default function WeekPlan() {
 
     const fetchProd = async () => {
         try {
-            const res = await fetchProductionAXIOS({})
+            const res = await fetchProductionAXIOS()
             console.log(res)
         } catch (e) {
             console.log(e)
@@ -53,6 +54,7 @@ export default function WeekPlan() {
     }, [ww_number, project])
 
 
+
     return (
         <>
             <div className="weekPlanBackBtnDiv">
@@ -65,10 +67,12 @@ export default function WeekPlan() {
                 <div className="weekPlanCardsDiv">
 
                     {workWeekArr.map((e, key) =>
-                        <div className="weekPlanContentDiv">
-                            <EquipCardPlan idworkweeks={e.idworkweeks} project={e.project} equipment={e.equipment} qn={e.quantity_need} qd={e.quantity_done} ww_number={ww_number} />
+                        <NavLink to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }}>
+                            <div className="weekPlanContentDiv">
 
-                            {/* <div>
+                                <EquipCardPlan idworkweeks={e.idworkweeks} project={e.project} equipment={e.equipment} qn={e.quantity_need} qd={e.quantity_done} ww_number={ww_number} />
+
+                                {/* <div>
                                 {e.equipment}
                                 </div>
                                 <div>
@@ -80,7 +84,8 @@ export default function WeekPlan() {
                                 <div>
                                 Left: {e.quantity_need - e.quantity_done}
                                 </div> */}
-                        </div>
+                            </div>
+                        </NavLink>
                     )}
                 </div>
                 <div className="weekPlanCardsDiv backlogDiv">
@@ -89,15 +94,21 @@ export default function WeekPlan() {
                     </div>
                     <div className="backlogCards">
                         {backlog.map((e, key) =>
-                            <div className="weekPlanContentDiv">
-                                <>
-                                    <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
-                                </>
-                            </div>
+                            <NavLink to={'/'}>
+                                <div className="weekPlanContentDiv">
+                                    <>
+                                        <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
+                                    </>
+                                </div>
+                            </NavLink>
                         )}
                     </div>
                 </div>
-            </div>
+
+            </div >
+                <div>
+                    prod
+                </div>
         </>
     )
 }
