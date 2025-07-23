@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchProductionAXIOS, fetchWorkWeeksProjectAXIOS } from "../../../API/Axios/axiosCS";
+import { fetchProductionAXIOS, fetchWorkWeeksProjectAXIOS, fetchBackLogAXIOS } from "../../../API/Axios/axiosCS";
 import { NavLink, Outlet } from "react-router-dom";
 import "./WeekDetails.css"
 export default function WeekDetails() {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchCountProductionAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS, fetchWorkWeeksNRAXIOS } from "../../../API/Axios/axiosCS"
+import { fetchCountProductionAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS, fetchBackLogAXIOS, fetchWorkWeeksNRAXIOS } from "../../../API/Axios/axiosCS"
 import { NavLink, Outlet } from "react-router-dom"
 import './WorkWeek.css'
 import socket from "../../../API/Socket/socket"
@@ -12,6 +12,7 @@ export default function WorkWeeks() {
     const [workweek, setWorkweek] = useState('')
 
     const [quantDone, setQuantDone] = useState('')
+
     const fetchProd = async () => {
         const res = await fetchProductionAXIOS({
             Project: '',
@@ -36,12 +37,14 @@ export default function WorkWeeks() {
     }
 
 
+
     const fetchWorkWeeksNR = async () => {
         const res = await fetchWorkWeeksNRAXIOS()
         console.log(res)
         setWorkWeeksNRArray(res.data)
     }
 
+ 
 
     useEffect(() => {
         socket.on('fetchWW', (data) => {

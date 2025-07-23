@@ -390,10 +390,12 @@ export const fetchWorkWeeksAXIOS = ({ ww_number, project }) => {
     console.log({ ww_number })
     return axiosBase.post('/fetchWorkWeeks', { ww_number, project })
 }
+
 export const fetchWorkWeeksProjectAXIOS = ({ ww_number }) => {
     console.log(ww_number)
     return axiosBase.post('fetchWorkWeeksProject', { ww_number })
 }
+
 export const fetchWorkWeeksNRAXIOS = () => {
     return axiosBase.post('/fetchWorkWeeksNR')
 }
@@ -409,6 +411,15 @@ export const checkWWDuplicatesAXIOS = ({ project, ww_number, equipment }) => {
 }
 
 export const fetchProductionEquipCardAXIOS = ({ project, equipment, ww_number }) => {
-
     return axiosBase.post('/fetchProductionEquipCard', { project, equipment, ww_number })
+}
+
+export const updateWWStatusAXIOS = ({ idworkweeks, status1 }) => {
+    console.log({ idworkweeks, status1 })
+    return axiosBase.post('/updateWWStatus', { idworkweeks, status1 })
+}
+
+export const fetchBacklogAXIOS = ({ ww_number }) => {
+    console.log({ ww_number })
+    return axiosBase.post('/fetchBacklog', { ww_number })
 }

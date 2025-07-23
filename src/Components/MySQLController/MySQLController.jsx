@@ -319,6 +319,10 @@ export default function MySQLController() {
                             <div>
                                 <input type="text" placeholder="Year" onChange={e => setYearDate(e.target.value)} />
                             </div>
+                            <div>
+
+                                Week {workweek}
+                            </div>
                             {/* <input type="date" placeholder="start date" onChange={e => setStartDate(e.target.value)} /> */}
                         </div>
                         <div className="hipotDiv">

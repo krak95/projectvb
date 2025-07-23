@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchProductionAXIOS, fetchWorkWeeksAXIOS } from "../../../../API/Axios/axiosCS";
+import { fetchBacklogAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS } from "../../../../API/Axios/axiosCS";
 import "./WeekPlan.css"
 import EquipCardPlan from "./EquipCardPlan";
 
@@ -29,10 +29,23 @@ export default function WeekPlan() {
             const res = await fetchProductionAXIOS({})
             console.log(res)
         } catch (e) {
-
             console.log(e)
         }
     }
+
+    const [backlog, setBacklog] = useState([])
+    const fetchBacklog = async () => {
+        try {
+            const res = await fetchBacklogAXIOS({ ww_number: ww_number.slice(0, 2) })
+            console.log(res)
+            setBacklog(res.data)
+        } catch (e) {
+
+        }
+    }
+    useEffect(() => {
+        fetchBacklog()
+    }, [])
 
     useEffect(() => {
         fetchWorkWeeks()
@@ -49,14 +62,11 @@ export default function WeekPlan() {
                 <p style={{ color: 'var(--light)' }}>Week {ww_number}</p>
             </div>
             <div className="weekPlanMainDiv">
-                <div className="weekPlanProjectHeader">
-                    {project}
-                </div>
-
                 <div className="weekPlanCardsDiv">
+
                     {workWeekArr.map((e, key) =>
                         <div className="weekPlanContentDiv">
-                            <EquipCardPlan equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={ww_number} />
+                            <EquipCardPlan idworkweeks={e.idworkweeks} project={e.project} equipment={e.equipment} qn={e.quantity_need} qd={e.quantity_done} ww_number={ww_number} />
 
                             {/* <div>
                                 {e.equipment}
@@ -72,6 +82,20 @@ export default function WeekPlan() {
                                 </div> */}
                         </div>
                     )}
+                </div>
+                <div className="weekPlanCardsDiv backlogDiv">
+                    <div className="backlogHeader">
+                        Backlog
+                    </div>
+                    <div className="backlogCards">
+                        {backlog.map((e, key) =>
+                            <div className="weekPlanContentDiv">
+                                <>
+                                    <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
+                                </>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </>
