@@ -103,7 +103,10 @@ export const fetchProductionAXIOS = ({
     Type4: type4Search,
     Tester,
     ww_number,
-    Status
+    Status,
+    ChecklistStatus,
+    DeploymentStatus,
+    TraceabilityStatus
 }) => {
     console.log({ projectSearch, equipSearch, ww_number, Status })
     return axiosBase.post('/fetchProduction',
@@ -123,10 +126,19 @@ export const fetchProductionAXIOS = ({
             Type4: type4Search,
             Tester,
             ww_number,
-            Status
+            Status,
+            ChecklistStatus,
+            DeploymentStatus,
+            TraceabilityStatus
         }
     )
 }
+
+export const fetchProdIDAXIOS = ({ id_prod }) => {
+    console.log(id_prod)
+    return axiosBase.post('/fetchProductionID', { id_prod })
+}
+
 export const checkProductionAXIOS = ({
     id_prod: id_prod
 }) => {
@@ -146,6 +158,21 @@ export const updateStatusAXIOS = ({ id_prod, status, endDate }) => {
     console.log({ id_prod, status, endDate })
     return axiosBase.post('/updateStatus', { id_prod, status, endDate })
 }
+
+export const updateChecklistAXIOS = ({ id_prod, checklist }) => {
+    console.log({ id_prod, checklist })
+    return axiosBase.post('/updateChecklist', { id_prod, checklistStatus: checklist })
+}
+export const updateDeploymentAXIOS = ({ id_prod, deployment }) => {
+    console.log({ id_prod, deployment })
+    return axiosBase.post('/updateDeployment', { id_prod, deploymentStatus: deployment })
+}
+
+export const updateTraceabilityAXIOS = ({ id_prod, traceability }) => {
+    console.log({ id_prod, traceability })
+    return axiosBase.post('/updateTraceability', { id_prod, traceabilityStatus: traceability })
+}
+
 export const fetchCountProductionAXIOS = ({
     Project: projectSearch,
     So: soSearch,
@@ -211,7 +238,10 @@ export const newProductionAXIOS = ({
     hipotModel: hipotModel,
     hipotMultimeterModel: hipotMultimeterModel,
     ww_number: workweek,
-    comment: comment
+    comment: comment,
+    ChecklistStatus,
+    DeploymentStatus,
+    TraceabilityStatus
 }) => {
     return axiosBase.post('/newProduction', {
         Project: project,
@@ -234,7 +264,7 @@ export const newProductionAXIOS = ({
         hipotModel: hipotModel,
         hipotMultimeterModel: hipotMultimeterModel,
         ww_number: workweek,
-        comment: comment
+        comment: comment,
     })
 }
 
@@ -368,9 +398,14 @@ export const fetchWorkWeeksNRAXIOS = () => {
     return axiosBase.post('/fetchWorkWeeksNR')
 }
 
-export const createWorkWeeksAXIOS = ({ ww_number, equipment, quantity_need, quantity_done, project }) => {
+export const createWorkWeeksAXIOS = ({ ww_number, equipment, quantity_need, project }) => {
     console.log('CwwAXIOS')
-    return axiosBase.post('/createWW', { ww_number, equipment, quantity_need, quantity_done, project })
+    return axiosBase.post('/createWW', { ww_number, equipment, quantity_need, project })
+}
+
+export const checkWWDuplicatesAXIOS = ({ project, ww_number, equipment }) => {
+    console.log({ project, ww_number, equipment })
+    return axiosBase.post('/checkWWDuplicates', { project, ww_number, equipment })
 }
 
 export const fetchProductionEquipCardAXIOS = ({ project, equipment, ww_number }) => {

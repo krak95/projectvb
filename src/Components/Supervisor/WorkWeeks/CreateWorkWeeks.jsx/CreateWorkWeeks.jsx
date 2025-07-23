@@ -1,4 +1,4 @@
-import { createWorkWeeksAXIOS, fetchEquipmentsAXIOS, fetchProjectsAXIOS } from "../../../../API/Axios/axiosCS"
+import { checkWWDuplicatesAXIOS, createWorkWeeksAXIOS, fetchEquipmentsAXIOS, fetchProjectsAXIOS } from "../../../../API/Axios/axiosCS"
 import { useEffect, useState } from "react"
 import socket from "../../../../API/Socket/socket"
 import "./CreateWorkWeek.css"
@@ -23,6 +23,26 @@ export default function CreateWorkWeeks() {
         setEquipArray(res.data)
     }
 
+
+    const [alert, setAlert] = useState('')
+    const checkDuplicates = async () => {
+        try {
+            const date = new Date()
+            const res = await checkWWDuplicatesAXIOS({ project, ww_number: ww_number + '_' + date.getFullYear(), equipment })
+            console.log(res)
+            if ((res.data).length !== 0) {
+                setAlert('duplicate')
+                setTimeout(() => {
+                    setAlert('')
+                }, 1000);
+                return
+            } else {
+                createWW()
+            }
+        } catch (e) {
+            console.log(e)
+        }
+    }
     const createWW = async () => {
         const date = new Date()
         try {
@@ -78,8 +98,14 @@ export default function CreateWorkWeeks() {
                     <input type="number" placeholder="WorkWeek" onChange={e => setww_number(e.target.value)} />
                 </div>
                 <div>
-                    <button onClick={e => createWW()}> Create WorkWeek</button>
+                    <button onClick={e => checkDuplicates()}> Create WorkWeek</button>
                 </div>
+                {alert === 'duplicate'
+                    ? <div style={{ color: 'red' }}>
+                        Duplicate
+                    </div>
+                    : null}
+
             </div>
         </>
     )

@@ -1,5 +1,5 @@
 import './Item.css'
-import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS } from "../../API/Axios/axiosCS"
+import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateChecklistAXIOS, updateDeploymentAXIOS, updateTraceabilityAXIOS, fetchProdIDAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS, updateFinalAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
 import { useState, useEffect, use } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
@@ -9,6 +9,8 @@ import { checkLogin } from '../../CustomHooks/Login/LoginHook'
 import GlobalContent from '../../GLOBAL/Global'
 import { setData } from '../../CustomHooks/LocalStorage/StoreData'
 import { useContext } from 'react'
+import truelogo from "./../../Img/true.png"
+import falselogo from "./../../Img/false.png"
 
 export default function Item({ path }) {
     const { authorizing } = useContext(GlobalContent);
@@ -45,6 +47,9 @@ export default function Item({ path }) {
     const hipotValue = queryParams.get('hipotValue');
     const hipotModel = queryParams.get('hipotModel');
     const hipotMultimeterModel = queryParams.get('hipotMultimeterModel');
+    const checklistStatus = queryParams.get('checklistStatus');
+    const traceabilityStatus = queryParams.get('traceabilityStatus');
+    const deploymentStatus = queryParams.get('deploymentStatus');
 
     const [comment, setComment] = useState('')
     const addItemIssue = async () => {
@@ -109,11 +114,16 @@ export default function Item({ path }) {
         var status
         var endDate = datefunction()
         console.log('finishprocess: ', finishProcess)
-        if (finishProcess === false) {
-            status = 'fixed'
-        } else if (finishProcess === true) {
+        if (finishProcess === true) {
             status = 'nok'
-        } else {
+        }
+        else if (checklist1 !== 'true' || deployment1 !== 'true' || traceability1 !== 'true') {
+            status = 'Waiting Documentation'
+        }
+        else if (finishProcess === false) {
+            status = 'fixed'
+        }
+        else if (checklist1 === 'true' && deployment1 === 'true' && traceability1 === 'true') {
             status = 'ok'
         }
         var id_prod = items[0].id_prod
@@ -149,8 +159,8 @@ export default function Item({ path }) {
             console.log(e)
         }
     }
-    const [finishProcess, setFinishProcess] = useState('')
 
+    const [finishProcess, setFinishProcess] = useState('')
 
     const delProd = async () => {
         const res = await checkLogin()
@@ -182,7 +192,57 @@ export default function Item({ path }) {
             console.log(res)
             console.log(e)
         }
+    }
 
+    const fetchProdID = async () => {
+        const res = await fetchProdIDAXIOS({ id_prod: id_prod })
+        console.log(res.data)
+        setChecklist1(res.data[0].checklistStatus)
+        setDeployment1(res.data[0].deploymentStatus)
+        setTraceability1(res.data[0].traceabilityStatus)
+        socketNewItem()
+    }
+
+    const [checklist1, setChecklist1] = useState('')
+
+    const [deployment1, setDeployment1] = useState('')
+
+    const [traceability1, setTraceability1] = useState('')
+
+    const [checklist, setChecklist] = useState(checklist1)
+
+    const [deployment, setDeployment] = useState(deployment1)
+
+    const [traceability, setTraceability] = useState(traceability1)
+
+
+    const updateChecklist = async (e) => {
+        console.log(e)
+        try {
+            const res = await updateChecklistAXIOS({ id_prod, checklist: e })
+            socket.emit('socketAddItemIssue')
+            console.log(res)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    const updateDeployment = async (e) => {
+        try {
+            const res = await updateDeploymentAXIOS({ id_prod, deployment: e })
+            console.log(res)
+            socket.emit('socketAddItemIssue')
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    const updateTraceability = async (e) => {
+        try {
+            const res = await updateTraceabilityAXIOS({ id_prod, traceability: e })
+            socket.emit('socketAddItemIssue')
+            console.log(res)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     function socketNewItem() {
@@ -197,12 +257,16 @@ export default function Item({ path }) {
     function socketRefreshItemStatus() {
         socket.emit('socketNewItem')
     }
+    useEffect(() => {
+        fetchProdID()
+    }, [])
 
     useEffect(() => {
         console.log('useeffect itemjsx', codeA)
         checkProduction()
         fetchItemIssues()
         socket.on('socketFetchItemIssue', () => {
+            fetchProdID()
             fetchItemIssues()
         })
         // alert0('item', project, so, codeA, codeB)
@@ -315,6 +379,55 @@ export default function Item({ path }) {
                                     <p>{hipotMultimeterModel}</p>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className='checkZoneDiv'>
+                        <div>
+                            <div>
+                                Checklist
+                            </div>
+                            <div>
+                                {checklist1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
+                            </div>
+                            <div>
+                                <select onChange={e => updateChecklist(e.target.value)} name="" id="">
+                                    <option value="">{checklist1 === 'true' ? 'Finished' : 'Pending'}</option>
+                                    <option value="true">Finished</option>
+                                    <option value="false">Pending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+
+                                Deployment
+                            </div>
+                            <div>
+                                {deployment1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
+                            </div>
+                            <div>
+                                <select name="" id="" onChange={e => updateDeployment(e.target.value)}>
+                                    <option value="">{deployment1 === 'true' ? 'Finished' : 'Pending'}</option>
+                                    <option value="true">Finished</option>
+                                    <option value="false">Pending</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                Traceability
+                            </div>
+                            <div>
+                                {traceability1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
+                            </div>
+                            <div>
+                                <select name="" id="" onChange={e => updateTraceability(e.target.value)}>
+                                    <option value="">{traceability1 === 'true' ? 'Finished' : 'Pending'}</option>
+                                    <option value="true">Finished</option>
+                                    <option value="false">Pending</option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
                     <div className='itemIssuesDiv'>

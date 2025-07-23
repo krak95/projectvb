@@ -204,3 +204,17 @@
   margin: 4px;
   font-weight: bold !important;
 }
+
+.checkZoneDiv {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 150px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.checkZoneDiv img {
+  height: 20px;
+  width: auto;
+}

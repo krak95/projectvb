@@ -42,3 +42,18 @@
     padding: 0 !important;
     margin: 0 !important;
 }
+
+.weekPlanBackBtnDiv {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.weekPlanHeader {
+    background-color: var(--secondary);
+    width: 100%;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

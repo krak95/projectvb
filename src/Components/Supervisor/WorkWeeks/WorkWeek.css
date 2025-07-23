@@ -7,18 +7,27 @@
     padding: 10px;
     background-color: var(--light);
     margin: 1px;
+    border-radius: 6px;
 }
 
-.wwGrid>a:hover{
+.wwGrid>a:hover {
     background-color: var(--vbBlue);
 }
 
 .wwMainDiv {
-    margin:10px;
+    margin: 10px;
     background-color: var(--secondary);
-    padding:10px;
+    padding: 10px;
 }
 
 .wwContentDiv {
-    margin: 10px;
 }
+
+/* .bottomLayerDeck {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25%;
+    background-color: var(--light);
+} */

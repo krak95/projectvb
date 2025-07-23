@@ -26,6 +26,7 @@ export default function MySQLController() {
     const [hipotMultimeterModel, sethipotMultimeterModel] = useState('')
     const [comment, setComment] = useState('')
 
+
     const [showNewProj, setShowNewProj] = useState(false)
     const [showNewSO, setShowNewSO] = useState(false)
     const [showNewEquip, setShowNewEquip] = useState(false)
@@ -57,7 +58,8 @@ export default function MySQLController() {
                 'hipotModel': hipotModel,
                 'hipotMultimeterModel': hipotMultimeterModel,
                 'ww_number': workweek + '_' + yearDate,
-                'comment': comment
+                'comment': comment,
+
             })
 
             console.log("Success:", res.data);

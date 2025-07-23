@@ -42,14 +42,17 @@ export default function WeekPlan() {
 
     return (
         <>
-            <div>
-                <p style={{ backgroundColor: 'var(--light)' }}>Week {ww_number}</p>
-                <button onClick={handleRetro}> BACK</button>
+            <div className="weekPlanBackBtnDiv">
+                <button onClick={handleRetro}>BACK</button>
+            </div>
+            <div className="weekPlanHeader">
+                <p style={{ color: 'var(--light)' }}>Week {ww_number}</p>
             </div>
             <div className="weekPlanMainDiv">
                 <div className="weekPlanProjectHeader">
                     {project}
                 </div>
+
                 <div className="weekPlanCardsDiv">
                     {workWeekArr.map((e, key) =>
                         <div className="weekPlanContentDiv">
@@ -57,16 +60,16 @@ export default function WeekPlan() {
 
                             {/* <div>
                                 {e.equipment}
-                            </div>
-                            <div>
+                                </div>
+                                <div>
                                 Need: {e.quantity_need}
-                            </div>
-                            <div>
+                                </div>
+                                <div>
                                 Done: {e.quantity_done}
-                            </div>
-                            <div>
+                                </div>
+                                <div>
                                 Left: {e.quantity_need - e.quantity_done}
-                            </div> */}
+                                </div> */}
                         </div>
                     )}
                 </div>

@@ -250,7 +250,12 @@ export default function Products() {
                 </div>
                 <div className="itemListMainDiv">
                     <div className="itemListHeaders">
-
+                        <div className="">
+                            <div>WorkWeek</div>
+                            <div>
+                                <input placeholder="Search by workweek" type="text" onChange={e => setww_number(e.target.value)} />
+                            </div>
+                        </div>
                         <div>
                             <div>
                                 Project
@@ -308,7 +313,7 @@ export default function Products() {
                             </li> */}
                             </div>
                         </div>
-                        <div>
+                        {/* <div>
                             <div>
                                 CodePR
                             </div>
@@ -323,13 +328,8 @@ export default function Products() {
                                         )
                                     })}
                             </div>
-                        </div>
-                        <div className="">
-                            <div>WorkWeek</div>
-                            <div>
-                                <input type="text" onChange={e => setww_number(e.target.value)} />
-                            </div>
-                        </div>
+                        </div> */}
+
                         <div className="">
                             <div>Comment</div>
                             <div>
@@ -369,10 +369,15 @@ export default function Products() {
                                 + "&hipotMultimeterModel=" + e.hipotMultimeterModel
                                 + "&workweek=" + e.workweek
                                 + "&comment=" + e.comment
+                                + "&checklistStatus=" + e.checklistStatus
+                                + "&deploymentStatus=" + e.deploymentStatus
+                                + "&traceabilityStatus=" + e.traceabilityStatus
                             }>
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
-
+                                        <div>
+                                            <div>{e.ww_number}</div>
+                                        </div>
                                         <div>
                                             <div>
                                                 {e.project}
@@ -393,14 +398,7 @@ export default function Products() {
                                                 {e.codeB}
                                             </div>
                                         </div>
-                                        <div>
-                                            <div>
-                                                {e.codePR}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div>{e.ww_number}</div>
-                                        </div>
+
                                         <div>
                                             <div>{e.comment}</div>
                                         </div>

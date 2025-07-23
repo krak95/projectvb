@@ -6,7 +6,8 @@ export default function Production() {
         <>
             <div className="mainNav">
                 <NavLink to="/Production/Products">Products</NavLink>
-                <NavLink to="/Production/Jobs">Jobs</NavLink>
+                {/* <NavLink to="/Production/Jobs">Jobs</NavLink> */}
+                
             </div>
             <Outlet />
         </>

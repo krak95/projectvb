@@ -198,12 +198,6 @@ io.on("connection", (socket) => {
         console.log('socketCheckLogin', data)
         io.emit("socketFetchItemIssue", data);
     });
-
-    socket.on("socketAddItemIssue", (data) => {
-        console.log('socketCheckLogin', data)
-        io.emit("socketFetchItemIssue", data);
-    });
-
     socket.on("newProject", () => {
         console.log('newProject')
         io.emit("fetchProject")
