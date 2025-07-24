@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const axiosBase = axios.create({
-    // baseURL: 'http://10.76.76.44:5000/api/My',
-    baseURL: 'http://localhost:5000/api/My',
+    baseURL: 'http://10.76.76.44:5000/api/My',
+    // baseURL: 'http://localhost:5000/api/My',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -412,6 +412,9 @@ export const checkWWDuplicatesAXIOS = ({ project, ww_number, equipment }) => {
 
 export const fetchProductionEquipCardAXIOS = ({ project, equipment, ww_number }) => {
     return axiosBase.post('/fetchProductionEquipCard', { project, equipment, ww_number })
+}
+export const fetchProductionEquipCardWaitingDocsAXIOS = ({ project, equipment, ww_number }) => {
+    return axiosBase.post('/fetchProductionEquipCardWaitingDocs', { project, equipment, ww_number })
 }
 
 export const updateWWStatusAXIOS = ({ idworkweeks, status1 }) => {

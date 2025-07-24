@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchProductionEquipCardAXIOS, updateWWStatusAXIOS } from "../../../../API/Axios/axiosCS"
+import { fetchProductionEquipCardAXIOS, updateWWStatusAXIOS, fetchProductionEquipCardWaitingDocsAXIOS } from "../../../../API/Axios/axiosCS"
 import socket from "../../../../API/Socket/socket"
 
 
@@ -14,6 +14,17 @@ export default function EquipCardPlan(props) {
         })
         console.log(res)
         setQuantity_done((res.data).length)
+    }
+
+    const [waitingDocs, setWaitingDocs] = useState('')
+    const fetchProdWaitingDocs = async () => {
+        const res = await fetchProductionEquipCardWaitingDocsAXIOS({
+            project: props.project,
+            equipment: props.equipment,
+            ww_number: props.ww_number
+        })
+        console.log(res)
+        setWaitingDocs((res.data).length)
     }
 
     const updateWWStatus = async () => {
@@ -39,6 +50,7 @@ export default function EquipCardPlan(props) {
 
     useEffect(() => {
         fetchProd()
+        fetchProdWaitingDocs()
         console.log(props)
     }, [])
 
@@ -55,6 +67,9 @@ export default function EquipCardPlan(props) {
             </div>
             <div>
                 Need: {props.qn}
+            </div>
+            <div>
+                Waiting Documentation: {waitingDocs}
             </div>
             <div>
                 Done: {quantity_done}

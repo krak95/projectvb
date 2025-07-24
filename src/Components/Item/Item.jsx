@@ -22,7 +22,7 @@ export default function Item({ path }) {
 
     const handleRetro = () => {
         try {
-            window.location.href = 'http://localhost:3000/' + path + ''
+            window.location.href = 'http://10.76.76.44:3000/' + path + ''
         } catch (e) {
             console.log(e)
         }

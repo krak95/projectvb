@@ -9,6 +9,10 @@
     height: 500px;
 }
 
+.weekPlanContentDiv:hover {
+    background-color: white;
+}
+
 .weekPlanContentDiv {
     background-color: var(--light);
     margin: 10px;
@@ -59,7 +63,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+}
+
+.weekPlanHeader>div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .backlogDiv {

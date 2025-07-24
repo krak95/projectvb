@@ -58,10 +58,15 @@ export default function WeekPlan() {
     return (
         <>
             <div className="weekPlanBackBtnDiv">
-                <button onClick={handleRetro}>BACK</button>
             </div>
             <div className="weekPlanHeader">
-                <p style={{ color: 'var(--light)' }}>Week {ww_number}</p>
+                <div>
+                    <button onClick={handleRetro}>BACK</button>
+                </div>
+                <div>
+                    <p style={{ color: 'var(--light)' }}>Week {ww_number}</p>
+                </div>
+                <div></div>
             </div>
             <div className="weekPlanMainDiv">
                 <div className="weekPlanCardsDiv">
@@ -94,7 +99,7 @@ export default function WeekPlan() {
                     </div>
                     <div className="backlogCards">
                         {backlog.map((e, key) =>
-                            <NavLink to={'/'}>
+                            <NavLink to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }} >
                                 <div className="weekPlanContentDiv">
                                     <>
                                         <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
@@ -106,9 +111,9 @@ export default function WeekPlan() {
                 </div>
 
             </div >
-                <div>
-                    prod
-                </div>
+            <div>
+                prod
+            </div>
         </>
     )
 }

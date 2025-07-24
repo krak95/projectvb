@@ -4,9 +4,9 @@
 }
 
 .wwGrid>a {
-    padding: 10px;
+    padding: 20px;
     background-color: var(--light);
-    margin: 1px;
+    margin: 10px;
     border-radius: 6px;
 }
 

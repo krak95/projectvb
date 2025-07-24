@@ -115,7 +115,6 @@ export default function Products() {
     }
 
     const location = useLocation();
-    console.log(location)
 
     const fetchProdByCard = async () => {
         if (location.state === null) {
@@ -133,10 +132,11 @@ export default function Products() {
 
     }
 
-
     useEffect(() => {
         window.history.replaceState({}, '')
-        fetchProdByCard()
+        setTimeout(() => {
+            fetchProdByCard()
+        }, 100);
     }, [])
     // useEffect(() => {
     //     console.log('Fetching productions...');
