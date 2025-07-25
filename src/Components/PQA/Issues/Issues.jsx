@@ -78,13 +78,13 @@ export default function Issues() {
                 <div className="issuesList">
                     <div className="issuesListHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(4, calc(100%/4))' }}>
                         <div>Issue Ref
-                            <input type="text" onChange={e => setIssueRefSearch(e.target.value)} name="" id="" />
+                            <input placeholder="Search by issue ref" type="text" onChange={e => setIssueRefSearch(e.target.value)} name="" id="" />
                         </div>
                         <div>Issue Description
-                            <input type="text" onChange={e => setIssueDescrSearch(e.target.value)} name="" id="" />
+                            <input type="text" placeholder="Search by issue description" onChange={e => setIssueDescrSearch(e.target.value)} name="" id="" />
                         </div>
                         <div>Issue Level
-                            <input type="text" onChange={e => setIssueLevelSearch(e.target.value)} name="" id="" />
+                            <input type="text" placeholder="Search by issue level" onChange={e => setIssueLevelSearch(e.target.value)} name="" id="" />
                         </div>
                     </div>
 

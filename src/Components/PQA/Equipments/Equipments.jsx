@@ -82,7 +82,7 @@ export default function Equipments() {
                 <div className="pqaEquipList">
                     <div className="pqaEquipListHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(2, calc(100%/2))' }} >
                         <div>Equipment Name</div>
-                        <input type="text" name="" id="" onChange={e => setEquipSearch(e.target.value)} />
+                        <input type="text" placeholder="Search by equipment" name="" id="" onChange={e => setEquipSearch(e.target.value)} />
                     </div>
 
                     {equipsArray.map((e, key) =>

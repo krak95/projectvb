@@ -51,9 +51,7 @@ export default function Item({ path }) {
     const hipotValue = queryParams.get('hipotValue');
     const hipotModel = queryParams.get('hipotModel');
     const hipotMultimeterModel = queryParams.get('hipotMultimeterModel');
-    const checklistStatus = queryParams.get('checklistStatus');
-    const traceabilityStatus = queryParams.get('traceabilityStatus');
-    const deploymentStatus = queryParams.get('deploymentStatus');
+ 
 
     const [comment, setComment] = useState('')
     const addItemIssue = async () => {

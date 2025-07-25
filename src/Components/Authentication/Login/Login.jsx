@@ -47,7 +47,7 @@ export default function Login() {
             }
         } catch (e) {
             console.log(e)
-            if ((e.response.data.message).includes('negative')) {
+            if ((e.response.data.message).includes('negative') || (e.response.data.message).includes('Wrong')) {
                 setAlert('wrong')
                 setTimeout(() => {
                     setAlert('')

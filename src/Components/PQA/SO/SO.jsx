@@ -100,11 +100,11 @@ export default function So() {
                     <div className="pqaListSoHeaders" style={admin === 0 ? null : { gridTemplateColumns: 'repeat(3, calc(100%/3))' }}>
                         <div>
                             Project
-                            <input type="text" name="" id="" onChange={e => setProjectSearch(e.target.value)} />
+                            <input type="text" name="" id="" placeholder="Search by project" onChange={e => setProjectSearch(e.target.value)} />
                         </div>
                         <div>
                             SO number
-                            <input type="text" name="" id="" onChange={e => setSoSearch(e.target.value)} />
+                            <input type="text" name="" id="" placeholder="Search by so" onChange={e => setSoSearch(e.target.value)} />
                         </div>
                     </div>
                     {soArray.map((e, key) =>

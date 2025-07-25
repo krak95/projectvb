@@ -113,19 +113,19 @@ export default function Projects() {
                     <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(5, calc(100%/5))' }} className="pqaListHeadersProjects">
                         <div>
                             Project Name
-                            <input type="text" onChange={e => setProjectSearch(e.target.value)} />
+                            <input type="text" placeholder="Search by project" onChange={e => setProjectSearch(e.target.value)} />
                         </div>
                         <div>
                             Country
-                            <input type="text" onChange={e => setCountrySearch(e.target.value)} />
+                            <input type="text" placeholder="Search by country" onChange={e => setCountrySearch(e.target.value)} />
                         </div>
                         <div>
                             Project Manager
-                            <input type="text" onChange={e => setPMSearch(e.target.value)} />
+                            <input type="text" placeholder="Search by pm" onChange={e => setPMSearch(e.target.value)} />
                         </div>
                         <div>
                             Client Name
-                            <input type="text" onChange={e => setClientNameSearch(e.target.value)} />
+                            <input type="text" placeholder="Search by client name" onChange={e => setClientNameSearch(e.target.value)} />
                         </div>
                     </div>
 

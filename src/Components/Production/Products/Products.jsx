@@ -189,9 +189,7 @@ export default function Products() {
                 <Outlet />
             </div>
             <div className="prodMainDiv">
-                <div>
-                    <button onClick={e => exportToExcel()}>EXCEL EXPORT</button>
-                </div>
+
                 <div className="searchDiv" style={{ display: 'flex' }}>
                     <div className="codeSearchDiv">
                         <div className="CodePRSearchDiv">
@@ -262,10 +260,13 @@ export default function Products() {
                         <span className="searchController" onClick={searchController}>Search</span>
 
                     </div>
-                    <div >
+                    {/* <div >
                         <span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'var(--light)', color: 'var(--primary)', padding: "10px", borderRadius: "6px" }}>
                             Quantity: {countProd}
                         </span>
+                    </div> */}
+                    <div>
+                        <button onClick={e => exportToExcel()}>Export to Excel</button>
                     </div>
                 </div>
                 <div className="itemListMainDiv">
@@ -389,9 +390,6 @@ export default function Products() {
                                 + "&hipotMultimeterModel=" + e.hipotMultimeterModel
                                 + "&workweek=" + e.workweek
                                 + "&comment=" + e.comment
-                                + "&checklistStatus=" + e.checklistStatus
-                                + "&deploymentStatus=" + e.deploymentStatus
-                                + "&traceabilityStatus=" + e.traceabilityStatus
                             }>
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
