@@ -140,7 +140,7 @@ export default function WorkWeeks() {
                 <div className="wwContentDiv">
                     <div className="wwGrid">
                         {workweeksArrayNR.map((e, key) =>
-                            <NavLink style={workweek1 == ((e.ww_number).slice(0, 2)) ? { backgroundColor: 'var(--green)' } : null} key={key} to={"/Supervisor/WeekDetails?" + "ww_number=" + e.ww_number}>
+                            <NavLink style={workweek1 == ((e.ww_number).slice(0, 2)) ? { backgroundColor: 'var(--green)' } : null} key={e.ww_number} to={"/Supervisor/WeekDetails?" + "ww_number=" + e.ww_number}>
                                 <div>
                                     Week {e.ww_number}
                                 </div>

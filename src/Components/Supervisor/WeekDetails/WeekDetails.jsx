@@ -32,7 +32,7 @@ export default function WeekDetails() {
             </div>
             <div className="weekDetailGridDiv">
                 {prodArray.map((e, key) =>
-                    <NavLink key={key} to={'/Supervisor/WeekPlan?' + 'project=' + e.project + "&ww_number=" + e.ww_number}>
+                    <NavLink key={e.project} to={'/Supervisor/WeekPlan?' + 'project=' + e.project + "&ww_number=" + e.ww_number}>
                         < div>
                             {e.project}
                         </div>

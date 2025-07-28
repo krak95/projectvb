@@ -40,6 +40,8 @@ export default function Products() {
     const [type3Search, setType3Search] = useState('')
     const [type4Search, setType4Search] = useState('')
     const [ww_number, setww_number] = useState('')
+    const [tester, setTester] = useState('')
+    const [comment, setComment] = useState('')
 
     const fetchProjects = async () => {
         const res = await fetchProjectsAXIOS({ projectSearch })
@@ -85,9 +87,13 @@ export default function Products() {
             'Type3': type3Search,
             'Type4': type4Search,
             'ReadyPQA': null,
-            'Tester': '',
+            'Tester': tester,
             'ww_number': ww_number,
-            'Status': ''
+            'Status': '',
+            'Comment': '',
+            'ChecklistStatus':'',
+            'DeploymentStatus':'',
+            'TraceabilityStatus':''
         })
         console.log(res.data)
         setProduction(res.data)

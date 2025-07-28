@@ -11,8 +11,6 @@ import { NavLink } from "react-router-dom"
 
 export default function MyProduction() {
 
-
-
     const [projects, setProjects] = useState([])
     const [so, setSo] = useState([])
     const [equips, setEquips] = useState([])

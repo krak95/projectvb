@@ -130,7 +130,7 @@ export default function Projects() {
                     </div>
 
                     {projectsArray.map((e, key) =>
-                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(5, calc(100%/5))' }} >
+                        <div key={e.id_proj} style={admin === 0 ? null : { gridTemplateColumns: 'repeat(5, calc(100%/5))' }} >
                             <div>
                                 {e.project}
                             </div>

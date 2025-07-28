@@ -440,7 +440,7 @@ export default function Item({ path }) {
                                     <select style={alert0 === 'missingRef' ? { backgroundColor: 'var(--red)' } : null} name="" id="" onChange={e => setRef_Issue(e.target.value)}>
                                         <option value=""></option>
                                         {issueArray.map((e, key) =>
-                                            <option value={e.id_issues}>
+                                            <option key={e.id_issues} value={e.id_issues}>
                                                 {e.ref_issue}: {e.description_issue}
                                             </option>
                                         )

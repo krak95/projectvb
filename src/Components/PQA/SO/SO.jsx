@@ -77,7 +77,7 @@ export default function So() {
                         <select name="" id="" placeholder='Project' onChange={e => setProject(e.target.value)}>
                             <option value="">Project</option>
                             {projectArray.map((e, key) =>
-                                <option value={e.project}>
+                                <option key={e.id_proj} value={e.project}>
                                     {e.project}
                                 </option>
                             )}
@@ -108,7 +108,7 @@ export default function So() {
                         </div>
                     </div>
                     {soArray.map((e, key) =>
-                        <div style={admin === 0 ? null : { gridTemplateColumns: 'repeat(3, calc(100%/3))' }} >
+                        <div key={e.idSO} style={admin === 0 ? null : { gridTemplateColumns: 'repeat(3, calc(100%/3))' }} >
                             <div>
                                 {e.project}
                             </div>

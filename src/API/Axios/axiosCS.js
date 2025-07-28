@@ -101,14 +101,36 @@ export const fetchProductionAXIOS = ({
     Type2: type2Search,
     Type3: type3Search,
     Type4: type4Search,
-    Tester,
+    Tester: tester,
     ww_number,
     Status,
+    Comment,
     ChecklistStatus,
     DeploymentStatus,
     TraceabilityStatus
 }) => {
-    console.log({ projectSearch, equipSearch, ww_number, Status })
+    console.log({
+     Project: projectSearch,
+    So: soSearch,
+    Equipment: equipSearch,
+    CodeA: codeaSearch,
+    CodeB: codebSearch,
+    CodePR: codeprSearch,
+    CodePS: codepsSearch,
+    CodeDR: codedrSearch,
+    Type0: type0Search,
+    Type1: type1Search,
+    Type2: type2Search,
+    Type3: type3Search,
+    Type4: type4Search,
+    Tester: tester,
+    ww_number,
+    Status,
+    Comment,
+    ChecklistStatus,
+    DeploymentStatus,
+    TraceabilityStatus
+    })
     return axiosBase.post('/fetchProduction',
         {
             Project: projectSearch,
@@ -124,9 +146,10 @@ export const fetchProductionAXIOS = ({
             Type2: type2Search,
             Type3: type3Search,
             Type4: type4Search,
-            Tester,
+            Tester: tester,
             ww_number,
             Status,
+            Comment,
             ChecklistStatus,
             DeploymentStatus,
             TraceabilityStatus

@@ -70,11 +70,10 @@ export default function CreateWorkWeeks() {
                     <select name="" id="" onChange={e => setProject(e.target.value)}>
                         <option value="">Projects</option>
                         {projectsArray.map((e, key) =>
-                            <>
-                                <option value={e.project}>
-                                    {e.project}
-                                </option>
-                            </>
+
+                            <option key={e.id_proj} value={e.project}>
+                                {e.project}
+                            </option>
                         )}
                     </select>
                 </div>
@@ -82,11 +81,11 @@ export default function CreateWorkWeeks() {
                     <select name="" id="" onChange={e => setEquip(e.target.value)}>
                         <option value="">Equipment</option>
                         {equipArray.map((e, key) =>
-                            <>
-                                <option value={e.equipName}>
-                                    {e.equipName}
-                                </option>
-                            </>
+
+                            <option key={e.idequipments} value={e.equipName}>
+                                {e.equipName}
+                            </option>
+
                         )}
                     </select>
                 </div>

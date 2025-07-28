@@ -1,10 +1,11 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchBacklogAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS } from "../../../../API/Axios/axiosCS";
 import "./WeekPlan.css"
 import EquipCardPlan from "./EquipCardPlan";
 import { NavLink } from "react-router-dom";
+import $ from 'jquery'
 
 export default function WeekPlan() {
     const { search } = useLocation();
@@ -54,6 +55,25 @@ export default function WeekPlan() {
     }, [ww_number, project])
 
 
+    // useEffect(() => {
+
+    //     var array = $('.backlogScroll a')
+    //     var nrEl = $('.backlogScroll a').length
+    //     var maxEl = 3
+    //     var pagenr = 1
+    //     var maxPagenr = Math.ceil(nrEl / maxEl)
+    //     console.log(maxPagenr)
+
+    //     $('.backlogScroll a').hide()
+    //     $('.backlogScroll').append('<div>' + pagenr + '/' + maxPagenr + '</div>')
+
+    //     for (let nrEl = 0; nrEl < maxEl; nrEl++) {
+    //         $('.backlogScroll a[sShow=' + nrEl + ']').show()
+    //     }
+
+    // }, [backlog])
+
+
 
     return (
         <>
@@ -72,7 +92,7 @@ export default function WeekPlan() {
                 <div className="weekPlanCardsDiv">
 
                     {workWeekArr.map((e, key) =>
-                        <NavLink to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }}>
+                        <NavLink key={e.idworkweeks} to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }}>
                             <div className="weekPlanContentDiv">
 
                                 <EquipCardPlan idworkweeks={e.idworkweeks} project={e.project} equipment={e.equipment} qn={e.quantity_need} qd={e.quantity_done} ww_number={ww_number} />
@@ -98,22 +118,21 @@ export default function WeekPlan() {
                         Backlog
                     </div>
                     <div className="backlogCards">
-                        {backlog.map((e, key) =>
-                            <NavLink to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }} >
-                                <div className="weekPlanContentDiv">
-                                    <>
-                                        <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
-                                    </>
-                                </div>
-                            </NavLink>
-                        )}
+                        <div className="backlogScroll">
+                            {backlog.map((e, key) =>
+                                <NavLink key={e.idworkweeks} to={'/Production/Products'} state={{ workweek: e.ww_number, project: e.project, equipment: e.equipment }} >
+                                    <div className="weekPlanContentDiv">
+                                        <>
+                                            <EquipCardPlan idworkweeks={e.idworkweeks} equipment={e.equipment} project={e.project} qn={e.quantity_need} qd={e.quantity_done} ww_number={e.ww_number} />
+                                        </>
+                                    </div>
+                                </NavLink>
+                            )}
+                        </div>
                     </div>
                 </div>
 
             </div >
-            <div>
-                prod
-            </div>
         </>
     )
 }
