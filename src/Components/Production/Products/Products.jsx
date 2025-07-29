@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { useState } from "react"
 import { Outlet, useLocation } from "react-router-dom"
-import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS, fetchCountProductionAXIOS } from "../../../API/Axios/axiosCS"
+import { fetchProjectsAXIOS, fetchSOAXIOS, fetchProductionAXIOS, fetchEquipmentsAXIOS } from "../../../API/Axios/axiosCS"
 import { NavLink } from 'react-router-dom';
 import './Products.css'
 import $ from 'jquery'
 import socket from "../../../API/Socket/socket";
-import amadeuslogo from "./../../../Img/amadeus_logo.png";
 import * as XLSX from 'xlsx'
 
 
@@ -42,6 +41,8 @@ export default function Products() {
     const [ww_number, setww_number] = useState('')
     const [tester, setTester] = useState('')
     const [comment, setComment] = useState('')
+    const [orderVar, setOrdervar] = useState('ww_number')
+    const [ascordesc, setAscorDesc] = useState('ASC')
 
     const fetchProjects = async () => {
         const res = await fetchProjectsAXIOS({ projectSearch })
@@ -63,11 +64,11 @@ export default function Products() {
 
 
     const exportToExcel = () => {
+        console.log(XLSX)
         const worksheet = XLSX.utils.json_to_sheet(production)
         const workbook = XLSX.utils.book_new()
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
         XLSX.writeFile(workbook, "exportToExcel.xlsx")
-
     }
 
     const fetchProduction = async () => {
@@ -91,9 +92,9 @@ export default function Products() {
             'ww_number': ww_number,
             'Status': '',
             'Comment': '',
-            'ChecklistStatus':'',
-            'DeploymentStatus':'',
-            'TraceabilityStatus':''
+            'ChecklistStatus': '',
+            'DeploymentStatus': '',
+            'TraceabilityStatus': '',
         })
         console.log(res.data)
         setProduction(res.data)
@@ -177,7 +178,8 @@ export default function Products() {
         type2Search,
         type3Search,
         type4Search,
-        ww_number
+        ww_number,
+        tester
     ])
 
     useEffect(() => {
@@ -189,15 +191,179 @@ export default function Products() {
         })
     }, [])
 
+
+
+    const [orderWWnumber, setOrderWWnumber] = useState(null)
+    const orderByWWnumber = () => {
+        if (orderWWnumber === (null || true)) {
+            //Ascending
+            setOrderWWnumber(false)
+            setOrderProject(null)
+            setorderByEquip(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((b, a) => {
+                return a.ww_number.localeCompare(b.ww_number);
+            });
+        } else {
+            //Descending
+            setOrderWWnumber(true)
+            setOrderProject(null)
+            setorderByEquip(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((a, b) => {
+                return a.ww_number.localeCompare(b.ww_number);
+            });
+        }
+    }
+
+    const [orderProject, setOrderProject] = useState(null)
+    const orderByProject = () => {
+        if (orderProject === true) {
+            //Ascending
+            setOrderProject(false)
+            setOrderWWnumber(null)
+            setorderByEquip(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((b, a) => {
+                return a.project.localeCompare(b.project);
+            });
+        } else {
+            //Descending
+            setOrderProject(true)
+            setOrderWWnumber(null)
+            setorderByEquip(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((a, b) => {
+                return a.project.localeCompare(b.project);
+            });
+        }
+    }
+
+    const [orderEquip, setorderByEquip] = useState(null)
+    const orderByEquip = () => {
+        if (orderEquip === true) {
+            //Ascending
+            setorderByEquip(false)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((b, a) => {
+                return a.equipment.localeCompare(b.equipment);
+            });
+        } else {
+            //Descending
+            setorderByEquip(true)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeA(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((a, b) => {
+                return a.equipment.localeCompare(b.equipment);
+            });
+        }
+    }
+    const [orderCodeA, setOrderByCodeA] = useState(false)
+    const orderByCodeA = () => {
+        if (orderCodeA === true) {
+            //Ascending
+            setOrderByCodeA(false)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((b, a) => {
+                return a.codeA.localeCompare(b.codeA);
+            });
+        } else {
+            //Descending
+            setOrderByCodeA(true)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeB(null)
+            setOrderByStatus(null)
+            production.sort((a, b) => {
+                return a.codeA.localeCompare(b.codeA);
+            });
+        }
+    }
+    const [orderCodeB, setOrderByCodeB] = useState(null)
+    const orderByCodeB = () => {
+        if (orderCodeB === true) {
+            //Ascending
+            setOrderByCodeB(false)
+            setOrderByCodeA(null)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByStatus(null)
+            production.sort((b, a) => {
+                return a.codeB.localeCompare(b.codeB);
+            });
+        } else {
+            //Descending
+            setOrderByCodeB(true)
+            setOrderByCodeA(null)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByStatus(null)
+            production.sort((a, b) => {
+                return a.codeB.localeCompare(b.codeB);
+            });
+        }
+    }
+
+    const [orderStatus, setOrderByStatus] = useState(null)
+    const setOrderStatus = () => {
+        if (orderStatus === true) {
+            //Ascending
+            setOrderByStatus(false)
+            setOrderByCodeA(null)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeB(null)
+            production.sort((b, a) => {
+                return a.status.localeCompare(b.status);
+            });
+        } else {
+            //Descending
+            setOrderByStatus(true)
+            setOrderByCodeA(null)
+            setorderByEquip(null)
+            setOrderProject(null)
+            setOrderWWnumber(null)
+            setOrderByCodeB(null)
+            production.sort((a, b) => {
+                return a.status.localeCompare(b.status);
+            });
+        }
+    }
+
     return (
         <>
             <div className="mainNav">
                 <Outlet />
             </div>
             <div className="prodMainDiv">
-
                 <div className="searchDiv" style={{ display: 'flex' }}>
                     <div className="codeSearchDiv">
+                        <div>
+                            <input type="text" placeholder="Search by tester" onChange={e => setTester(e.target.value)} name="" id="" />
+                        </div>
                         <div className="CodePRSearchDiv">
                             <input type="text" onChange={e => setCodeprSearch(e.target.value)} placeholder="CodePR" />
                             {/* <li>
@@ -278,14 +444,14 @@ export default function Products() {
                 <div className="itemListMainDiv">
                     <div className="itemListHeaders">
                         <div className="">
-                            <div>WorkWeek</div>
+                            <div onClick={orderByWWnumber}>WorkWeek {orderWWnumber === true ? 'ASC' : (orderWWnumber === false ? 'DESC' : '')}</div>
                             <div>
                                 <input placeholder="Search by workweek" type="text" onChange={e => setww_number(e.target.value)} />
                             </div>
                         </div>
                         <div>
-                            <div>
-                                Project
+                            <div onClick={orderByProject}>
+                                Project {orderProject === true ? 'ASC' : (orderProject === false ? 'DESC' : '')}
                             </div>
                             <div className="projectSearchDiv">
                                 <input placeholder="Search by project" type="text" onChange={e => setProjectSearch(e.target.value)} />
@@ -301,8 +467,8 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                Equipment
+                            <div onClick={orderByEquip}>
+                                Equipment {orderEquip === true ? 'ASC' : (orderEquip === false ? 'DESC' : '')}
                             </div>
                             <div className="equipmentSearchDiv">
                                 <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} />
@@ -319,8 +485,8 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                Code A
+                            <div onClick={orderByCodeA}>
+                                Code A {orderCodeA === true ? 'ASC' : (orderCodeA === false ? 'DESC' : '')}
                             </div>
                             <div className="codeASearchDiv">
                                 <input placeholder="Search by A code" type="text" onChange={e => setCodeaSearch(e.target.value)} />
@@ -330,8 +496,8 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div>
-                                Code B
+                            <div onClick={orderByCodeB}>
+                                Code B {orderCodeB === true ? 'ASC' : (orderCodeB === false ? 'DESC' : '')}
                             </div>
                             <div className="CodeBSearchDiv">
                                 <input placeholder="Search by B code" type="text" onChange={e => setCodebSearch(e.target.value)} />
@@ -364,7 +530,8 @@ export default function Products() {
                             </div>
                         </div>
                         <div className="itemStatusHeaderDiv">
-                            <div>
+                            <div onClick={setOrderStatus}>
+                                Status {orderStatus === true ? 'ASC' : (orderStatus === false ? 'DESC' : '')}
                             </div>
                         </div>
                     </div>

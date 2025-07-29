@@ -51,7 +51,7 @@ export default function Item({ path }) {
     const hipotValue = queryParams.get('hipotValue');
     const hipotModel = queryParams.get('hipotModel');
     const hipotMultimeterModel = queryParams.get('hipotMultimeterModel');
- 
+
 
     const [comment, setComment] = useState('')
     const addItemIssue = async () => {
@@ -384,50 +384,42 @@ export default function Item({ path }) {
                         </div>
                     </div>
                     <div className='checkZoneDiv'>
-                        <div>
+                        <div >
                             <div>
-                                Checklist
+                                <select onChange={e => updateChecklist(e.target.value)} name="" id="">
+                                    <option value="">Checklist</option>
+                                    <option value="true">Finished</option>
+                                    <option value="false">Pending</option>
+                                </select>
                             </div>
                             <div>
                                 {checklist1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
                             </div>
+                        </div>
+                        <div>
+
                             <div>
-                                <select onChange={e => updateChecklist(e.target.value)} name="" id="">
-                                    <option value="">{checklist1 === 'true' ? 'Finished' : 'Pending'}</option>
+                                <select name="" id="" onChange={e => updateDeployment(e.target.value)}>
+                                    <option value="">Deployment</option>
                                     <option value="true">Finished</option>
                                     <option value="false">Pending</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-
-                                Deployment
                             </div>
                             <div>
                                 {deployment1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
                             </div>
+                        </div>
+                        <div>
+
                             <div>
-                                <select name="" id="" onChange={e => updateDeployment(e.target.value)}>
-                                    <option value="">{deployment1 === 'true' ? 'Finished' : 'Pending'}</option>
+                                <select name="" id="" onChange={e => updateTraceability(e.target.value)}>
+                                    <option value="">Traceability</option>
                                     <option value="true">Finished</option>
                                     <option value="false">Pending</option>
                                 </select>
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                Traceability
                             </div>
                             <div>
                                 {traceability1 === 'true' ? <img src={truelogo} /> : <img src={falselogo} />}
-                            </div>
-                            <div>
-                                <select name="" id="" onChange={e => updateTraceability(e.target.value)}>
-                                    <option value="">{traceability1 === 'true' ? 'Finished' : 'Pending'}</option>
-                                    <option value="true">Finished</option>
-                                    <option value="false">Pending</option>
-                                </select>
                             </div>
 
                         </div>

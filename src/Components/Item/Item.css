@@ -213,7 +213,15 @@
   background-color: white;
   border-radius: 10px;
 }
-
+.checkZoneDiv>div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.checkZoneDiv>div>div{
+  margin:6px;
+}
 .checkZoneDiv img {
   height: 20px;
   width: auto;

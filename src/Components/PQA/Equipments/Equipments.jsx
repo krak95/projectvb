@@ -86,7 +86,7 @@ export default function Equipments() {
                     </div>
 
                     {equipsArray.map((e, key) =>
-                        <div key={e.idequipments} style={admin === 0 ? null : { gridTemplateColumns: 'repeat(2, calc(100%/2))' }} >
+                        <div key={e.idequipmentsx} style={admin === 0 ? null : { gridTemplateColumns: 'repeat(2, calc(100%/2))' }} >
                             <div>
                                 {e.equipName}
                             </div>
