@@ -181,14 +181,12 @@
 
 .productionCountDiv>div {
     padding: 10px;
-    
+
 }
 
-.itemStatusDiv {
-}
+.itemStatusDiv {}
 
-.itemStatusHeaderDiv {
-}
+.itemStatusHeaderDiv {}
 
 
 .itemStatusSpan {
@@ -208,6 +206,17 @@
 
 .newItemBtn {
     background-color: var(--green) !important;
-    padding:10px;
+    padding: 10px;
     border-radius: 6px;
+}
+
+.filterClick {
+    color: var(--light);
+    margin-bottom: 4px;
+}
+
+.filterClick:hover {
+    cursor: pointer;
+    color: white;
+
 }

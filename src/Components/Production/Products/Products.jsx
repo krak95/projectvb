@@ -41,6 +41,7 @@ export default function Products() {
     const [ww_number, setww_number] = useState('')
     const [tester, setTester] = useState('')
     const [comment, setComment] = useState('')
+    const [statusSearch, setSearchStatus] = useState('')
     const [orderVar, setOrdervar] = useState('ww_number')
     const [ascordesc, setAscorDesc] = useState('ASC')
 
@@ -90,7 +91,7 @@ export default function Products() {
             'ReadyPQA': null,
             'Tester': tester,
             'ww_number': ww_number,
-            'Status': '',
+            'Status': statusSearch,
             'Comment': '',
             'ChecklistStatus': '',
             'DeploymentStatus': '',
@@ -179,7 +180,8 @@ export default function Products() {
         type3Search,
         type4Search,
         ww_number,
-        tester
+        tester,
+        statusSearch
     ])
 
     useEffect(() => {
@@ -444,13 +446,13 @@ export default function Products() {
                 <div className="itemListMainDiv">
                     <div className="itemListHeaders">
                         <div className="">
-                            <div onClick={orderByWWnumber}>WorkWeek {orderWWnumber === true ? 'ASC' : (orderWWnumber === false ? 'DESC' : '')}</div>
+                            <div className='filterClick' onClick={orderByWWnumber}>WorkWeek {orderWWnumber === true ? 'ASC' : (orderWWnumber === false ? 'DESC' : '')}</div>
                             <div>
                                 <input placeholder="Search by workweek" type="text" onChange={e => setww_number(e.target.value)} />
                             </div>
                         </div>
                         <div>
-                            <div onClick={orderByProject}>
+                            <div className='filterClick' onClick={orderByProject}>
                                 Project {orderProject === true ? 'ASC' : (orderProject === false ? 'DESC' : '')}
                             </div>
                             <div className="projectSearchDiv">
@@ -467,7 +469,7 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div onClick={orderByEquip}>
+                            <div className='filterClick' onClick={orderByEquip}>
                                 Equipment {orderEquip === true ? 'ASC' : (orderEquip === false ? 'DESC' : '')}
                             </div>
                             <div className="equipmentSearchDiv">
@@ -485,7 +487,7 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div onClick={orderByCodeA}>
+                            <div className='filterClick' onClick={orderByCodeA}>
                                 Code A {orderCodeA === true ? 'ASC' : (orderCodeA === false ? 'DESC' : '')}
                             </div>
                             <div className="codeASearchDiv">
@@ -496,7 +498,7 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div onClick={orderByCodeB}>
+                            <div className='filterClick' onClick={orderByCodeB}>
                                 Code B {orderCodeB === true ? 'ASC' : (orderCodeB === false ? 'DESC' : '')}
                             </div>
                             <div className="CodeBSearchDiv">
@@ -530,8 +532,14 @@ export default function Products() {
                             </div>
                         </div>
                         <div className="itemStatusHeaderDiv">
-                            <div onClick={setOrderStatus}>
+                            <div className="filterClick" onClick={setOrderStatus}>
                                 Status {orderStatus === true ? 'ASC' : (orderStatus === false ? 'DESC' : '')}
+                            </div>
+                            <div>
+                                <input placeholder="Search by status" type="text" onChange={e => setSearchStatus(e.target.value)} />
+                                {/* <li>
+                                CodeB
+                            </li> */}
                             </div>
                         </div>
                     </div>
