@@ -41,6 +41,61 @@ export const registerAXIOS = ({
     })
 }
 
+export const updateItemAXIOS = (
+    {
+        id_prod,
+        project,
+        so,
+        equipment,
+        codeA,
+        codeB,
+        codePR,
+        codePS,
+        codeDR,
+        type0,
+        type1,
+        type2,
+        type3,
+        type4,
+        tester,
+        startDate,
+        endDate,
+        hipotValue,
+        hipotModel,
+        hipotMultimeterModel,
+        ww_number1,
+        comment1
+    }
+) => {
+    console.log({id_prod, hipotValue})
+    return axiosBase.post('/updateItem',
+        {
+            id_prod,
+            project,
+            so,
+            equipment,
+            codeA,
+            codeB,
+            codePR,
+            codePS,
+            codeDR,
+            type0,
+            type1,
+            type2,
+            type3,
+            type4,
+            tester,
+            startDate,
+            endDate,
+            hipotValue,
+            hipotModel,
+            hipotMultimeterModel,
+            ww_number1,
+            comment1
+        }
+    )
+}
+
 export const checkCredsAXIOS = ({ username, password }) => {
     console.log(username, password)
     return axiosBase.post('/checkCreds', { username, password })

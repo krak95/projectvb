@@ -32,7 +32,8 @@ a:focus {
 a.active {
   background-color: var(--vbBlue) !important;
 }
-a.hover{
+
+a.hover {
   background-color: var(--vbBlue) !important;
 }
 
@@ -62,7 +63,7 @@ a.hover{
   justify-content: center;
   padding: 10px;
   color: var(--vbBlue);
-  background-color: var(--secondary)
+  background-color: var(--secondary);
 }
 
 .rootHeader a:hover {
@@ -108,11 +109,18 @@ a.hover{
   text-align: left;
   background-color: var(--secondary);
   padding: 10px;
+  min-width: 150px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-right: 1px solid var(--primary);
+  transition: .3s;
+
 }
 
 .mainNav a:hover {
+  transition: .3s;
   background-color: var(--vbBlue);
 }
 

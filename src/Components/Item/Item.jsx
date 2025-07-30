@@ -1,5 +1,5 @@
 import './Item.css'
-import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, addItemIssueAXIOS, updateChecklistAXIOS, updateDeploymentAXIOS, updateTraceabilityAXIOS, fetchProdIDAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS, updateFinalAXIOS } from "../../API/Axios/axiosCS"
+import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, updateItemAXIOS, addItemIssueAXIOS, updateChecklistAXIOS, updateDeploymentAXIOS, updateTraceabilityAXIOS, fetchProdIDAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS, updateFinalAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
 import { useState, useEffect, use } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
@@ -216,7 +216,61 @@ export default function Item({ path }) {
     const [deployment, setDeployment] = useState(deployment1)
 
     const [traceability, setTraceability] = useState(traceability1)
+    console.log(items)
+    const updateItem = async () => {
+        const res = await updateItemAXIOS(
+            {
+                id_prod: id_prod,
+                project: (projectup === '' ? items[0].project : projectup),
+                so: (soup === '' ? items[0].so : soup),
+                equipment: (equipmentup === '' ? items[0].equipment : equipmentup),
+                codeA: (codeAup === '' ? items[0].codeA : codeAup),
+                codeB: (codeBup === '' ? items[0].codeB : codeBup),
+                codePR: (codePRup === '' ? items[0].codePR : codePRup),
+                codePS: (codePSup === '' ? items[0].codePS : codePSup),
+                codeDR: (codeDRup === '' ? items[0].codeDR : codeDRup),
+                type0: (type0up === '' ? items[0].type0 : type0up),
+                type1: (type1up === '' ? items[0].type1 : type1up),
+                type2: (type2up === '' ? items[0].type2 : type2up),
+                type3: (type3up === '' ? items[0].type3 : type3up),
+                type4: (type4up === '' ? items[0].type4 : type4up),
+                tester: (testerup === '' ? items[0].tester : testerup),
+                startDate: (startDateup === '' ? items[0].startDate : startDateup),
+                endDate: (endDateup === '' ? items[0].endDate : endDateup),
+                hipotValue: (hipotValueup === '' ? items[0].hipotValue : hipotValueup),
+                hipotModel: (hipotModelup === '' ? items[0].hipotModel : hipotModelup),
+                hipotMultimeterModel: (hipotMultimeterModelup === '' ? items[0].hipotMultimeterModel : hipotMultimeterModelup),
+                ww_number: (ww_numberup === '' ? items[0].ww_number : ww_numberup),
+                comment: (commentup === '' ? items[0].comment : commentup)
+            })
+        console.log(res)
+        checkProduction()
+        socket.emit('socketAddItemIssue')
+    }
 
+    const [updateDiv, showUpdateDiv] = useState(false)
+
+    const [projectup, setprojectup] = useState('')
+    const [soup, setsoup] = useState('')
+    const [equipmentup, setequipmentup] = useState('')
+    const [codeAup, setcodeAup] = useState('')
+    const [codeBup, setcodeBup] = useState('')
+    const [codePRup, setcodePRup] = useState('')
+    const [codePSup, setcodePSup] = useState('')
+    const [codeDRup, setcodeDRup] = useState('')
+    const [type0up, settype0up] = useState('')
+    const [type1up, settype1up] = useState('')
+    const [type2up, settype2up] = useState('')
+    const [type3up, settype3up] = useState('')
+    const [type4up, settype4up] = useState('')
+    const [testerup, settesterup] = useState('')
+    const [startDateup, setstartDateup] = useState('')
+    const [endDateup, setendDateup] = useState('')
+    const [hipotValueup, sethipotValueup] = useState('')
+    const [hipotModelup, sethipotModelup] = useState('')
+    const [hipotMultimeterModelup, sethipotMultimeterModelup] = useState('')
+    const [ww_numberup, setww_numberup] = useState('')
+    const [commentup, setcommentup] = useState('')
 
     const updateChecklist = async (e) => {
         console.log(e)
@@ -270,9 +324,11 @@ export default function Item({ path }) {
         socket.on('socketFetchItemIssue', () => {
             fetchProdID()
             fetchItemIssues()
+            checkProduction()
         })
         // alert0('item', project, so, codeA, codeB)
     }, [])
+
     useEffect(() => {
         fetchIssues()
     }, [issueSearch])
@@ -293,6 +349,94 @@ export default function Item({ path }) {
                         <button className='deleteItemBtn' onClick={delProd}>Delete product</button>
                     </div>
                     <div className='itemHeaders'>
+                        <div onClick={e => showUpdateDiv(!updateDiv)} className='itemHeadersUpdate'>
+                            UPDATE
+                        </div>
+                        <div style={updateDiv === false ? { display: 'none' } : null} className='updateItemDiv'>
+                            <div>
+
+                                <div>
+                                    <input onChange={e => setprojectup(e.target.value)} placeholder='project' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setsoup(e.target.value)} placeholder='so' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setequipmentup(e.target.value)} placeholder='equipment' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input onChange={e => setcodeAup(e.target.value)} placeholder='codeA' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setcodeBup(e.target.value)} placeholder='codeB' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setcodePRup(e.target.value)} placeholder='codePR' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setcodePSup(e.target.value)} placeholder='codePS' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setcodeDRup(e.target.value)} placeholder='codeDR' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input onChange={e => settype0up(e.target.value)} placeholder='type0' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => settype1up(e.target.value)} placeholder='type1' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => settype2up(e.target.value)} placeholder='type2' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => settype3up(e.target.value)} placeholder='type3' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => settype4up(e.target.value)} placeholder='type4' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input onChange={e => settesterup(e.target.value)} placeholder='tester' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setstartDateup(e.target.value)} placeholder='startDate' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setendDateup(e.target.value)} placeholder='endDate' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input onChange={e => sethipotValueup(e.target.value)} placeholder='hipotValue' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => sethipotModelup(e.target.value)} placeholder='hipotModel' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => sethipotMultimeterModelup(e.target.value)} placeholder='hipotMultimeterModel' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <input onChange={e => setww_numberup(e.target.value)} placeholder='ww_number' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <input onChange={e => setcommentup(e.target.value)} placeholder='comment' type="text" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <button onClick={updateItem}>UPDATE ITEM</button>
+                            </div>
+
+
+
+
+                        </div>
                         {/* <div>
                             <div>project    </div>
                             <div>so </div>
@@ -320,49 +464,49 @@ export default function Item({ path }) {
                     <div className='itemInformation'>
                         <div>
                             <div>
-                                {project}
+                                {items[0]?.project}
                             </div>
                             <div>
-                                {so}
+                                {items[0]?.so}
                             </div>
                             <div>
-                                {equip}
-                            </div>
-                        </div>
-                        <div>
-                            <div>
-                                {codeA}
-                            </div>
-                            <div>
-                                {codeB}
+                                {items[0]?.equip}
                             </div>
                         </div>
                         <div>
                             <div>
-                                {codePR}
+                                {items[0]?.codeA}
                             </div>
                             <div>
-                                {codePS}
-                            </div>
-                            <div>
-                                {codeDR}
+                                {items[0]?.codeB}
                             </div>
                         </div>
                         <div>
                             <div>
-                                {type0}
+                                {items[0]?.codePR}
                             </div>
                             <div>
-                                {type1}
+                                {items[0]?.codePS}
                             </div>
                             <div>
-                                {type2}
+                                {items[0]?.codeDR}
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                {items[0]?.type0}
                             </div>
                             <div>
-                                {type3}
+                                {items[0]?.type1}
                             </div>
                             <div>
-                                {type4}
+                                {items[0]?.type2}
+                            </div>
+                            <div>
+                                {items[0]?.type3}
+                            </div>
+                            <div>
+                                {items[0]?.type4}
                             </div>
                         </div>
                         <div className='hipotInfoDiv'>
@@ -370,15 +514,15 @@ export default function Item({ path }) {
                             <div className='hipotGrid'>
                                 <div>
                                     <div>Value</div>
-                                    <p>{hipotValue}</p>
+                                    <p>{items[0]?.hipotValue}</p>
                                 </div>
                                 <div>
                                     <div>Model</div>
-                                    <p>{hipotModel}</p>
+                                    <p>{items[0]?.hipotModel}</p>
                                 </div>
                                 <div>
                                     <div>Multimeter</div>
-                                    <p>{hipotMultimeterModel}</p>
+                                    <p>{items[0]?.hipotMultimeterModel}</p>
                                 </div>
                             </div>
                         </div>
