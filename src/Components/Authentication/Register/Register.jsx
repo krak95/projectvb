@@ -59,15 +59,7 @@ export default function Register() {
                         <div>Admin</div>
                         <div><input onChange={e => setAdmin(e.target.value)} type="number" /></div>
                     </div> */}
-                    <div>
-                        <div>Role</div>
-                        <div><input onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                register()
-                            }
-                        }}
-                            onChange={e => setRole(e.target.value)} type="text" /></div>
-                    </div>
+
                     <div>
                         <div>Username</div>
                         <div><input onKeyDown={(e) => {

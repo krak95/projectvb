@@ -98,4 +98,21 @@
 .backlogScroll {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    max-height: 420px;
+    overflow-y: scroll;
+}
+
+
+.backlogScroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.backlogScroll::-webkit-scrollbar-track {
+    background-color: var(--secondary);
+    border-left: 1px solid var(--light);
+    border-right: 1px solid var(--light);
+}
+
+.backlogScroll::-webkit-scrollbar-thumb {
+    background: var(--light);
 }
