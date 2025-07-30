@@ -10,7 +10,6 @@
   --green: #18a80e;
   --red: #ff0000;
 }
-
 body {
   background-color: var(--primary);
 }

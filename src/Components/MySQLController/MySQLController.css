@@ -52,6 +52,10 @@
     margin: 2px;
 }
 
-.hipotDiv > div{
-    margin:2px;
+.hipotDiv>div {
+    margin: 2px;
+}
+
+.updateItemDiv>div>div {
+    margin: 4px;
 }

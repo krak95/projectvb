@@ -196,21 +196,22 @@ export default function MySQLController() {
                         </select>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <p style={{ fontSize: '12px', color: 'var(--light)' }}>{so === '' || null ? 'SO' : so}</p>
-                        <input type="text" placeholder="SO" onChange={e => setSO(e.target.value)} />
-                        <select onChange={e => setSO(e.target.value)} name="" id="">
-                            <option ></option>
-                            {soArray.map((e, key) =>
-                                <option key={key} value={e.sOref}>{e.sOref}</option>
-                            )
-                            }
-                        </select>
-                    </div>
-                </div>
-                {(project && so) == '' ? null :
+
+                {(project) == '' ? null :
                     <>
+                        <div>
+                            <div>
+                                <p style={{ fontSize: '12px', color: 'var(--light)' }}>{so === '' || null ? 'SO' : so}</p>
+                                <input type="text" placeholder="SO" onChange={e => setSO(e.target.value)} />
+                                <select onChange={e => setSO(e.target.value)} name="" id="">
+                                    <option ></option>
+                                    {soArray.map((e, key) =>
+                                        <option key={key} value={e.sOref}>{e.sOref}</option>
+                                    )
+                                    }
+                                </select>
+                            </div>
+                        </div>
                         <div>
                             <div>
                                 <p style={{ fontSize: '12px', color: 'var(--light)' }}>{equipment === '' || null ? 'Equipment' : equipment}</p>
