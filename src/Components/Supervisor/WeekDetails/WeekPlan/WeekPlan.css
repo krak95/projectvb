@@ -1,5 +1,4 @@
 .weekPlanMainDiv {
-    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -60,10 +59,10 @@
 .weekPlanHeader {
     background-color: var(--secondary);
     width: 100%;
-    margin: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-bottom: 1px solid var(--light);
 }
 
 .weekPlanHeader>div {

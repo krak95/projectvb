@@ -51,6 +51,7 @@ export default function Item({ path }) {
     const hipotValue = queryParams.get('hipotValue');
     const hipotModel = queryParams.get('hipotModel');
     const hipotMultimeterModel = queryParams.get('hipotMultimeterModel');
+    const ww_number = queryParams.get('ww_number');
 
 
     const [comment, setComment] = useState('')
@@ -341,6 +342,9 @@ export default function Item({ path }) {
                         <div>
                             <div>
                                 Tested by: <p>{tester}</p>
+                            </div>
+                            <div>
+                                <p>Week {(ww_number).slice(0, 2)}</p>
                             </div>
                             <div>
                                 <p>{startDate}</p> until <p>{endDate === '' ? 'Not finished' : endDate}</p>

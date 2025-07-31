@@ -469,11 +469,15 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div className='filterClick' onClick={orderByEquip}>
+                            <div className='filterClick' onClick={orderByEquip}>x\
                                 Equipment {orderEquip === true ? 'ASC' : (orderEquip === false ? 'DESC' : '')}
                             </div>
                             <div className="equipmentSearchDiv">
-                                <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} />
+                                {/* <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} /> */}
+                               <select name="" id="">
+                                <option value=""></option>
+                                <option value=""></option>
+                               </select>
                                 {/* <select name="" id="">
                             <option value=""></option>
                             {equips === undefined ? null : equips.map((e, key) => {
@@ -569,7 +573,7 @@ export default function Products() {
                                 + "&hipotValue=" + e.hipotValue
                                 + "&hipotModel=" + e.hipotModel
                                 + "&hipotMultimeterModel=" + e.hipotMultimeterModel
-                                + "&workweek=" + e.workweek
+                                + "&ww_number=" + e.ww_number
                                 + "&comment=" + e.comment
                             }>
                                 <div className="itemListDiv" key={key}>
