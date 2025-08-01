@@ -28,6 +28,7 @@ import amadeuslogo from './Img/amadeus_logo.png'
 import { checkLogin } from './CustomHooks/Login/LoginHook';
 import Jobs from './Components/Production/Jobs/Jobs';
 import CreateWorkWeeks from './Components/Supervisor/WorkWeeks/CreateWorkWeeks.jsx/CreateWorkWeeks';
+import Checklists from './Components/Supervisor/Checklists/Checklists';
 
 function App() {
 
@@ -224,6 +225,7 @@ function App() {
                     <Route path='/Supervisor/WeekDetails' element={<WeekDetails />}>
                     </Route>
                     <Route path='/Supervisor/WeekPlan' element={<WeekPlan />}></Route>
+                    <Route path='/Supervisor/Checklists' element={<Checklists />}></Route>
                   </Route>
                 }
               </Route>

@@ -7,6 +7,7 @@ export default function Supervisor() {
         <>
             <div className="mainNav">
                 <NavLink to='/Supervisor/WorkWeeks' >WorkWeeks</NavLink>
+                <NavLink to='/Supervisor/Checklists' >Checklists</NavLink>
             </div>
             <Outlet />
         </>

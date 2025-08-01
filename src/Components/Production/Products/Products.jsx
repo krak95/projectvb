@@ -488,9 +488,7 @@ export default function Products() {
                                 <select name="" id="" onChange={e => setEquipSearch(e.target.value)}>
                                     <option value=""></option>
                                     {equipArray.map((e, key) =>
-                                        <>
-                                            <option value={e.equipName}>{e.equipName}</option>
-                                        </>
+                                        <option key={e.idequipments} value={e.equipName}>{e.equipName}</option>
                                     )}
                                 </select>
                                 {/* <select name="" id="">
