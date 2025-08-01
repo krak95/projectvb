@@ -1,8 +1,8 @@
 import './Item.css'
-import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, updateItemAXIOS, addItemIssueAXIOS, updateChecklistAXIOS, updateDeploymentAXIOS, updateTraceabilityAXIOS, fetchProdIDAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, fetchProductionAXIOS, updateFinalAXIOS } from "../../API/Axios/axiosCS"
+import { deleteItemIssueAXIOS, delProdAXIOS, fetchIssuesAXIOS, updateItemAXIOS, addItemIssueAXIOS, updateChecklistAXIOS, updateDeploymentAXIOS, updateTraceabilityAXIOS, fetchProdIDAXIOS, updateStatusAXIOS, fetchItemIssuesAXIOS, checkProductionAXIOS, updateItemIssueStatusAXIOS } from "../../API/Axios/axiosCS"
 // import { fetchItemsAXIOS } from '../../API/Axios/axios'
-import { useState, useEffect, use } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import socket from '../../API/Socket/socket'
 import { datefunction } from '../../CustomHooks/Date/Date'
 import { checkLogin } from '../../CustomHooks/Login/LoginHook'
@@ -94,6 +94,7 @@ export default function Item({ path }) {
         setIssueArray(res.data)
     }
 
+
     const checkProduction = async () => {
         console.log('prod fetch asunc',)
         try {
@@ -101,7 +102,7 @@ export default function Item({ path }) {
                 'id_prod': id_prod
             })
             setItems(res.data)
-            console.log(res.data.length)
+            console.log(res.data)
             if (res.data.length === 0) {
                 setAlert0('NotExist')
                 return
@@ -200,9 +201,9 @@ export default function Item({ path }) {
     const fetchProdID = async () => {
         const res = await fetchProdIDAXIOS({ id_prod: id_prod })
         console.log(res.data)
-        setChecklist1(res.data[0].checklistStatus)
-        setDeployment1(res.data[0].deploymentStatus)
-        setTraceability1(res.data[0].traceabilityStatus)
+        setChecklist1(res.data[0]?.checklistStatus)
+        setDeployment1(res.data[0]?.deploymentStatus)
+        setTraceability1(res.data[0]?.traceabilityStatus)
         socketNewItem()
     }
 
@@ -217,7 +218,7 @@ export default function Item({ path }) {
     const [deployment, setDeployment] = useState(deployment1)
 
     const [traceability, setTraceability] = useState(traceability1)
-    console.log(items)
+
     const updateItem = async () => {
         const res = await updateItemAXIOS(
             {
@@ -241,7 +242,7 @@ export default function Item({ path }) {
                 hipotValue: (hipotValueup === '' ? items[0].hipotValue : hipotValueup),
                 hipotModel: (hipotModelup === '' ? items[0].hipotModel : hipotModelup),
                 hipotMultimeterModel: (hipotMultimeterModelup === '' ? items[0].hipotMultimeterModel : hipotMultimeterModelup),
-                ww_number: (ww_numberup === '' ? items[0].ww_number : ww_numberup),
+                ww_number: (workweek === '' ? items[0].ww_number : (workweek.toString() + '_' + yearDate)),
                 comment: (commentup === '' ? items[0].comment : commentup)
             })
         console.log(res)
@@ -330,6 +331,39 @@ export default function Item({ path }) {
         // alert0('item', project, so, codeA, codeB)
     }, [])
 
+
+    //DATE FORM
+    const [dayDate, setDayDate] = useState('')
+    const [monthDate, setMonthDate] = useState('')
+    const [yearDate, setYearDate] = useState('')
+    const [workweek, setWorkWeek] = useState('')
+
+    const fullDateF = () => {
+        setstartDateup(dayDate + '-' + monthDate + '-' + yearDate)
+    }
+
+    useEffect(() => {
+        fullDateF()
+    }, [dayDate, monthDate, yearDate])
+
+    const wwGenerator = () => {
+        const date = new Date(yearDate, monthDate - 1, dayDate)
+        const nearThursday = new Date(date.valueOf())
+        nearThursday.setDate(nearThursday.getDate() + 3 - ((nearThursday.getDay() + 6) % 7))
+
+        const firstThursday = new Date(nearThursday.getFullYear(), 0, 4)
+
+        firstThursday.setDate(firstThursday.getDate() + 3 - ((firstThursday.getDay() + 6) % 7))
+
+        const weekNumber = 1 + Math.round((nearThursday - firstThursday) / (7 * 24 * 60 * 60 * 1000))
+
+        setWorkWeek(weekNumber)
+
+        console.log('wwGenerator:', { weekNumber })
+    }
+    useEffect(() => { wwGenerator() }, [dayDate, monthDate, yearDate])
+
+
     useEffect(() => {
         fetchIssues()
     }, [issueSearch])
@@ -344,10 +378,17 @@ export default function Item({ path }) {
                                 Tested by: <p>{tester}</p>
                             </div>
                             <div>
-                                <p>Week {(ww_number).slice(0, 2)}</p>
+                                <p>Week {
+                                    items[0]?.ww_number > 9 ?
+                                        (items[0]?.ww_number)?.slice(0, 2)
+                                        :
+                                        (items[0]?.ww_number)?.slice(0, 1)
+
+
+                                }</p>
                             </div>
                             <div>
-                                <p>{startDate}</p> until <p>{endDate === '' ? 'Not finished' : endDate}</p>
+                                <p>{items[0]?.startDate}</p> until <p>{items[0]?.endDate === '' ? 'Not finished' : items[0]?.endDate}</p>
                             </div>
                         </div>
                         <button className='deleteItemBtn' onClick={delProd}>Delete product</button>
@@ -427,7 +468,25 @@ export default function Item({ path }) {
                             </div>
                             <div>
                                 <div>
-                                    <input onChange={e => setww_numberup(e.target.value)} placeholder='ww_number' type="text" name="" id="" />
+                                    <input onChange={e => setDayDate(e.target.value)} placeholder='day' type="text" name="" id="" />
+                                    <div>
+                                        <select name="" id="" onChange={e => setMonthDate(e.target.value)} >
+                                            <option value="">Month</option>
+                                            <option value="1">Jan</option>
+                                            <option value="2">Feb</option>
+                                            <option value="3">Mar</option>
+                                            <option value="4">Apr</option>
+                                            <option value="5">May</option>
+                                            <option value="6">Jun</option>
+                                            <option value="7">Jul</option>
+                                            <option value="8">Aug</option>
+                                            <option value="9">Sep</option>
+                                            <option value="10">Out</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
+                                    </div>
+                                    <input onChange={e => setYearDate(e.target.value)} placeholder='year' type="text" name="" id="" />
                                 </div>
                                 <div>
                                     <input onChange={e => setcommentup(e.target.value)} placeholder='comment' type="text" name="" id="" />

@@ -1,8 +1,7 @@
-import { newItemAXIOS } from "../../API/Axios/axios"
 import { useEffect, useState } from "react"
 import socket from '../../API/Socket/socket'
 import "./MySQLController.css"
-import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS, newEquipAXIOS } from "../../API/Axios/axiosCS"
+import { newProductionAXIOS, fetchProjectsAXIOS, fetchSOAXIOS, fetchEquipmentsAXIOS } from "../../API/Axios/axiosCS"
 
 export default function MySQLController() {
 

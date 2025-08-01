@@ -1,11 +1,10 @@
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchBacklogAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS } from "../../../../API/Axios/axiosCS";
 import "./WeekPlan.css"
 import EquipCardPlan from "./EquipCardPlan";
 import { NavLink } from "react-router-dom";
-import $ from 'jquery'
 
 export default function WeekPlan() {
     const { search } = useLocation();

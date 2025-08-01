@@ -1,9 +1,8 @@
 import "./Login.css"
-import { getCheckLoginAXIOS, checkCredsAXIOS, newLoginAXIOS, refreshLogAXIOS } from "../../../API/Axios/axiosCS"
-import { useState, useContext, useEffect } from "react"
+import { checkCredsAXIOS, newLoginAXIOS, refreshLogAXIOS } from "../../../API/Axios/axiosCS"
+import { useState, useContext } from "react"
 import GlobalContent, { useAuth } from "../../../GLOBAL/Global"
-import { storeData } from "../../../CustomHooks/LocalStorage/StoreData"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { setData } from "../../../CustomHooks/LocalStorage/StoreData"
 import socket from "../../../API/Socket/socket"
 import { datefunction } from "../../../CustomHooks/Date/Date"
@@ -12,7 +11,7 @@ import { Outlet } from "react-router-dom"
 export default function Login() {
 
     const { authorizing } = useContext(GlobalContent);
-    const { authorized, fullname } = useAuth()
+    const { authorized } = useAuth()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [alert, setAlert] = useState('')
@@ -90,7 +89,7 @@ export default function Login() {
     const refreshLog = async (e) => {
         try {
             const res = await refreshLogAXIOS({ username: username, logDate: e.logDate, role: e.role, admin: e.admin })
-            console.log(res.data)
+            console.log("REFRESHSESSION: ", res.data)
             setData({ username: e.username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })
             authorizing(1)
             socket.emit('socketCheckLogin', { username: username, token: res.data, fullname: e.fullname, role: e.role, admin: e.admin })

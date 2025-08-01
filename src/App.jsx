@@ -4,7 +4,6 @@ import Production from './Components/Production/Production';
 import MySQLController from './Components/MySQLController/MySQLController';
 import PQA from './Components/PQA/PQA';
 import { useEffect } from 'react';
-import { getCheckLoginAXIOS } from './API/Axios/axiosCS';
 import Item from './Components/Item/Item';
 import Issues from './Components/PQA/Issues/Issues';
 import Projects from './Components/PQA/Projects/Projects';
@@ -22,12 +21,10 @@ import WeekPlan from './Components/Supervisor/WeekDetails/WeekPlan/WeekPlan';
 import GlobalContent, { useAuth } from './GLOBAL/Global';
 import { ProtectRoutes } from './Components/ProtectedRoutes/ProtectedRoutes';
 import { useContext, useState } from 'react';
-import { getData } from './CustomHooks/LocalStorage/GetData';
 import { setData } from './CustomHooks/LocalStorage/StoreData';
 import socket from './API/Socket/socket';
 import { logout } from './CustomHooks/Logout/logout';
 import amadeuslogo from './Img/amadeus_logo.png'
-import Statistics from './Components/Statistics/Statistics';
 import { checkLogin } from './CustomHooks/Login/LoginHook';
 import Jobs from './Components/Production/Jobs/Jobs';
 import CreateWorkWeeks from './Components/Supervisor/WorkWeeks/CreateWorkWeeks.jsx/CreateWorkWeeks';
@@ -64,7 +61,8 @@ function App() {
 
   const checkLoginHook = async () => {
     const res = await checkLogin()
-    if (res != 0) {
+    console.log(res)
+    if (res != 'error') {
       authorizing(1)
     }
     if (res === 'error') {

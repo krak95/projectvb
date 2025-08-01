@@ -1,6 +1,4 @@
-import { registerAXIOS } from "../../API/Axios/axiosCS"
 import "./Authentication.css"
-import { useState } from "react"
 import Register from "./Register/Register"
 import Login from "./Login/Login"
 import amadeus_logo from "./../../Img/amadeus_logo.png"

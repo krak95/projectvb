@@ -60,6 +60,7 @@ export default function Products() {
         setEquips(res.data[0])
     }
 
+
     const [production, setProduction] = useState([])
     const [countProd, setCountProd] = useState(0)
 
@@ -355,6 +356,16 @@ export default function Products() {
         }
     }
 
+    const [equipArray, setEquipArray] = useState([])
+    const fetchEquip = async () => {
+        const res = await fetchEquipmentsAXIOS({ EquipName: '' })
+        setEquipArray(res.data)
+        console.log(res)
+    }
+    useEffect(() => {
+        fetchEquip()
+    }, [])
+
     return (
         <>
             <div className="mainNav">
@@ -469,15 +480,19 @@ export default function Products() {
                             </div>
                         </div>
                         <div>
-                            <div className='filterClick' onClick={orderByEquip}>x\
+                            <div className='filterClick' onClick={orderByEquip}>
                                 Equipment {orderEquip === true ? 'ASC' : (orderEquip === false ? 'DESC' : '')}
                             </div>
                             <div className="equipmentSearchDiv">
                                 {/* <input placeholder="Search by equipment" type="text" onChange={e => setEquipSearch(e.target.value)} /> */}
-                               <select name="" id="">
-                                <option value=""></option>
-                                <option value=""></option>
-                               </select>
+                                <select name="" id="" onChange={e => setEquipSearch(e.target.value)}>
+                                    <option value=""></option>
+                                    {equipArray.map((e, key) =>
+                                        <>
+                                            <option value={e.equipName}>{e.equipName}</option>
+                                        </>
+                                    )}
+                                </select>
                                 {/* <select name="" id="">
                             <option value=""></option>
                             {equips === undefined ? null : equips.map((e, key) => {

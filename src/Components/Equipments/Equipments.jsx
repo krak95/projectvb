@@ -1,5 +1,4 @@
 import './Equipments.css'
-import axios from 'axios'
 import { fetchEquipmentsAXIOS } from '../../API/Axios/axios'
 import { Outlet, NavLink, Route, Routes } from "react-router-dom"
 import { useState, useEffect } from 'react'

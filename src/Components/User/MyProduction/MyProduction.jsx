@@ -4,7 +4,7 @@ import {
     fetchEquipmentsAXIOS,
     fetchProductionAXIOS
 } from "./../../../API/Axios/axiosCS"
-import { useState, useEffect, useLocation } from "react"
+import { useState, useEffect } from "react"
 import $ from 'jquery'
 import socket from "../../../API/Socket/socket"
 import { NavLink } from "react-router-dom"

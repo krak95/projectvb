@@ -63,11 +63,11 @@ export const updateItemAXIOS = (
         hipotValue,
         hipotModel,
         hipotMultimeterModel,
-        ww_number1,
-        comment1
+        ww_number,
+        comment
     }
 ) => {
-    console.log({id_prod, hipotValue})
+    console.log({ id_prod, hipotValue, ww_number, comment })
     return axiosBase.post('/updateItem',
         {
             id_prod,
@@ -90,8 +90,8 @@ export const updateItemAXIOS = (
             hipotValue,
             hipotModel,
             hipotMultimeterModel,
-            ww_number1,
-            comment1
+            ww_number,
+            comment
         }
     )
 }

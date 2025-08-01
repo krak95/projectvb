@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { fetchCountProductionAXIOS, fetchProductionAXIOS, fetchWorkWeeksAXIOS, fetchBackLogAXIOS, fetchWorkWeeksNRAXIOS } from "../../../API/Axios/axiosCS"
+import { fetchProductionAXIOS, fetchWorkWeeksNRAXIOS } from "../../../API/Axios/axiosCS"
 import { NavLink, Outlet } from "react-router-dom"
 import './WorkWeek.css'
 import socket from "../../../API/Socket/socket"
