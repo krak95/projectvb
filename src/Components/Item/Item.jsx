@@ -11,6 +11,7 @@ import { setData } from '../../CustomHooks/LocalStorage/StoreData'
 import { useContext } from 'react'
 import truelogo from "./../../Img/true.png"
 import falselogo from "./../../Img/false.png"
+import { NavLink } from 'react-router-dom'
 
 export default function Item({ path }) {
     const { authorizing } = useContext(GlobalContent);
@@ -220,34 +221,39 @@ export default function Item({ path }) {
     const [traceability, setTraceability] = useState(traceability1)
 
     const updateItem = async () => {
-        const res = await updateItemAXIOS(
-            {
-                id_prod: id_prod,
-                project: (projectup === '' ? items[0].project : projectup),
-                so: (soup === '' ? items[0].so : soup),
-                equipment: (equipmentup === '' ? items[0].equipment : equipmentup),
-                codeA: (codeAup === '' ? items[0].codeA : codeAup),
-                codeB: (codeBup === '' ? items[0].codeB : codeBup),
-                codePR: (codePRup === '' ? items[0].codePR : codePRup),
-                codePS: (codePSup === '' ? items[0].codePS : codePSup),
-                codeDR: (codeDRup === '' ? items[0].codeDR : codeDRup),
-                type0: (type0up === '' ? items[0].type0 : type0up),
-                type1: (type1up === '' ? items[0].type1 : type1up),
-                type2: (type2up === '' ? items[0].type2 : type2up),
-                type3: (type3up === '' ? items[0].type3 : type3up),
-                type4: (type4up === '' ? items[0].type4 : type4up),
-                tester: (testerup === '' ? items[0].tester : testerup),
-                startDate: (startDateup === '' ? items[0].startDate : startDateup),
-                endDate: (endDateup === '' ? items[0].endDate : endDateup),
-                hipotValue: (hipotValueup === '' ? items[0].hipotValue : hipotValueup),
-                hipotModel: (hipotModelup === '' ? items[0].hipotModel : hipotModelup),
-                hipotMultimeterModel: (hipotMultimeterModelup === '' ? items[0].hipotMultimeterModel : hipotMultimeterModelup),
-                ww_number: (workweek === '' ? items[0].ww_number : (workweek.toString() + '_' + yearDate)),
-                comment: (commentup === '' ? items[0].comment : commentup)
-            })
-        console.log(res)
-        checkProduction()
-        socket.emit('socketAddItemIssue')
+        try {
+
+            const res = await updateItemAXIOS(
+                {
+                    id_prod: id_prod,
+                    project: (projectup === '' ? items[0].project : projectup),
+                    so: (soup === '' ? items[0].so : soup),
+                    equipment: (equipmentup === '' ? items[0].equipment : equipmentup),
+                    codeA: (codeAup === '' ? items[0].codeA : codeAup),
+                    codeB: (codeBup === '' ? items[0].codeB : codeBup),
+                    codePR: (codePRup === '' ? items[0].codePR : codePRup),
+                    codePS: (codePSup === '' ? items[0].codePS : codePSup),
+                    codeDR: (codeDRup === '' ? items[0].codeDR : codeDRup),
+                    type0: (type0up === '' ? items[0].type0 : type0up),
+                    type1: (type1up === '' ? items[0].type1 : type1up),
+                    type2: (type2up === '' ? items[0].type2 : type2up),
+                    type3: (type3up === '' ? items[0].type3 : type3up),
+                    type4: (type4up === '' ? items[0].type4 : type4up),
+                    tester: (testerup === '' ? items[0].tester : testerup),
+                    startDate: (startDateup === '' ? items[0].startDate : startDateup),
+                    endDate: (endDateup === '' ? items[0].endDate : endDateup),
+                    hipotValue: (hipotValueup === '' ? items[0].hipotValue : hipotValueup),
+                    hipotModel: (hipotModelup === '' ? items[0].hipotModel : hipotModelup),
+                    hipotMultimeterModel: (hipotMultimeterModelup === '' ? items[0].hipotMultimeterModel : hipotMultimeterModelup),
+                    ww_number: (workweek === '' ? items[0].ww_number : (workweek.toString() + '_' + yearDate)),
+                    comment: (commentup === '' ? items[0].comment : commentup)
+                })
+            console.log(res)
+            checkProduction()
+            socket.emit('socketAddItemIssue')
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     const [updateDiv, showUpdateDiv] = useState(false)
@@ -272,6 +278,7 @@ export default function Item({ path }) {
     const [hipotModelup, sethipotModelup] = useState('')
     const [hipotMultimeterModelup, sethipotMultimeterModelup] = useState('')
     const [ww_numberup, setww_numberup] = useState('')
+
     const [commentup, setcommentup] = useState('')
 
     const updateChecklist = async (e) => {
@@ -332,7 +339,7 @@ export default function Item({ path }) {
     }, [])
 
 
-    //DATE FORM
+    //END DATE FORM
     const [dayDate, setDayDate] = useState('')
     const [monthDate, setMonthDate] = useState('')
     const [yearDate, setYearDate] = useState('')
@@ -363,10 +370,23 @@ export default function Item({ path }) {
     }
     useEffect(() => { wwGenerator() }, [dayDate, monthDate, yearDate])
 
+    //START DATE FORM
+    const [startdayDate, setStartDayDate] = useState('')
+    const [startmonthDate, setStartMonthDate] = useState('')
+    const [startyearDate, setStartYearDate] = useState('')
+
+    const fullDateStartF = () => {
+        setstartDateup(startdayDate + '-' + startmonthDate + '-' + startyearDate)
+    }
+
+    useEffect(() => {
+        fullDateStartF()
+    }, [startdayDate, startmonthDate, startyearDate])
 
     useEffect(() => {
         fetchIssues()
     }, [issueSearch])
+
     return (
         <>
             <div className="itemContentDiv">
@@ -429,31 +449,44 @@ export default function Item({ path }) {
                             </div>
                             <div>
                                 <div>
-                                    <input onChange={e => settype0up(e.target.value)} placeholder='type0' type="text" name="" id="" />
+                                    <select onChange={e => settype0up(e.target.value)} name="" id="">
+                                        <option value="Start">Start</option>
+                                        <option value="Middle">Middle</option>
+                                        <option value="End">End</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <input onChange={e => settype1up(e.target.value)} placeholder='type1' type="text" name="" id="" />
+                                    <select onChange={e => settype1up(e.target.value)} name="" id="">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <input onChange={e => settype2up(e.target.value)} placeholder='type2' type="text" name="" id="" />
+                                    <select onChange={e => settype2up(e.target.value)} name="" id="">
+                                        <option value="Standard">Standard</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                        <option value="PRM">PRM</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <input onChange={e => settype3up(e.target.value)} placeholder='type3' type="text" name="" id="" />
+                                    <select onChange={e => settype3up(e.target.value)} name="" id="">
+                                        <option value="IN">IN</option>
+                                        <option value="OUT">OUT</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <input onChange={e => settype4up(e.target.value)} placeholder='type4' type="text" name="" id="" />
+                                    <select onChange={e => settype4up(e.target.value)} name="" id="">
+                                        <option value="SCP">SCP</option>
+                                        <option value="SBG">SBG</option>
+                                        <option value="ABC">ABC</option>
+                                    </select>
                                 </div>
                             </div>
                             <div>
                                 <div>
                                     <input onChange={e => settesterup(e.target.value)} placeholder='tester' type="text" name="" id="" />
                                 </div>
-                                <div>
-                                    <input onChange={e => setstartDateup(e.target.value)} placeholder='startDate' type="text" name="" id="" />
-                                </div>
-                                <div>
-                                    <input onChange={e => setendDateup(e.target.value)} placeholder='endDate' type="text" name="" id="" />
-                                </div>
+
                             </div>
                             <div>
                                 <div>
@@ -468,6 +501,35 @@ export default function Item({ path }) {
                             </div>
                             <div>
                                 <div>
+                                    <div>
+                                        Start Date
+                                    </div>
+                                    <div>
+                                        <input onChange={e => setStartDayDate(e.target.value)} placeholder='day' type="text" name="" id="" />
+                                    </div>
+                                    <div>
+                                        <select name="" id="" onChange={e => setStartMonthDate(e.target.value)} >
+                                            <option value="">Month</option>
+                                            <option value="1">Jan</option>
+                                            <option value="2">Feb</option>
+                                            <option value="3">Mar</option>
+                                            <option value="4">Apr</option>
+                                            <option value="5">May</option>
+                                            <option value="6">Jun</option>
+                                            <option value="7">Jul</option>
+                                            <option value="8">Aug</option>
+                                            <option value="9">Sep</option>
+                                            <option value="10">Out</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dec</option>
+                                        </select>
+                                    </div>
+                                    <input onChange={e => setStartYearDate(e.target.value)} placeholder='year' type="text" name="" id="" />
+                                </div>
+                                <div>
+                                    <div>
+                                        End Date
+                                    </div>
                                     <input onChange={e => setDayDate(e.target.value)} placeholder='day' type="text" name="" id="" />
                                     <div>
                                         <select name="" id="" onChange={e => setMonthDate(e.target.value)} >
@@ -592,6 +654,17 @@ export default function Item({ path }) {
                     </div>
                     <div className='checkZoneDiv'>
                         <div >
+                            {/* <NavLink to={"/Supervisor/Checklists/ChecklistsCreate?"
+                                + "project=" + items[0]?.project
+                                + "&equipment=" + items[0]?.equipment
+                                + "&type0=" + items[0]?.type0
+                                + "&type1=" + items[0]?.type1
+                                + "&type2=" + items[0]?.type2
+                                + "&type3=" + items[0]?.type3
+                                + "&type4=" + items[0]?.type4
+                            }>
+                                Create Checklist
+                            </NavLink> */}
                             <div>
                                 <select onChange={e => updateChecklist(e.target.value)} name="" id="">
                                     <option value="">Checklist</option>

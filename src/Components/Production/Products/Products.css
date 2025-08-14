@@ -188,7 +188,6 @@
 
 .itemStatusHeaderDiv {}
 
-
 .itemStatusSpan {
     display: flex;
     align-items: center;
@@ -218,5 +217,5 @@
 .filterClick:hover {
     cursor: pointer;
     color: white;
-
 }
+

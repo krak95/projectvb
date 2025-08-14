@@ -149,10 +149,7 @@ export default function WorkWeeks() {
                         }
                     </div>
                 </div>
-                {/* <div className="bottomLayerDeck">
-                    BOTTOM LAYER
-                </div> */}
-            </div >
+           </div >
         </>
     )
 }

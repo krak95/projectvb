@@ -28,6 +28,9 @@ import amadeuslogo from './Img/amadeus_logo.png'
 import { checkLogin } from './CustomHooks/Login/LoginHook';
 import Jobs from './Components/Production/Jobs/Jobs';
 import CreateWorkWeeks from './Components/Supervisor/WorkWeeks/CreateWorkWeeks.jsx/CreateWorkWeeks';
+import ChecklistsTemplate from './Components/Supervisor/Checklists/ChecklistsTemplate/ChecklistsTemplate';
+import ChecklistsArchive from './Components/Supervisor/Checklists/ChecklistsArchive/ChecklistsArchive';
+import ChecklistsCreate from './Components/Supervisor/Checklists/ChecklistsCreate/ChecklistsCreate';
 import Checklists from './Components/Supervisor/Checklists/Checklists';
 
 function App() {
@@ -139,6 +142,7 @@ function App() {
     globalDatef()
   }, 1000);
 
+
   return (
     <>
       {/* <LiveCamera/> */}
@@ -225,7 +229,11 @@ function App() {
                     <Route path='/Supervisor/WeekDetails' element={<WeekDetails />}>
                     </Route>
                     <Route path='/Supervisor/WeekPlan' element={<WeekPlan />}></Route>
-                    <Route path='/Supervisor/Checklists' element={<Checklists />}></Route>
+                    <Route path='/Supervisor/Checklists/' element={<Checklists />}>
+                      <Route path='/Supervisor/Checklists/ChecklistsTemplate' element={<ChecklistsTemplate />}></Route>
+                      <Route path='/Supervisor/Checklists/ChecklistsArchive' element={<ChecklistsArchive />}></Route>
+                      <Route path='/Supervisor/Checklists/ChecklistsCreate' element={<ChecklistsCreate />}></Route>
+                    </Route>
                   </Route>
                 }
               </Route>

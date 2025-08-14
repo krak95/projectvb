@@ -504,3 +504,62 @@ export const fetchBacklogAXIOS = ({ ww_number }) => {
     console.log({ ww_number })
     return axiosBase.post('/fetchBacklog', { ww_number })
 }
+
+
+//CHECKLISTSTEMPLATE
+
+export const createChecklistsTemplateAXIOS = ({
+    project,
+    equipment,
+    action,
+    type0,
+    type1,
+    type2,
+    type3,
+    type4
+}) => {
+
+    return axiosBase.post("/createChecklistsTemplate", {
+        project,
+        equipment,
+        action,
+        type0,
+        type1,
+        type2,
+        type3,
+        type4
+    })
+}
+
+export const fetchChecklistsTemplateAXIOS = ({
+    project,
+    equipment,
+    type0,
+    type1,
+    type2,
+    type3,
+    type4,
+}) => {
+    console.log({
+        project,
+        equipment,
+        type0,
+        type1,
+        type2,
+        type3,
+        type4,
+    })
+    return axiosBase.post('/fetchChecklistsTemplate', {
+        project,
+        equipment,
+        type0,
+        type1,
+        type2,
+        type3,
+        type4,
+    })
+}
+
+export const createChecklists = ({ checklistsTemplate, production, status }) => {
+    return axiosBase.post('createChecklists', { checklistsTemplate, production, status })
+}

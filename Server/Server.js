@@ -218,6 +218,10 @@ io.on("connection", (socket) => {
         io.emit("fetchWW")
     })
 
+    socket.on("createChecklistsTemplate", () => {
+        io.emit("fetchChecklistsTemplate")
+    })
+
 });
 
 server.listen(8000);

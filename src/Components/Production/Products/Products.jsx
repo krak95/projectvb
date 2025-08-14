@@ -592,7 +592,9 @@ export default function Products() {
                                 <div className="itemListDiv" key={key}>
                                     <div className="itemList">
                                         <div>
-                                            <div>{e.ww_number}</div>
+                                            <div>
+                                                {e.ww_number}
+                                            </div>
                                         </div>
                                         <div>
                                             <div>
@@ -616,7 +618,9 @@ export default function Products() {
                                         </div>
 
                                         <div>
-                                            <div>{e.comment}</div>
+                                            <div>
+                                                {e.comment}
+                                            </div>
                                         </div>
                                         <div className="itemStatusDiv">
                                             <span className="itemStatusSpan"

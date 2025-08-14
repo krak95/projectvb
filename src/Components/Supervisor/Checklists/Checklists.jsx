@@ -1,28 +1,14 @@
+import { Outlet, NavLink } from "react-router-dom"
 
 export default function Checklists() {
 
     return (
-        <div style={{ backgroundColor: 'white' }}>
-            <div>
-
-                <div>project</div>
-                <div>pqa owner</div>
-                <div>prd owner</div>
+        <>
+            <div className='mainNav' >
+                <NavLink to='/Supervisor/Checklists/ChecklistsArchive'>ChecklistsArchive</NavLink>
+                <NavLink to='/Supervisor/Checklists/ChecklistsTemplate'>ChecklistsTemplate</NavLink>
             </div>
-            <div>
-                <div>
-                    line nr
-                </div>
-                <div>
-                    action
-                </div>
-                <div>
-                    ok nok na
-                </div>
-                <div>
-                    signature
-                </div>
-            </div>
-        </div>
+            <Outlet />
+        </>
     )
 }

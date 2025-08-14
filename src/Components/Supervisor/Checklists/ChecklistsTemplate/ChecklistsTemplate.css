@@ -1,0 +1,101 @@
+.checklistsTemplateMainDiv {
+    width: 100%;
+}
+
+.checklistsTemplateListDiv {
+    background-color: var(--light);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: solid 1px var(--secondary);
+    width: 100%;
+}
+
+.checklistsTemplateInputDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: var(--secondary);
+}
+
+.checklistsTemplateInputDiv>div {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.checklistsTemplateInputDiv>div>div {
+    margin: 4px;
+}
+
+.checklistsTemplateGridMainDivHeaders {
+    width: 100%;
+    color: var(--light) !important;
+    display: flex;
+    background-color: var(--secondary);
+    height: 50px;
+    border-bottom: 1px solid var(--primary);
+    margin-top: 10px;
+}
+
+.checklistsTemplateGridMainDivHeaders input {
+    text-align: center;
+}
+
+.checklistsTemplateGridMainDivHeaders>div {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.checklistsTemplateListDiv {
+    background-color: var(--light);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: solid 1px var(--secondary);
+}
+
+.checklistsTemplateListDiv:hover {
+    background-color: white;
+}
+
+.checklistsTemplateListDiv:hover * {
+    background-color: white;
+    opacity: 1;
+}
+
+.checklistsTemplateList {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    font-size: 12px;
+}
+
+.checklistsTemplateList>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.checklistTemplateActionInput {
+    width: 300px;
+}
+
+.checklistsTemplateInputDiv {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    overflow: hidden;
+    height: 0;
+    flex-direction: column;
+}
